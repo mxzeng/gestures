@@ -802,6 +802,7 @@ void ImmediateInterpreter::UpdateTapState(
 
   switch (tap_to_click_state_) {
     case kTtcIdle:
+      tap_record_.Clear();
       if (hwstate) {
         tap_record_.Update(
             *hwstate, prev_state_, added_fingers, removed_fingers,
@@ -939,9 +940,6 @@ void ImmediateInterpreter::UpdateTapState(
   Log("TTC: New state: %s", TapToClickStateName(tap_to_click_state_));
   // Take action based on new state:
   switch (tap_to_click_state_) {
-    case kTtcIdle:
-      tap_record_.Clear();
-      break;
     case kTtcTapComplete:
       *timeout = TimeoutForTtcState(tap_to_click_state_);
       break;
