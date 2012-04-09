@@ -34,6 +34,10 @@ static float DistSqXY(const ContactType& finger_a, float pos_x, float pos_y) {
   return dx * dx + dy * dy;
 }
 
+inline float DegToRad(float degrees) {
+  return M_PI * degrees / 180.0;
+}
+
 }  // namespace gestures
 
 #endif  // GESTURES_UTIL_H_
