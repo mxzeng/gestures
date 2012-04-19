@@ -566,7 +566,8 @@ void ImmediateInterpreter::UpdateCurrentGestureType(
   } else if (num_gesturing == 1) {
     current_gesture_type_ = kGestureTypeMove;
   } else if (num_gesturing == 2) {
-    if (hwstate.timestamp - started_moving_time_ < evaluation_timeout_.val_ ||
+    if (changed_time_ > started_moving_time_ ||
+        hwstate.timestamp - started_moving_time_ < evaluation_timeout_.val_ ||
         current_gesture_type_ == kGestureTypeNull) {
       const FingerState* fingers[] = {
         hwstate.GetFingerState(*gs_fingers.begin()),
