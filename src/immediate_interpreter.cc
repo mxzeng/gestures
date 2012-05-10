@@ -255,6 +255,7 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg)
       last_swipe_timestamp_(0.0),
       current_gesture_type_(kGestureTypeNull),
       scroll_buffer_(3),
+      prev_result_high_pressure_change_(false),
       tap_enable_(prop_reg, "Tap Enable", false),
       tap_timeout_(prop_reg, "Tap Timeout", 0.2),
       inter_tap_timeout_(prop_reg, "Inter-Tap Timeout", 0.15),
@@ -307,6 +308,9 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg)
                                           10.0),
       max_pressure_change_(prop_reg, "Max Allowed Pressure Change Per Sec",
                            800.0),
+      max_pressure_change_hysteresis_(prop_reg,
+                                      "Max Hysteresis Pressure Per Sec",
+                                      600.0),
       scroll_stationary_finger_max_distance_(
           prop_reg, "Scroll Stationary Finger Max Distance", 1.0),
       bottom_zone_size_(prop_reg, "Bottom Zone Size", 10.0),
@@ -1400,8 +1404,12 @@ bool ImmediateInterpreter::PressureChangingSignificantly(
     const FingerState& current,
     const FingerState& prev) const {
   float dt = hwstate.timestamp - prev_state_.timestamp;
+  float dp_thresh = dt *
+      (prev_result_high_pressure_change_ ?
+       max_pressure_change_hysteresis_.val_ :
+       max_pressure_change_.val_);
   float dp = fabsf(current.pressure - prev.pressure);
-  return dp > dt * max_pressure_change_.val_;
+  return dp > dp_thresh;
 }
 
 void ImmediateInterpreter::UpdateStartedMovingTime(
@@ -1611,9 +1619,13 @@ void ImmediateInterpreter::FillResultGesture(
       // Find corresponding finger id in previous state
       const FingerState* prev =
           prev_state_.GetFingerState(current->tracking_id);
-      if (!prev || !current ||
-          PressureChangingSignificantly(hwstate, *current, *prev))
+      if (!prev || !current)
         return;
+      if (PressureChangingSignificantly(hwstate, *current, *prev)) {
+        prev_result_high_pressure_change_ = true;
+        return;
+      }
+      prev_result_high_pressure_change_ = false;
       float dx = current->position_x - prev->position_x;
       if (current->flags & GESTURES_FINGER_WARP_X)
         dx = 0.0;
@@ -1632,14 +1644,15 @@ void ImmediateInterpreter::FillResultGesture(
       float max_mag_sq = 0.0;  // square of max mag
       float dx = 0.0;
       float dy = 0.0;
-      const FingerState* max_fs = NULL;
-      const FingerState* max_prev = NULL;
+      bool high_pressure_change = false;
       for (set<short, kMaxGesturingFingers>::const_iterator it =
                fingers.begin(), e = fingers.end(); it != e; ++it) {
         const FingerState* fs = hwstate.GetFingerState(*it);
         const FingerState* prev = prev_state_.GetFingerState(*it);
         if (!prev)
           return;
+        high_pressure_change = high_pressure_change ||
+            PressureChangingSignificantly(hwstate, *fs, *prev);
         float local_dx = fs->position_x - prev->position_x;
         if (fs->flags & GESTURES_FINGER_WARP_X)
           local_dx = 0.0;
@@ -1648,8 +1661,6 @@ void ImmediateInterpreter::FillResultGesture(
           local_dy = 0.0;
         float local_max_mag_sq = local_dx * local_dx + local_dy * local_dy;
         if (local_max_mag_sq > max_mag_sq) {
-          max_fs = fs;
-          max_prev = prev;
           max_mag_sq = local_max_mag_sq;
           dx = local_dx;
           dy = local_dy;
@@ -1662,8 +1673,8 @@ void ImmediateInterpreter::FillResultGesture(
       else if (fabsf(dy) > vertical_scroll_snap_slope_.val_ * fabsf(dx))
         dx = 0.0;  // snap to vertical
 
-      if (max_fs && max_prev &&
-          PressureChangingSignificantly(hwstate, *max_fs, *max_prev)) {
+      prev_result_high_pressure_change_ = high_pressure_change;
+      if (high_pressure_change) {
         // If we get here, it means that the pressure of the finger causing
         // the scroll is changing a lot, so we don't trust it. It's likely
         // leaving the touchpad. Normally we might just do nothing, but having
@@ -1674,7 +1685,10 @@ void ImmediateInterpreter::FillResultGesture(
         // scroll event from the previous input frame.
         // Since this isn't a "real" scroll event, we don't put it into
         // scroll_buffer_.
-        if (prev_result_.type == kGestureTypeScroll)
+        // Also, only use previous gesture if it's in the same direction.
+        if (prev_result_.type == kGestureTypeScroll &&
+            prev_result_.details.scroll.dy * dy >= 0 &&
+            prev_result_.details.scroll.dx * dx >= 0)
           result_ = prev_result_;
         return;
       }
