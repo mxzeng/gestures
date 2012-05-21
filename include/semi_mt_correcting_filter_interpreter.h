@@ -59,7 +59,6 @@ typedef enum {
 // include low-pressure filtering, hysteresis, finger position correction.
 
 class SemiMtCorrectingFilterInterpreter : public Interpreter {
-  FRIEND_TEST(SemiMtCorrectingFilterInterpreterTest, BigJumpTest);
   FRIEND_TEST(SemiMtCorrectingFilterInterpreterTest, ClipNonLinearAreaTest);
   FRIEND_TEST(SemiMtCorrectingFilterInterpreterTest, CorrectFingerPositionTest);
   FRIEND_TEST(SemiMtCorrectingFilterInterpreterTest, FingerCrossOverTest);
@@ -108,7 +107,6 @@ class SemiMtCorrectingFilterInterpreter : public Interpreter {
                               const FingerPosition& center,
                               float x0, float y0, float x1, float y1);
 
-
   // Swap X positions of fingers and update the FingerPattern accordingly.
   void SwapFingerPatternX(HardwareState* hwstate);
 
@@ -120,13 +118,6 @@ class SemiMtCorrectingFilterInterpreter : public Interpreter {
   // only if the center point crosses the stationary finger in moving axis.
   void UpdateFingerPattern(HardwareState* hwstate,
                            const FingerPosition& center);
-
-  // Change the pattern to the new state and correct the finger positions
-  // with the new pattern accordingly.
-  void ChangeFingerPattern(HardwareState* hwstate, unsigned char update_bits);
-
-  // Detect the moving finger by tracking each finger's velocity.
-  void DetectMovingFinger(HardwareState* hwstate);
 
   // Set the position variable from finger's position in HardwareState.
   void SetPosition(FingerPosition* pos, HardwareState* hwstate);
@@ -142,10 +133,6 @@ class SemiMtCorrectingFilterInterpreter : public Interpreter {
   // profile sensor like Synaptics touchpad on Cr48 only reports the pair of
   // bounding box instead of real finger positions.
   void CorrectFingerPosition(HardwareState* hwstate);
-
-  // Set WARP flags for both fingers if their positions are either unreliable
-  // or jumpy.
-  void SuppressFingerJump(HardwareState* hwstate);
 
   // Set WARP flags for both fingers immediately after 1->2 finger transitions
   void SuppressOneToTwoFingerJump(HardwareState* hwstate);
@@ -197,9 +184,6 @@ class SemiMtCorrectingFilterInterpreter : public Interpreter {
   DoubleProperty non_linear_bottom_;
   DoubleProperty non_linear_left_;
   DoubleProperty non_linear_right_;
-
-  // Speed threshold for big jumps (pixels/second).
-  DoubleProperty big_jump_;
 
   scoped_ptr<Interpreter> next_;
 };
