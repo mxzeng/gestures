@@ -101,6 +101,7 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   FRIEND_TEST(ImmediateInterpreterTest, AvoidAccidentalPinchTest);
   FRIEND_TEST(ImmediateInterpreterTest, ChangeTimeoutTest);
   FRIEND_TEST(ImmediateInterpreterTest, ClickTest);
+  FRIEND_TEST(ImmediateInterpreterTest, FlingDepthTest);
   FRIEND_TEST(ImmediateInterpreterTest, GetGesturingFingersTest);
   FRIEND_TEST(ImmediateInterpreterTest, PalmAtEdgeTest);
   FRIEND_TEST(ImmediateInterpreterTest, PalmReevaluateTest);
@@ -524,6 +525,12 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   DoubleProperty zoom_lock_min_movement_;
   // Temporary flag to turn Zoom on/off while we tune it.
   BoolProperty zoom_enable_;
+
+  // Depth of recent scroll event buffer used to compute Fling velocity.
+  // For most systems this will be 3.  However, for systems that use 2x
+  // interpolation, this should be 6, to ensure that the scroll events for 3
+  // actual hardware states are used.
+  IntProperty fling_buffer_depth_;
 };
 
 }  // namespace gestures

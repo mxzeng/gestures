@@ -254,7 +254,7 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg)
       last_movement_timestamp_(0.0),
       last_swipe_timestamp_(0.0),
       current_gesture_type_(kGestureTypeNull),
-      scroll_buffer_(3),
+      scroll_buffer_(6),
       prev_result_high_pressure_change_(false),
       tap_enable_(prop_reg, "Tap Enable", false),
       tap_timeout_(prop_reg, "Tap Timeout", 0.2),
@@ -331,7 +331,8 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg)
                                     tanf(DegToRad(30.0))),
       zoom_min_movement_(prop_reg, "Zoom Min Movement", 1.5),
       zoom_lock_min_movement_(prop_reg, "Zoom Lock Min Movement", 2.0),
-      zoom_enable_(prop_reg, "Zoom Enable", 0.0) {
+      zoom_enable_(prop_reg, "Zoom Enable", 0.0),
+      fling_buffer_depth_(prop_reg, "Fling Buffer Depth", 3) {
   memset(&prev_state_, 0, sizeof(prev_state_));
 }
 
@@ -1505,7 +1506,8 @@ size_t ImmediateInterpreter::ScrollEventsForFlingCount() const {
   enum Direction { kNone, kUp, kDown, kLeft, kRight };
   size_t i = 0;
   Direction prev_direction = kNone;
-  for (; i < scroll_buffer_.Size(); i++) {
+  size_t fling_buffer_depth = static_cast<size_t>(fling_buffer_depth_.val_);
+  for (; i < scroll_buffer_.Size() && i < fling_buffer_depth; i++) {
     const ScrollEvent& event = scroll_buffer_.Get(i);
     if (FloatEq(event.dx, 0.0) && FloatEq(event.dy, 0.0))
       break;
