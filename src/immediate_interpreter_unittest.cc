@@ -3478,7 +3478,7 @@ TEST(ImmediateInterpreterTest, ScrollResetTapTest) {
 }
 
 TEST(ImmediateInterpreterTest, BasicButtonTest) {
-  ImmediateInterpreter ii(NULL, NULL, NULL);
+  ImmediateInterpreter ii(NULL, NULL);
 
   HardwareProperties hwprops = {
     0,  // left edge
