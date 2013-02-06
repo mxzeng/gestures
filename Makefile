@@ -114,6 +114,7 @@ CXXFLAGS+=\
 	-I..
 
 LID_TOUCHPAD_HELPER=lid_touchpad_helper
+TRY_TOUCHPAD_EXPERIMENT=salsa/try_touch_experiment
 
 # Local compilation needs these flags, esp for code coverage testing
 ifeq (g++,$(CXX))
@@ -149,6 +150,7 @@ TEST_LINK_FLAGS=\
 
 all: $(SONAME)
 	$(MAKE) -C $(LID_TOUCHPAD_HELPER)
+	$(MAKE) -C $(TRY_TOUCHPAD_EXPERIMENT)
 
 $(SONAME): $(SO_OBJECTS)
 	$(CXX) -shared -o $@ $(SO_OBJECTS) -Wl,-h$(SONAME:$(OBJDIR)/%=%) \
@@ -166,6 +168,7 @@ LIBDIR = /usr/lib
 
 install: $(SONAME)
 	$(MAKE) -C $(LID_TOUCHPAD_HELPER) install
+	$(MAKE) -C $(TRY_TOUCHPAD_EXPERIMENT) install
 	install -D -m 0755 $(SONAME) \
 		$(DESTDIR)$(LIBDIR)/$(SONAME:$(OBJDIR)/%=%)
 	ln -s $(SONAME:$(OBJDIR)/%=%) \
@@ -175,6 +178,7 @@ install: $(SONAME)
 
 clean:
 	$(MAKE) -C $(LID_TOUCHPAD_HELPER) clean
+	$(MAKE) -C $(TRY_TOUCHPAD_EXPERIMENT) clean
 	rm -rf $(OBJDIR) $(DEPDIR) $(TEST_EXE) html app.info app.info.orig
 
 # Unittest coverage
