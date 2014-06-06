@@ -111,6 +111,9 @@ void BoolProperty::HandleGesturesPropWritten() {
     entry.value.bool_val = val_;
     parent_->activity_log()->LogPropChange(entry);
   }
+  // todo(denniskempin): remove this line
+  // This debug print is used for tracking down crbug.com/374867
+  Err("Property %s set to %d", name(), val_);
   if (delegate_)
     delegate_->BoolWasWritten(this);
 }
