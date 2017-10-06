@@ -150,13 +150,13 @@ bool PalmClassifyingFilterInterpreter::FingerInPalmEnvelope(
       (fs.pressure / palm_pressure_.val_) *
       (palm_edge_width_.val_ - palm_edge_min_width_.val_);
   return fs.position_x < limit ||
-      fs.position_x > (hwprops_->right - limit);
+      fs.position_x > (hwprops_->right - limit) ||
+      (filter_top_edge_.val_ && fs.position_y < palm_edge_min_width_.val_);
 }
 
-bool PalmClassifyingFilterInterpreter::FingerInFilteredHorizontalEdge(
+bool PalmClassifyingFilterInterpreter::FingerInBottomArea(
     const FingerState& fs) {
-  return fs.position_y > (hwprops_->bottom - palm_edge_min_width_.val_) ||
-      (filter_top_edge_.val_ && fs.position_y < palm_edge_min_width_.val_);
+  return fs.position_y > (hwprops_->bottom - palm_edge_min_width_.val_);
 }
 
 void PalmClassifyingFilterInterpreter::UpdatePalmState(
@@ -173,7 +173,7 @@ void PalmClassifyingFilterInterpreter::UpdatePalmState(
 
   for (short i = 0; i < hwstate.finger_cnt; i++) {
     const FingerState& fs = hwstate.fingers[i];
-    if (!(FingerInPalmEnvelope(fs) || FingerInFilteredHorizontalEdge(fs)))
+    if (!(FingerInPalmEnvelope(fs) || FingerInBottomArea(fs)))
       fingers_not_in_edge_.insert(fs.tracking_id);
     // Mark anything over the palm thresh as a palm
     if (fs.pressure >= palm_pressure_.val_ ||
@@ -230,7 +230,7 @@ void PalmClassifyingFilterInterpreter::UpdatePalmState(
     // If another finger is close by, let this be pointing
     bool near_finger = FingerNearOtherFinger(hwstate, i);
     bool on_edge = FingerInPalmEnvelope(fs) ||
-        FingerInFilteredHorizontalEdge(fs);
+        FingerInBottomArea(fs);
     if (!prev_pointing && (near_finger || !on_edge)) {
       unsigned reason = (near_finger ? kPointCloseToFinger : 0) |
           ((!on_edge) ? kPointNotInEdge : 0);
@@ -265,7 +265,7 @@ void PalmClassifyingFilterInterpreter::UpdatePalmState(
     }
     if (DistSq(origin_fingerstates_[fs.tracking_id], fs) >
         kPalmStationaryDistSq || !(FingerInPalmEnvelope(fs) ||
-                                   FingerInFilteredHorizontalEdge(fs))) {
+                                   FingerInBottomArea(fs))) {
       // Finger moving a lot or not in palm envelope; not a stationary palm.
       non_stationary_palm_.insert(fs.tracking_id);
       continue;
@@ -292,7 +292,7 @@ void PalmClassifyingFilterInterpreter::UpdatePalmFlags(HardwareState* hwstate) {
                !SetContainsValue(was_near_other_fingers_, fs->tracking_id)) {
       if (FingerInPalmEnvelope(*fs)) {
         fs->flags |= GESTURES_FINGER_PALM;
-      } else if (FingerInFilteredHorizontalEdge(*fs)) {
+      } else if (FingerInBottomArea(*fs)) {
         fs->flags |= (GESTURES_FINGER_WARP_X | GESTURES_FINGER_WARP_Y);
       }
     } else if (MapContainsKey(pointing_, fs->tracking_id) &&
