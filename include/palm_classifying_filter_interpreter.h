@@ -49,13 +49,13 @@ class PalmClassifyingFilterInterpreter : public FilterInterpreter {
                              size_t finger_idx);
 
   // Returns true iff fs represents a contact that may be a palm. It's a palm
-  // if it's in the edge of the pad with sufficiently large pressure. The
-  // pressure required depends on exactly how close to the edge the contact is.
+  // if it's in the side edge (or top edge if filter_top_edge_ is set) with
+  // sufficiently large pressure. The pressure required depends on exactly how
+  // close to the edge the contact is.
   bool FingerInPalmEnvelope(const FingerState& fs);
 
-  // Returns true iff fs represents a contact that is in the bottom area, or
-  // top area if top edge filtering is enabled.
-  bool FingerInFilteredHorizontalEdge(const FingerState& fs);
+  // Returns true iff fs represents a contact that is in the bottom area.
+  bool FingerInBottomArea(const FingerState& fs);
 
   // Updates *palm_, pointing_ below.
   void UpdatePalmState(const HardwareState& hwstate);
