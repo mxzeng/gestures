@@ -23,6 +23,8 @@ PalmClassifyingFilterInterpreter::PalmClassifyingFilterInterpreter(
       fat_finger_min_dist_(prop_reg, "Fat Finger Min Move Distance", 15.0),
       palm_edge_min_width_(prop_reg, "Tap Exclusion Border Width", 8.0),
       palm_edge_width_(prop_reg, "Palm Edge Zone Width", 14.0),
+      palm_top_edge_min_width_(prop_reg, "Top Edge Tap Exclusion Border Width",
+                               3.0),
       palm_edge_point_speed_(prop_reg, "Palm Edge Zone Min Point Speed", 100.0),
       palm_eval_timeout_(prop_reg, "Palm Eval Timeout", 0.1),
       palm_stationary_time_(prop_reg, "Palm Stationary Time", 2.0),
@@ -151,7 +153,7 @@ bool PalmClassifyingFilterInterpreter::FingerInPalmEnvelope(
       (palm_edge_width_.val_ - palm_edge_min_width_.val_);
   return fs.position_x < limit ||
       fs.position_x > (hwprops_->right - limit) ||
-      (filter_top_edge_.val_ && fs.position_y < palm_edge_min_width_.val_);
+      (filter_top_edge_.val_ && fs.position_y < palm_top_edge_min_width_.val_);
 }
 
 bool PalmClassifyingFilterInterpreter::FingerInBottomArea(

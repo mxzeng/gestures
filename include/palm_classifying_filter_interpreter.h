@@ -139,6 +139,9 @@ class PalmClassifyingFilterInterpreter : public FilterInterpreter {
   // expected to have pressure linearly increase from 0 to palm_pressure_
   // as they approach this border.
   DoubleProperty palm_edge_width_;
+  // If filter_top_edge_ is set, any contact this close to the top edge may be
+  // a palm.
+  DoubleProperty palm_top_edge_min_width_;
   // Palms in edge are allowed to point if they move fast enough
   DoubleProperty palm_edge_point_speed_;
   // A finger can be added to the palm envelope (and thus not point) after
