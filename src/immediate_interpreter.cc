@@ -993,7 +993,6 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
       current_gesture_type_(kGestureTypeNull),
       state_buffer_(8),
       scroll_buffer_(20),
-      these_fingers_scrolled_(false),
       pinch_guess_start_(-1.0),
       pinch_locked_(false),
       pinch_status_(GESTURES_ZOOM_START),
@@ -1194,6 +1193,7 @@ void ImmediateInterpreter::SyncInterpretImpl(HardwareState* hwstate,
 
   FingerMap active_gs_fingers;
   UpdateCurrentGestureType(*hwstate, gs_fingers, &active_gs_fingers);
+  GenerateFingerLiftGesture();
   non_gs_fingers_ = SetSubtract(gs_fingers, active_gs_fingers);
   if (result_.type == kGestureTypeNull)
     FillResultGesture(*hwstate, active_gs_fingers);
@@ -1735,17 +1735,6 @@ void ImmediateInterpreter::UpdateCurrentGestureType(
     case kGestureTypeScroll:
     case kGestureTypeSwipe:
     case kGestureTypeFourFingerSwipe:
-      // Don't allow a pinch after a scroll or swipe gesture has been detected
-      these_fingers_scrolled_ = true;
-
-      // If a gesturing finger just left, do fling/lift
-      if (AnyGesturingFingerLeft(*state_buffer_.Get(0),
-                                 prev_gs_fingers_)) {
-        current_gesture_type_ = GetFingerLiftGesture(current_gesture_type_);
-        moving_.clear();
-        return;
-      }
-      // fallthrough
     case kGestureTypeSwipeLift:
     case kGestureTypeFourFingerSwipeLift:
     case kGestureTypeFling:
@@ -1862,7 +1851,7 @@ void ImmediateInterpreter::UpdateCurrentGestureType(
       if ((current_gesture_type_ == kGestureTypeMove ||
            current_gesture_type_ == kGestureTypeNull) &&
           (pinch_enable_.val_ && !hwprops_->support_semi_mt) &&
-          !these_fingers_scrolled_) {
+          !IsScrollOrSwipe(prev_gesture_type_)) {
         bool do_pinch = UpdatePinchState(hwstate, false, gs_fingers);
         if (do_pinch) {
           current_gesture_type_ = kGestureTypePinch;
@@ -1890,6 +1879,26 @@ void ImmediateInterpreter::UpdateCurrentGestureType(
       break;
   }
   return;
+}
+
+bool ImmediateInterpreter::IsScrollOrSwipe(GestureType gesture_type) {
+  switch(gesture_type) {
+    case kGestureTypeScroll:
+    case kGestureTypeSwipe:
+    case kGestureTypeFourFingerSwipe:
+      return true;
+    default:
+      return false;
+  }
+}
+
+void ImmediateInterpreter::GenerateFingerLiftGesture() {
+  // If we have just finished scrolling, we set current_gesture_type_ to the
+  // appropriate lift gesture.
+  if (IsScrollOrSwipe(prev_gesture_type_) &&
+      current_gesture_type_ != prev_gesture_type_) {
+    current_gesture_type_ = GetFingerLiftGesture(prev_gesture_type_);
+  }
 }
 
 namespace {
@@ -1983,7 +1992,6 @@ bool ImmediateInterpreter::UpdatePinchState(
     pinch_guess_start_ = -1.0f;
     pinch_locked_ = false;
     pinch_prev_distance_sq_ = -1.0f;
-    these_fingers_scrolled_ = false;
     return false;
   }
 

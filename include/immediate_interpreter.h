@@ -480,6 +480,14 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
                                 const FingerMap& gs_fingers,
                                 FingerMap* active_gs_fingers);
 
+  // Checks if gesture_type is one of kGestureTypeScroll, kGestureTypeSwipe, or
+  // kGestureTypeFourFingerSwipe
+  bool IsScrollOrSwipe(const GestureType gesture_type);
+
+  // Checks if a scroll or swipe has ended, and replaces current_gesture_type_
+  // with the appropriate finger lift gesture.
+  void GenerateFingerLiftGesture();
+
   // Sorts the fingers referred to in finger_ids (whose details are in hwstate)
   // according to prodimity and places the sorted range into out_sorted_ids.
   // The sort first finds the two closes points and includes them first.
@@ -706,8 +714,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   //     pinch_guess_ == true:  Guess there is a pinch
   //     pinch_guess_ == false: Guess there is no pinch
 
-  // Since the fingers changed, has a scroll or swipe gesture been detected?
-  bool these_fingers_scrolled_;
   // When guessing a pinch gesture. Do we guess pinch (true) or no-pinch?
   bool pinch_guess_;
   // Time when pinch guess was made. -1 if no guess has been made yet.
