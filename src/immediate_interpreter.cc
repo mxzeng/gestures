@@ -2013,6 +2013,12 @@ bool ImmediateInterpreter::UpdatePinchState(
     return false;
   }
 
+  // don't allow pinching with possible palms
+  if ((finger1->flags & GESTURES_FINGER_POSSIBLE_PALM) ||
+      (finger2->flags & GESTURES_FINGER_POSSIBLE_PALM)) {
+    return false;
+  }
+
   // assign the bottom finger to finger2
   if (finger1->position_y > finger2->position_y) {
     std::swap(finger1, finger2);
