@@ -35,13 +35,11 @@ FingerMetrics::FingerMetrics(short tracking_id)
     : tracking_id_(tracking_id) {}
 
 FingerMetrics::FingerMetrics(const FingerState& state,
-                             MetricsProperties* properties,
                              stime_t timestamp)
     : tracking_id_(state.tracking_id),
       position_(state.position_x, state.position_y),
       origin_position_(state.position_x, state.position_y),
-      origin_time_(timestamp),
-      properties_(properties) {}
+      origin_time_(timestamp) {}
 
 void FingerMetrics::Update(const FingerState& state, stime_t timestamp,
                            bool gesture_start) {
@@ -98,7 +96,7 @@ void Metrics::Update(const HardwareState& hwstate) {
     const FingerState& state = hwstate.fingers[i];
     auto iter = fingers_.find(FingerMetrics(state.tracking_id));
     if (iter == fingers_.end()) {
-      fingers_.push_back(FingerMetrics(state, properties_,
+      fingers_.push_back(FingerMetrics(state,
                                        hwstate.timestamp));
       ++new_count;
     } else {

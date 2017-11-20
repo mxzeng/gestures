@@ -74,8 +74,7 @@ class FingerMetrics {
  public:
   FingerMetrics();
   explicit FingerMetrics(short tracking_id);
-  FingerMetrics(const FingerState& state, MetricsProperties* properties,
-                stime_t timestamp);
+  FingerMetrics(const FingerState& state, stime_t timestamp);
 
   // Update the finger metrics from a FingerState.
   // gesture_start: true if fingers have been added or removed during this
@@ -115,7 +114,6 @@ class FingerMetrics {
   Vector2 start_position_;
   stime_t origin_time_;
   stime_t start_time_;
-  MetricsProperties* properties_;
 };
 
 // The Metrics class is a container for FingerMetrics and additional
