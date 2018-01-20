@@ -1409,13 +1409,18 @@ TEST(ImmediateInterpreterTest, PressureChangeMoveTest) {
     Gesture* result = wrapper.SyncInterpret(&hardware_state[i], NULL);
     switch (i) {
       case 0:
-      case 2:
         EXPECT_FALSE(result);
+        break;
+      case 2:
+        ASSERT_TRUE(result);
+        EXPECT_EQ(kGestureTypeMove, result->type);
+        EXPECT_EQ(0.0, result->details.move.dy);
         break;
       case 1:  // fallthrough
       case 3:
         ASSERT_TRUE(result);
         EXPECT_EQ(kGestureTypeMove, result->type);
+        EXPECT_NE(0.0, result->details.move.dy);
         break;
     }
   }

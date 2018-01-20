@@ -142,6 +142,16 @@ class HardwareStateBuffer {
   DISALLOW_COPY_AND_ASSIGN(HardwareStateBuffer);
 };
 
+struct Point {
+  Point() : x_(0.0), y_(0.0) {}
+  Point(float x, float y) : x_(x), y_(y) {}
+  bool operator==(const Point& that) const {
+    return x_ == that.x_ && y_ == that.y_;
+  }
+  bool operator!=(const Point& that) const { return !((*this) == that); }
+  float x_, y_;
+};
+
 // Helper class for compute scroll and fling.
 class ScrollManager {
   FRIEND_TEST(ImmediateInterpreterTest, FlingDepthTest);
@@ -184,7 +194,7 @@ class ScrollManager {
                                ScrollEventBuffer* scroll_buffer) const;
 
   void ResetSameFingerState() {
-    stationary_move_distance_.clear();
+    stationary_start_positions_.clear();
   }
 
   // Set to true when a scroll or move is blocked b/c of high pressure
@@ -213,7 +223,7 @@ class ScrollManager {
   DoubleProperty max_stationary_move_speed_;
   DoubleProperty max_stationary_move_speed_hysteresis_;
   DoubleProperty max_stationary_move_suppress_distance_;
-  map<short, float, kMaxFingers> stationary_move_distance_;
+  map<short, Point, kMaxFingers> stationary_start_positions_;
 
   // A finger must change in pressure by less than this per second to trigger
   // motion.
@@ -222,9 +232,6 @@ class ScrollManager {
   // until the pressure change per second goes below
   // max_pressure_change_hysteresis_.
   DoubleProperty max_pressure_change_hysteresis_;
-  // When a high pressure change occurs during a scroll, we'll repeat
-  // the last scroll if it's above this length.
-  DoubleProperty min_scroll_dead_reckoning_;
   // Try to look over a period up to this length of time when looking for large
   // pressure change.
   DoubleProperty max_pressure_change_duration_;
@@ -355,15 +362,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   friend class FingerButtonClick;
 
  public:
-  struct Point {
-    Point() : x_(0.0), y_(0.0) {}
-    Point(float x, float y) : x_(x), y_(y) {}
-    bool operator==(const Point& that) const {
-      return x_ == that.x_ && y_ == that.y_;
-    }
-    bool operator!=(const Point& that) const { return !((*this) == that); }
-    float x_, y_;
-  };
   enum TapToClickState {
     kTtcIdle,
     kTtcFirstTapBegan,

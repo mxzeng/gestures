@@ -358,9 +358,6 @@ ScrollManager::ScrollManager(PropRegistry* prop_reg)
       max_pressure_change_hysteresis_(prop_reg,
                                       "Max Hysteresis Pressure Per Sec",
                                       600.0),
-      min_scroll_dead_reckoning_(prop_reg,
-                                 "Min Scroll Dead Reckoning Distance",
-                                 0.0),
       max_pressure_change_duration_(prop_reg,
                                     "Max Pressure Change Duration",
                                     0.016),
@@ -454,7 +451,8 @@ bool ScrollManager::ComputeScroll(
   float max_mag_sq = 0.0;  // square of max mag
   float dx = 0.0;
   float dy = 0.0;
-  bool suppress_finger_movement = false;
+  bool stationary = true;
+  bool pressure_changing = false;
   for (FingerMap::const_iterator it =
            gs_fingers.begin(), e = gs_fingers.end(); it != e; ++it) {
     const FingerState* fs = state_buffer.Get(0)->GetFingerState(*it);
@@ -463,12 +461,14 @@ bool ScrollManager::ComputeScroll(
       return false;
     const stime_t dt =
         state_buffer.Get(0)->timestamp - state_buffer.Get(1)->timestamp;
-    // Call SuppressStationaryFingerMovement even if suppress_finger_movement
-    // is already true, b/c it records updates.
-    suppress_finger_movement =
-        SuppressStationaryFingerMovement(*fs, *prev, dt) ||
-        suppress_finger_movement ||
+    pressure_changing =
+        pressure_changing ||
         StationaryFingerPressureChangingSignificantly(state_buffer, *fs);
+    // Call SuppressStationaryFingerMovement even if stationary is already true,
+    // because it records updates.
+    stationary =
+        SuppressStationaryFingerMovement(*fs, *prev, dt) &&
+        stationary;
     float local_dx = fs->position_x - prev->position_x;
     if (fs->flags & GESTURES_FINGER_WARP_X_NON_MOVE)
       local_dx = 0.0;
@@ -489,8 +489,8 @@ bool ScrollManager::ComputeScroll(
   else if (fabsf(dy) > vertical_scroll_snap_slope_.val_ * fabsf(dx))
     dx = 0.0;  // snap to vertical
 
-  prev_result_suppress_finger_movement_ = suppress_finger_movement;
-  if (suppress_finger_movement) {
+  prev_result_suppress_finger_movement_ = pressure_changing || stationary;
+  if (pressure_changing) {
     // If we get here, it means that the pressure of the finger causing
     // the scroll is changing a lot, so we don't trust it. It's likely
     // leaving the touchpad. Normally we might just do nothing, but having
@@ -504,16 +504,15 @@ bool ScrollManager::ComputeScroll(
     // Also, only use previous gesture if it's in the same direction.
     if (prev_result.type == kGestureTypeScroll &&
         prev_result.details.scroll.dy * dy >= 0 &&
-        prev_result.details.scroll.dx * dx >= 0 &&
-        (fabsf(prev_result.details.scroll.dy) >=
-         min_scroll_dead_reckoning_.val_ ||
-         fabsf(prev_result.details.scroll.dx) >=
-         min_scroll_dead_reckoning_.val_)) {
+        prev_result.details.scroll.dx * dx >= 0) {
       did_generate_scroll_ = true;
       *result = prev_result;
-    } else if (min_scroll_dead_reckoning_.val_ > 0.0) {
-      scroll_buffer->Clear();
     }
+    return false;
+  }
+
+  if (stationary) {
+    scroll_buffer->Clear();
     return false;
   }
 
@@ -628,29 +627,35 @@ bool ScrollManager::SuppressStationaryFingerMovement(const FingerState& fs,
   // If speed exceeded, allow free movement and discard history
   if (dist_sq > dt * dt *
       max_stationary_move_speed_.val_ * max_stationary_move_speed_.val_) {
-    stationary_move_distance_.erase(fs.tracking_id);
+    stationary_start_positions_.erase(fs.tracking_id);
     return false;
   }
 
-  float dist = sqrtf(dist_sq);
   if (dist_sq <= dt * dt *
       max_stationary_move_speed_hysteresis_.val_ *
       max_stationary_move_speed_hysteresis_.val_ &&
-      !MapContainsKey(stationary_move_distance_, fs.tracking_id)) {
+      !MapContainsKey(stationary_start_positions_, fs.tracking_id)) {
     // We assume that the first nearly-stationay event won't exceed the
     // distance threshold and return from here.
-    stationary_move_distance_[fs.tracking_id] = dist;
+    Point point(fs.position_x, fs.position_y);
+    stationary_start_positions_[fs.tracking_id] = point;
     return true;
   }
 
-  if (!MapContainsKey(stationary_move_distance_, fs.tracking_id)) {
+  if (!MapContainsKey(stationary_start_positions_, fs.tracking_id)) {
     return false;
   }
 
-  // Check if distance exceeded. If so, keep history and allow motion
-  stationary_move_distance_[fs.tracking_id] += dist;
-  return stationary_move_distance_[fs.tracking_id] <
-      max_stationary_move_suppress_distance_.val_;
+  // Check if distance exceeded. If so, erase history and allow motion
+  float dx = fs.position_x - stationary_start_positions_[fs.tracking_id].x_;
+  float dy = fs.position_y - stationary_start_positions_[fs.tracking_id].y_;
+  if (dx * dx + dy * dy > max_stationary_move_suppress_distance_.val_ *
+      max_stationary_move_suppress_distance_.val_) {
+    stationary_start_positions_.erase(fs.tracking_id);
+    return false;
+  }
+
+  return true;
 }
 
 void ScrollManager::ComputeFling(const HardwareStateBuffer& state_buffer,
@@ -1274,7 +1279,7 @@ float ImmediateInterpreter::DistanceTravelledSq(const FingerState& fs,
   return delta.x_ * delta.x_ + delta.y_ * delta.y_;
 }
 
-ImmediateInterpreter::Point ImmediateInterpreter::FingerTraveledVector(
+Point ImmediateInterpreter::FingerTraveledVector(
     const FingerState& fs, bool origin, bool permit_warp) const {
   const map<short, Point, kMaxFingers>* positions;
   if (origin)
@@ -3150,6 +3155,11 @@ void ImmediateInterpreter::FillResultGesture(
       }
       if (suppress_finger_movement) {
         scroll_manager_.prev_result_suppress_finger_movement_ = true;
+        result_ = Gesture(kGestureMove,
+                          state_buffer_.Get(1)->timestamp,
+                          hwstate.timestamp,
+                          0,
+                          0);
         return;
       }
       scroll_manager_.prev_result_suppress_finger_movement_ = false;
