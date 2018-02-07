@@ -647,4 +647,6 @@ const GestureFling kGestureFling = { 0, 0, 0, 0, 0 };
 const GestureSwipe kGestureSwipe = { 0, 0, 0, 0 };
 const GestureFourFingerSwipe kGestureFourFingerSwipe = { 0, 0, 0, 0 };
 const GesturePinch kGesturePinch = { 0, 0, 0 };
+const GestureSwipeLift kGestureSwipeLift = { };
+const GestureFourFingerSwipeLift kGestureFourFingerSwipeLift = { };
 const GestureMetrics kGestureMetrics = { kGestureMetricsTypeUnknown, {0, 0} };

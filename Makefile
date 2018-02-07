@@ -111,7 +111,6 @@ CXXFLAGS+=\
 	-fno-strict-aliasing \
 	-fPIC \
 	-Wall \
-	-Wclobbered \
 	-Wempty-body \
 	-Werror \
 	-Wignored-qualifiers \
