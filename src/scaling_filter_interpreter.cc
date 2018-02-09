@@ -55,20 +55,19 @@ void ScalingFilterInterpreter::SyncInterpretImpl(HardwareState* hwstate,
 // Ignore the finger events with low pressure values especially for the SEMI_MT
 // devices such as Synaptics touchpad on Cr-48.
 void ScalingFilterInterpreter::FilterLowPressure(HardwareState* hwstate) {
-  // don't do this when the button is down as the pressing fingers might
-  // be reported with low pressure.
-  if (hwstate->buttons_down)
-    return;
-
   unsigned short finger_cnt = hwstate->finger_cnt;
   unsigned short touch_cnt = hwstate->touch_cnt;
   float threshold = 0.0;
-  if (pressure_scale_.val_ > 0.0) {
+
+  // If a button is down, only filter 0 pressure fingers:
+  // Pressing fingers might have low pressure, but hovering fingers are
+  // reported as fingers with 0 pressure and should still be filtered.
+  if (pressure_scale_.val_ > 0.0 && !hwstate->buttons_down) {
     threshold = (pressure_threshold_.val_ - pressure_translate_.val_)
         / pressure_scale_.val_ ;
   }
   for (short i = finger_cnt - 1 ; i >= 0; i--) {
-    if (hwstate->fingers[i].pressure < threshold) {
+    if (hwstate->fingers[i].pressure <= threshold) {
       if (i != finger_cnt - 1)
         hwstate->fingers[i] = hwstate->fingers[finger_cnt - 1];
       finger_cnt--;
