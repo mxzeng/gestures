@@ -1989,7 +1989,7 @@ bool ImmediateInterpreter::UpdatePinchState(
     const HardwareState& hwstate, bool reset, const FingerMap& gs_fingers) {
 
   if (reset) {
-    if (pinch_locked_) {
+    if (pinch_locked_ && prev_gesture_type_ == kGestureTypePinch) {
       current_gesture_type_ = kGestureTypePinch;
       pinch_status_ = GESTURES_ZOOM_END;
     }
@@ -3287,7 +3287,7 @@ void ImmediateInterpreter::FillResultGesture(
           current_gesture_type_ = kGestureTypeNull;
           pinch_prev_direction_ = 0;
         }
-      } else {
+      } else if (pinch_status_ == GESTURES_ZOOM_UPDATE) {
         float current_dist_sq = TwoSpecificFingerDistanceSq(hwstate, fingers);
         if (current_dist_sq < 0) {
           current_dist_sq = pinch_prev_distance_sq_;
