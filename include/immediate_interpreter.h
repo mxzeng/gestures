@@ -175,8 +175,8 @@ class ScrollManager {
       const HardwareStateBuffer& state_buffer,
       const FingerState& current) const;
 
-  // Compute a scroll result.  Return false when something goes wrong.
-  bool ComputeScroll(const HardwareStateBuffer& state_buffer,
+  // Compute a scroll and fill result.  Return false when something goes wrong.
+  bool FillResultScroll(const HardwareStateBuffer& state_buffer,
                      const FingerMap& prev_gs_fingers,
                      const FingerMap& gs_fingers,
                      GestureType prev_gesture_type,
@@ -184,10 +184,10 @@ class ScrollManager {
                      Gesture* result,
                      ScrollEventBuffer* scroll_buffer);
 
-  // Compute a ScrollEvent that can be turned directly into a fling.
-  void ComputeFling(const HardwareStateBuffer& state_buffer,
+  // Compute a fling and fill result.
+  void FillResultFling(const HardwareStateBuffer& state_buffer,
                     const ScrollEventBuffer& scroll_buffer,
-                    Gesture* result) const;
+                    Gesture* result);
 
   // Update ScrollEventBuffer when the current gesture type is not scroll.
   void UpdateScrollEventBuffer(GestureType gesture_type,

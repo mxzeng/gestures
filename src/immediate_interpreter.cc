@@ -439,7 +439,7 @@ bool ScrollManager::StationaryFingerPressureChangingSignificantly(
   return dp > dp_thresh;
 }
 
-bool ScrollManager::ComputeScroll(
+bool ScrollManager::FillResultScroll(
     const HardwareStateBuffer& state_buffer,
     const FingerMap& prev_gs_fingers,
     const FingerMap& gs_fingers,
@@ -658,9 +658,9 @@ bool ScrollManager::SuppressStationaryFingerMovement(const FingerState& fs,
   return true;
 }
 
-void ScrollManager::ComputeFling(const HardwareStateBuffer& state_buffer,
+void ScrollManager::FillResultFling(const HardwareStateBuffer& state_buffer,
                                  const ScrollEventBuffer& scroll_buffer,
-                                 Gesture* result) const {
+                                 Gesture* result) {
   if (!did_generate_scroll_)
     return;
   ScrollEvent out = { 0.0, 0.0, 0.0 };
@@ -704,6 +704,7 @@ done:
                     vx,
                     vy,
                     GESTURES_FLING_START);
+  did_generate_scroll_ = false;
 }
 
 FingerButtonClick::FingerButtonClick(const ImmediateInterpreter* interpreter)
@@ -3196,7 +3197,7 @@ void ImmediateInterpreter::FillResultGesture(
       break;
     }
     case kGestureTypeScroll: {
-      if (!scroll_manager_.ComputeScroll(state_buffer_,
+      if (!scroll_manager_.FillResultScroll(state_buffer_,
                                          prev_active_gs_fingers_,
                                          fingers,
                                          prev_gesture_type_,
@@ -3207,7 +3208,7 @@ void ImmediateInterpreter::FillResultGesture(
       break;
     }
     case kGestureTypeFling: {
-      scroll_manager_.ComputeFling(state_buffer_, scroll_buffer_, &result_);
+      scroll_manager_.FillResultFling(state_buffer_, scroll_buffer_, &result_);
       break;
     }
     case kGestureTypeSwipe:

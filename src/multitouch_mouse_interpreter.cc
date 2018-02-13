@@ -173,7 +173,7 @@ void MultitouchMouseInterpreter::InterpretMultitouchEvent() {
   if (should_fling_ && AnyGesturingFingerLeft(*state_buffer_.Get(0),
                                               prev_gs_fingers_)) {
     current_gesture_type_ = kGestureTypeFling;
-    scroll_manager_.ComputeFling(state_buffer_, scroll_buffer_, &result);
+    scroll_manager_.FillResultFling(state_buffer_, scroll_buffer_, &result);
     if (result.type == kGestureTypeFling)
       result.details.fling.vx = 0.0;
     if (result.details.fling.vy == 0.0)
@@ -194,7 +194,7 @@ void MultitouchMouseInterpreter::InterpretMultitouchEvent() {
     // * Finger movements after button goes up
 
     bool update_scroll_buffer =
-        scroll_manager_.ComputeScroll(state_buffer_,
+        scroll_manager_.FillResultScroll(state_buffer_,
                                       prev_gs_fingers_,
                                       gs_fingers_,
                                       prev_gesture_type_,
