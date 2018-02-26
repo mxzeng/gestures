@@ -26,7 +26,7 @@ class NonLinearityFilterInterpreterTestInterpreter : public Interpreter {
 
 TEST(NonLinearityFilterInterpreterTest, DisablingTest) {
   FingerState finger_state = { 0, 0, 0, 0, 35, 0, 999, 500, 1, 0 };
-  HardwareState hwstate = { 200000, 0, 2, 2, &finger_state, 0, 0, 0, 0 };
+  HardwareState hwstate = { 200000, 0, 2, 2, &finger_state, 0, 0, 0, 0, 0.0 };
 
   NonLinearityFilterInterpreterTestInterpreter* base =
                             new NonLinearityFilterInterpreterTestInterpreter;
@@ -55,7 +55,7 @@ TEST(NonLinearityFilterInterpreterTest, DisablingTest) {
 
 TEST(NonLinearityFilterInterpreterTest, HWstateModificationTest) {
   FingerState finger_state = { 0, 0, 0, 0, 0.2, 0, 0.1, 0.3, 1, 0 };
-  HardwareState hwstate = { 200000, 0, 1, 1, &finger_state, 0, 0, 0, 0 };
+  HardwareState hwstate = { 200000, 0, 1, 1, &finger_state, 0, 0, 0, 0, 0.0 };
 
   NonLinearityFilterInterpreterTestInterpreter* base =
                             new NonLinearityFilterInterpreterTestInterpreter;
@@ -79,8 +79,8 @@ TEST(NonLinearityFilterInterpreterTest, HWstateNoChangesNeededTest) {
   };
 
   HardwareState hwstates[] = {
-    { 200000, 0, 2, 2, finger_states, 0, 0, 0, 0 },
-    { 200100, 0, 1, 1, finger_states, 0, 0, 0, 0 },
+    { 200000, 0, 2, 2, finger_states, 0, 0, 0, 0, 0.0 },
+    { 200100, 0, 1, 1, finger_states, 0, 0, 0, 0, 0.0 },
   };
 
   NonLinearityFilterInterpreterTestInterpreter* base =

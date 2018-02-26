@@ -50,11 +50,11 @@ TEST(ImmediateInterpreterTest, MoveDownTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, finger states pointer
-    { 200000, 0, 1, 1, &finger_states[0], 0, 0, 0, 0 },
-    { 210000, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },
-    { 220000, 0, 1, 1, &finger_states[2], 0, 0, 0, 0 },
-    { 230000, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 240000, 0, 0, 0, NULL, 0, 0, 0, 0 }
+    { 200000, 0, 1, 1, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 210000, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 220000, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 230000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 240000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
   };
 
   EXPECT_EQ(NULL, wrapper.SyncInterpret(&hardware_states[0], NULL));
@@ -115,11 +115,11 @@ TEST(ImmediateInterpreterTest, MoveUpWithRestingThumbTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, finger states pointer
-    { 200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 210000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 220000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 230000, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 240000, 0, 0, 0, NULL, 0, 0, 0, 0 }
+    { 200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 210000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 220000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 230000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 240000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
   };
 
   EXPECT_EQ(NULL, wrapper.SyncInterpret(&hardware_states[0], NULL));
@@ -181,9 +181,9 @@ TEST(ImmediateInterpreterTest, SemiMtScrollUpWithRestingThumbTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.200000, 0, 2, 3, &finger_states[0], 0, 0, 0, 0 },
-    { 0.250000, 0, 2, 3, &finger_states[2], 0, 0, 0, 0 },
-    { 0.300000, 0, 2, 3, &finger_states[4], 0, 0, 0, 0 }
+    { 0.200000, 0, 2, 3, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.250000, 0, 2, 3, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.300000, 0, 2, 3, &finger_states[4], 0, 0, 0, 0, 0.0 }
   };
 
   EXPECT_EQ(NULL, wrapper.SyncInterpret(&hardware_states[0], NULL));
@@ -243,9 +243,9 @@ void ScrollUpTest(float pressure_a, float pressure_b) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 0.250000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 0.300000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 }
+    { 0.200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.250000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.300000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 }
   };
 
   EXPECT_EQ(NULL, wrapper.SyncInterpret(&hardware_states[0], NULL));
@@ -314,12 +314,12 @@ TEST(ImmediateInterpreterTest, ScrollThenFalseTapTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 0.250000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 0.300000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 0.310000, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 0.320000, 0, 1, 1, &finger_states[6], 0, 0, 0, 0 },
-    { 0.330000, 0, 0, 0, NULL, 0, 0, 0, 0 }
+    { 0.200000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.250000, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.300000, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 0.310000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 0.320000, 0, 1, 1, &finger_states[6], 0, 0, 0, 0, 0.0 },
+    { 0.330000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
   };
 
   ii.tap_enable_.val_ = 1;
@@ -398,19 +398,19 @@ TEST(ImmediateInterpreterTest, FlingTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 1.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 1.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 1.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 },
-    { 1.04, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 0.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 1.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 1.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 1.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 },
+    { 1.04, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
 
-    { 3.00, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 },
-    { 4.00, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 },
-    { 4.01, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 },
-    { 4.02, 0, 2, 2, &finger_states[12], 0, 0, 0, 0 },
-    { 4.03, 0, 2, 2, &finger_states[14], 0, 0, 0, 0 },
-    { 4.04, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 3.00, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 },
+    { 4.00, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 },
+    { 4.01, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 },
+    { 4.02, 0, 2, 2, &finger_states[12], 0, 0, 0, 0, 0.0 },
+    { 4.03, 0, 2, 2, &finger_states[14], 0, 0, 0, 0, 0.0 },
+    { 4.04, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   size_t idx = 0;
@@ -494,11 +494,11 @@ TEST(ImmediateInterpreterTest, DelayedStartScrollTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 2.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 2.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 2.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 2.03, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 2.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 2.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 2.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 2.03, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   size_t idx = 0;
@@ -556,11 +556,11 @@ TEST(ImmediateInterpreterTest, ScrollReevaluateTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 2.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 2.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 2.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 2.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 },
+    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 2.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 2.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 2.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 2.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 },
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -625,11 +625,11 @@ TEST(ImmediateInterpreterTest, OneFingerThenTwoDelayedStartScrollTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 1.00, 0, 1, 1, &finger_states[0], 0, 0, 0, 0 },
-    { 1.20, 0, 2, 2, &finger_states[1], 0, 0, 0, 0 },
-    { 2.00, 0, 2, 2, &finger_states[1], 0, 0, 0, 0 },
-    { 2.01, 0, 2, 2, &finger_states[3], 0, 0, 0, 0 },
-    { 2.03, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 1.00, 0, 1, 1, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 1.20, 0, 2, 2, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 2.00, 0, 2, 2, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 2.01, 0, 2, 2, &finger_states[3], 0, 0, 0, 0, 0.0 },
+    { 2.03, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -811,7 +811,9 @@ TEST(ImmediateInterpreterTest, OneFatFingerScrollTest) {
       { 0, 0, 0, 0, inputs[i].p1, 0.0, inputs[i].x1, inputs[i].y1, 2, 0 },
     };
     unsigned short finger_cnt = inputs[i].p1 == 0.0 ? 1 : 2;
-    HardwareState hs = { inputs[i].now,0,finger_cnt,finger_cnt,fs,0,0,0,0 };
+    HardwareState hs = {
+      inputs[i].now, 0, finger_cnt, finger_cnt, fs, 0, 0, 0, 0, 0.0
+    };
 
     stime_t timeout = -1.0;
     Gesture* gs = wrapper.SyncInterpret(&hs, &timeout);
@@ -956,7 +958,7 @@ TEST(ImmediateInterpreterTest, NoLiftoffScrollTest) {
       { 0, 0, 0, 0, inputs[i].p0, 0.0, inputs[i].x0, inputs[i].y0, 1, 0 },
       { 0, 0, 0, 0, inputs[i].p1, 0.0, inputs[i].x1, inputs[i].y1, 2, 0 },
     };
-    HardwareState hs = { inputs[i].now, 0, 2, 2, fs, 0, 0, 0, 0 };
+    HardwareState hs = { inputs[i].now, 0, 2, 2, fs, 0, 0, 0, 0, 0.0 };
 
     stime_t timeout = -1.0;
     Gesture* gs = wrapper.SyncInterpret(&hs, &timeout);
@@ -1038,21 +1040,33 @@ TEST(ImmediateInterpreterTest, DiagonalSnapTest) {
   ssize_t idx = 0;
   HardwareStateAnScrollExpectations hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.010,0,2,2,&finger_states[idx++ * 4 + 2],0,0,0,0 },kBig,kBig },
+    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0, 0.0 },
+      kBig, kBig },
 
-    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0 }, 0, kBig },
+    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0, 0.0 },
+      0, kBig },
 
-    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0 }, kBig, 0 },
+    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0, 0.0 },
+      kBig, 0 },
 
-    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0 }, 0, 0 },
-    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0 }, 0, 0 },
+    { { 0.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.000, 0, 2, 2, &finger_states[idx * 4 ], 0, 0, 0, 0, 0.0 },
+      0, 0 },
+    { { 1.010, 0, 2, 2, &finger_states[idx++ * 4 + 2], 0, 0, 0, 0, 0.0 },
+      0, 0 },
   };
 
   for (size_t i = 0; i < arraysize(hardware_states); i++) {
@@ -1118,7 +1132,9 @@ TEST(ImmediateInterpreterTest, RestingFingerTest) {
     ii.reset(new ImmediateInterpreter(NULL, NULL));
     wrapper.Reset(ii.get());
     for (size_t i = 0; i < 4; i++) {
-      HardwareState hs = { kTO + 0.01 * i, 0, 2, 2, finger_states, 0, 0, 0, 0 };
+      HardwareState hs = {
+        kTO + 0.01 * i, 0, 2, 2, finger_states, 0, 0, 0, 0, 0.0
+      };
       if (i == 0) {
         hs.timestamp -= kTO;
         Gesture* gs = wrapper.SyncInterpret(&hs, NULL);
@@ -1173,11 +1189,11 @@ TEST(ImmediateInterpreterTest, ThumbRetainTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 0.100, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 0.110, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },  // finger goes away
-    { 0.210, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },
-    { 0.220, 0, 1, 1, &finger_states[2], 0, 0, 0, 0 },  // thumb moves
+    { 0.000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.100, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.110, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },  // finger goes away
+    { 0.210, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 0.220, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },  // thumb moves
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -1228,9 +1244,9 @@ TEST(ImmediateInterpreterTest, ThumbRetainReevaluateTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 1.000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },  // next 2 fingers arrive
-    { 1.010, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },  // pressures fix
-    { 1.100, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },  // they move
+    { 1.000, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },  // 2 fingers arrive
+    { 1.010, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },  // pressures fix
+    { 1.100, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },  // they move
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -1275,7 +1291,7 @@ TEST(ImmediateInterpreterTest, SetHardwarePropertiesTwiceTest) {
   };
   HardwareState hardware_state = {
     // time, buttons, finger count, touch count, finger states pointer
-    200000, 0, 5, 5, &finger_states[0], 0, 0, 0, 0
+    200000, 0, 5, 5, &finger_states[0], 0, 0, 0, 0, 0.0
   };
   // This used to cause a crash:
   Gesture* gs = wrapper.SyncInterpret(&hardware_state, NULL);
@@ -1332,12 +1348,12 @@ TEST(ImmediateInterpreterTest, AmbiguousPalmCoScrollTest) {
   };
   HardwareState hardware_state[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 0.0, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 0.1, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 0.2, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 3.0, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 },
-    { 3.1, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 },
-    { 3.2, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 },
+    { 0.0, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.1, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.2, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 3.0, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 },
+    { 3.1, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 },
+    { 3.2, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 },
   };
   GestureType expected_gs[] = {
     kGestureTypeNull,
@@ -1399,10 +1415,10 @@ TEST(ImmediateInterpreterTest, PressureChangeMoveTest) {
   };
   HardwareState hardware_state[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 2000.00, 0, 1, 1, &finger_states[0], 0, 0, 0, 0 },
-    { 2000.01, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },
-    { 2000.02, 0, 1, 1, &finger_states[2], 0, 0, 0, 0 },
-    { 2000.03, 0, 1, 1, &finger_states[3], 0, 0, 0, 0 },
+    { 2000.00, 0, 1, 1, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 2000.01, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 2000.02, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 2000.03, 0, 1, 1, &finger_states[3], 0, 0, 0, 0, 0.0 },
   };
 
   for (size_t i = 0; i < arraysize(hardware_state); ++i) {
@@ -1457,11 +1473,11 @@ TEST(ImmediateInterpreterTest, GetGesturingFingersTest) {
   };
   HardwareState hardware_state[] = {
     // time, buttons, finger count, finger states pointer
-    { 200000, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 200001, 0, 1, 1, &finger_states[0], 0, 0, 0, 0 },
-    { 200002, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 200002, 0, 3, 3, &finger_states[0], 0, 0, 0, 0 },
-    { 200002, 0, 4, 4, &finger_states[0], 0, 0, 0, 0 }
+    { 200000, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 200001, 0, 1, 1, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 200002, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 200002, 0, 3, 3, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 200002, 0, 4, 4, &finger_states[0], 0, 0, 0, 0, 0.0 }
   };
   // few pointing fingers
   ii.ResetSameFingersState(hardware_state[0]);
@@ -1550,15 +1566,15 @@ TEST(ImmediateInterpreterTest, TapRecordTest) {
     {0, 0, 0, 0, 75, 0, 4, 9, kF2, 0},
     {0, 0, 0, 0, 50, 0, 7, 4, kF1, 0}
   };
-  HardwareState nullstate = { 0.0, 0, 0, 0, NULL, 0, 0, 0, 0 };
+  HardwareState nullstate = { 0.0, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 };
   HardwareState hw[] = {
     // time, buttons, finger count, finger states pointer
-    { 0.0, 0, 1, 1, &fs[0], 0, 0, 0, 0 },
-    { 0.1, 0, 2, 2, &fs[0], 0, 0, 0, 0 },
-    { 0.2, 0, 1, 1, &fs[1], 0, 0, 0, 0 },
-    { 0.3, 0, 2, 2, &fs[0], 0, 0, 0, 0 },
-    { 0.4, 0, 1, 1, &fs[1], 0, 0, 0, 0 },
-    { 0.5, 0, 1, 1, &fs[2], 0, 0, 0, 0 }
+    { 0.0, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
+    { 0.1, 0, 2, 2, &fs[0], 0, 0, 0, 0, 0.0 },
+    { 0.2, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
+    { 0.3, 0, 2, 2, &fs[0], 0, 0, 0, 0, 0.0 },
+    { 0.4, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
+    { 0.5, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 }
   };
 
   tr.Update(hw[0], nullstate, MkSet(kF1), MkSet(), MkSet());
@@ -1729,274 +1745,274 @@ TEST(ImmediateInterpreterTest, TapToClickStateMachineTest) {
   };
   HWStateGs hwsgs[] = {
     // Simple 1-finger tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),kBL,kBL,kIdl,false},
     // Simple 1-finger tap w/o dragging enabled
-    {N,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBL,kBL,kIdl,false},
+    {N,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBL,kBL,kIdl,false},
     // 1-finger tap with click
-    {S,{0.00,kBL,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kIdl,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),0,0,kIdl,false},
+    {S,{0.00,kBL,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kIdl,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),0,0,kIdl,false},
     // 1-finger swipe
-    {S,{0.00,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kFTB,false},
-    {C,{0.01,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.02,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kFTB,false},
+    {C,{0.01,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.02,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // Double 1-finger tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[2],0,0,0,0},-1,MkSet(93),0,0,kSTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBL,kBL,kTpC,true},
-    {C,{0.09,0,0,0,NULL,0,0,0,0},.09,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[2],0,0,0,0,0.0},-1,MkSet(93),0,0,kSTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBL,kBL,kTpC,true},
+    {C,{0.09,0,0,0,NULL,0,0,0,0,0.0},.09,MkSet(),kBL,kBL,kIdl,false},
     // Triple 1-finger tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[2],0,0,0,0},-1,MkSet(93),0,0,kSTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBL,kBL,kTpC,true},
-    {C,{0.04,0,1,1,&fs[3],0,0,0,0},-1,MkSet(94),0,0,kSTB,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBL,kBL,kTpC,true},
-    {C,{0.11,0,0,0,NULL,0,0,0,0},.11,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[2],0,0,0,0,0.0},-1,MkSet(93),0,0,kSTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBL,kBL,kTpC,true},
+    {C,{0.04,0,1,1,&fs[3],0,0,0,0,0.0},-1,MkSet(94),0,0,kSTB,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBL,kBL,kTpC,true},
+    {C,{0.11,0,0,0,NULL,0,0,0,0,0.0},.11,MkSet(),kBL,kBL,kIdl,false},
     // 1-finger tap + drag
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.13,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),kBL,0,kDrg,false},
-    {C,{0.14,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kDrg,false},
-    {C,{0.15,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),0,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.13,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),kBL,0,kDrg,false},
+    {C,{0.14,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kDrg,false},
+    {C,{0.15,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),0,kBL,kIdl,false},
     // 1-finger tap + move
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.03,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),kBL,kBL,kIdl,false},
-    {C,{0.04,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.03,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),kBL,kBL,kIdl,false},
+    {C,{0.04,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // 1-finger tap, move, release, move again (drag lock)
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.08,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),kBL,0,kDrg,false},
-    {C,{0.09,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kDrg,false},
-    {C,{0.10,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.11,0,1,1,&fs[7],0,0,0,0},-1,MkSet(96),0,0,kDRt,false},
-    {C,{0.12,0,1,1,&fs[8],0,0,0,0},-1,MkSet(96),0,0,kDrg,false},
-    {C,{0.13,0,1,1,&fs[9],0,0,0,0},-1,MkSet(96),0,0,kDrg,false},
-    {C,{0.14,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),0,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.08,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),kBL,0,kDrg,false},
+    {C,{0.09,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kDrg,false},
+    {C,{0.10,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.11,0,1,1,&fs[7],0,0,0,0,0.0},-1,MkSet(96),0,0,kDRt,false},
+    {C,{0.12,0,1,1,&fs[8],0,0,0,0,0.0},-1,MkSet(96),0,0,kDrg,false},
+    {C,{0.13,0,1,1,&fs[9],0,0,0,0,0.0},-1,MkSet(96),0,0,kDrg,false},
+    {C,{0.14,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),0,kBL,kIdl,false},
     // 1-finger long press
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.02,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.04,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.06,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kIdl,false},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.02,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.04,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.06,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kIdl,false},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // 1-finger tap then long press
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.14,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),kBL,0,kDrg,false},
-    {C,{0.16,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kDrg,false},
-    {C,{0.18,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kDrg,false},
-    {C,{0.19,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),0,kBL,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.14,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),kBL,0,kDrg,false},
+    {C,{0.16,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kDrg,false},
+    {C,{0.18,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kDrg,false},
+    {C,{0.19,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),0,kBL,kIdl,false},
     // 2-finger tap (right click)
-    {S,{0.00,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),0,0,kIdl,false},
     // 3-finger tap (middle click)
-    {S,{0.00,0,3,3,&fs[29],0,0,0,0},-1,MkSet(97,98,99),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBM,kBM,kIdl,false},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,3,3,&fs[29],0,0,0,0,0.0},-1,MkSet(97,98,99),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBM,kBM,kIdl,false},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),0,0,kIdl,false},
     // 2-finger tap, but one finger is very very light, so left tap
-    {S,{0.00,0,2,2,&fs[27],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,2,2,&fs[27],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),kBL,kBL,kIdl,false},
     // 2-finger scroll
-    {S,{0.00,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.01,0,2,2,&fs[12],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.02,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.01,0,2,2,&fs[12],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.02,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // left tap, right tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),kBL,kBL,kFTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.09,0,0,0,NULL,0,0,0,0},.09,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),kBL,kBL,kFTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.09,0,0,0,NULL,0,0,0,0,0.0},.09,MkSet(),0,0,kIdl,false},
     // left tap, multi-frame right tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[10],0,0,0,0},-1,MkSet(97),0,0,kSTB,false},
-    {C,{0.03,0,1,1,&fs[11],0,0,0,0},-1,MkSet(98),kBL,kBL,kFTB,false},
-    {C,{0.04,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[10],0,0,0,0,0.0},-1,MkSet(97),0,0,kSTB,false},
+    {C,{0.03,0,1,1,&fs[11],0,0,0,0,0.0},-1,MkSet(98),kBL,kBL,kFTB,false},
+    {C,{0.04,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
     // right tap, left tap
-    {S,{0.00,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.02,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.09,0,0,0,NULL,0,0,0,0},.09,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.02,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.09,0,0,0,NULL,0,0,0,0,0.0},.09,MkSet(),kBL,kBL,kIdl,false},
     // middle tap, left tap
-    {S,{0.00,0,3,3,&fs[29],0,0,0,0},-1,MkSet(97,98,99),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBM,kBM,kIdl,false},
-    {C,{0.02,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.09,0,0,0,NULL,0,0,0,0},.09,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,3,3,&fs[29],0,0,0,0,0.0},-1,MkSet(97,98,99),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBM,kBM,kIdl,false},
+    {C,{0.02,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.09,0,0,0,NULL,0,0,0,0,0.0},.09,MkSet(),kBL,kBL,kIdl,false},
     // right double-tap
-    {S,{0.00,0,2,2,&fs[6],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.02,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.09,0,0,0,NULL,0,0,0,0},.09,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[6],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.02,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.09,0,0,0,NULL,0,0,0,0,0.0},.09,MkSet(),0,0,kIdl,false},
     // left drumroll separation on fast swipe
-    {S,{0.00,0,1,1,&fs[32],0,0,0,0},-1,MkSet(95),0,0,kFTB,false},
-    {C,{0.01,0,1,1,&fs[33],0,0,0,0},-1,MkSet(96),0,0,kIdl,false},
-    {C,{0.02,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[32],0,0,0,0,0.0},-1,MkSet(95),0,0,kFTB,false},
+    {C,{0.01,0,1,1,&fs[33],0,0,0,0,0.0},-1,MkSet(96),0,0,kIdl,false},
+    {C,{0.02,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // left tap, right-drag
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),kBL,kBL,kFTB,false},
-    {C,{0.03,0,2,2,&fs[12],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.04,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),kBL,kBL,kFTB,false},
+    {C,{0.03,0,2,2,&fs[12],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.04,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // left tap, right multi-frame drag
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[10],0,0,0,0},-1,MkSet(97),0,0,kSTB,false},
-    {C,{0.03,0,2,2,&fs[12],0,0,0,0},-1,MkSet(97,98),kBL,kBL,kIdl,false},
-    {C,{0.04,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[10],0,0,0,0,0.0},-1,MkSet(97),0,0,kSTB,false},
+    {C,{0.03,0,2,2,&fs[12],0,0,0,0,0.0},-1,MkSet(97,98),kBL,kBL,kIdl,false},
+    {C,{0.04,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // left tap, drag + finger joined later
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[10],0,0,0,0},-1,MkSet(97),0,0,kSTB,false},
-    {C,{0.13,0,1,1,&fs[10],0,0,0,0},-1,MkSet(97),kBL,0,kDrg,false},
-    {C,{0.14,0,2,2,&fs[12],0,0,0,0},-1,MkSet(97,98),0,kBL,kIdl,false},
-    {C,{0.15,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.16,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[10],0,0,0,0,0.0},-1,MkSet(97),0,0,kSTB,false},
+    {C,{0.13,0,1,1,&fs[10],0,0,0,0,0.0},-1,MkSet(97),kBL,0,kDrg,false},
+    {C,{0.14,0,2,2,&fs[12],0,0,0,0,0.0},-1,MkSet(97,98),0,kBL,kIdl,false},
+    {C,{0.15,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.16,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // right tap, left-drag
-    {S,{0.00,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kFTB,false},
-    {C,{0.03,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.04,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kFTB,false},
+    {C,{0.03,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.04,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // right tap, right-drag
-    {S,{0.00,0,2,2,&fs[6],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
-    {C,{0.02,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kFTB,false},
-    {C,{0.03,0,2,2,&fs[12],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.04,0,2,2,&fs[14],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{0.05,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[6],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {C,{0.02,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kFTB,false},
+    {C,{0.03,0,2,2,&fs[12],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.04,0,2,2,&fs[14],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{0.05,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // drag then right-tap
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.10,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),kBL,0,kDrg,false},
-    {C,{0.11,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kDrg,false},
-    {C,{0.12,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.13,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kDRt,false},
-    {C,{0.14,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,kBL,kTpC,true},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),kBR,kBR,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.10,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),kBL,0,kDrg,false},
+    {C,{0.11,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kDrg,false},
+    {C,{0.12,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.13,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kDRt,false},
+    {C,{0.14,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,kBL,kTpC,true},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),kBR,kBR,kIdl,false},
     // slow double tap
-    {D,{ 0.00, 0, 1, 1, &fs[0],0,0,0,0}, -1, MkSet(91),   0,   0, kFTB, false },
-    {C,{0.10,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.12,0,1,1,&fs[2],0,0,0,0},-1,MkSet(93),0,0,kSTB,false},
-    {C,{0.22,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBL,kBL,kTpC,true},
-    {C,{0.90,0,0,0,NULL,0,0,0,0},.9,MkSet(),kBL,kBL,kIdl,false},
+    {D,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.10,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.12,0,1,1,&fs[2],0,0,0,0,0.0},-1,MkSet(93),0,0,kSTB,false},
+    {C,{0.22,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBL,kBL,kTpC,true},
+    {C,{0.90,0,0,0,NULL,0,0,0,0,0.0},.9,MkSet(),kBL,kBL,kIdl,false},
     // right tap, very close fingers - shouldn't tap
-    {S,{0.00,0,2,2,&fs[19],0,0,0,0},-1,MkSet(95,96),0,0,kIdl,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[19],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kIdl,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // very light left tap - shouldn't tap
-    {S,{0.00,0,1,1,&fs[21],0,0,0,0},-1,MkSet(95),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[21],0,0,0,0,0.0},-1,MkSet(95),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // very light right tap - shouldn't tap
-    {S,{0.00,0,2,2,&fs[21],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[21],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // half very light right tap - should tap
-    {S,{0.00,0,2,2,&fs[20],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {S,{0.00,0,2,2,&fs[20],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
     // Right tap, w/ fingers too far apart - shouldn't right tap
-    {S,{0.00,0,2,2,&fs[23],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.07,0,0,0,NULL,0,0,0,0},.07,MkSet(),kBL,kBL,kIdl,false},
+    {S,{0.00,0,2,2,&fs[23],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.07,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),kBL,kBL,kIdl,false},
     // Two fingers merge into one, then leave - shouldn't tap
-    {S,{0.00,0,2,2,&fs[6],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{1.00,0,2,2,&fs[6],0,0,0,0},-1,MkSet(95,96),0,0,kIdl,false},
-    {C,{1.01,0,1,1,&fs[17],0,0,0,0},-1,MkSet(91),0,0,kIdl,false},
-    {C,{1.02,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[6],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{1.00,0,2,2,&fs[6],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kIdl,false},
+    {C,{1.01,0,1,1,&fs[17],0,0,0,0,0.0},-1,MkSet(91),0,0,kIdl,false},
+    {C,{1.02,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // 1-finger marked as palm for a long time then unmarked - shouldn't tap
-    {S,{0.00,0,1,1,&fs[34],0,0,0,0},-1,MkSet(),0,0,kIdl,false},
-    {C,{1.50,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kIdl,false},
-    {C,{1.51,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[34],0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
+    {C,{1.50,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kIdl,false},
+    {C,{1.51,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
 
-    //{C,{ 0.08, 0, 0, 0, NULL, 0, 0, 0, 0 }, .07, MkSet(), 0, 0, kIdl, false },
+    //{C,{0.08,0,0,0,NULL,0,0,0,0,0.0},.07,MkSet(),0,0,kIdl,false},
     // Two fingers seem to tap, the bigger of which is the only one that
     // meets the minimum pressure threshold. Then that higher pressure finger
     // is no longer gesturing (e.g., it gets classified as a thumb).
     // There should be no tap b/c the one remaining finger didn't meet the
     // minimum pressure threshold.
-    {S,{0.00,0,2,2,&fs[25],0,0,0,0},-1,MkSet(95,96),0,0,kFTB,false},
-    {C,{0.01,0,2,2,&fs[25],0,0,0,0},-1,MkSet(96),0,0,kFTB,false},
-    {C,{0.02,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[25],0,0,0,0,0.0},-1,MkSet(95,96),0,0,kFTB,false},
+    {C,{0.01,0,2,2,&fs[25],0,0,0,0,0.0},-1,MkSet(96),0,0,kFTB,false},
+    {C,{0.02,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // 2f click - shouldn't tap
-    {S,{0.00,0,2,2,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.01,1,2,2,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kIdl,false},
-    {C,{0.02,0,2,2,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kIdl,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,2,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.01,1,2,2,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kIdl,false},
+    {C,{0.02,0,2,2,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kIdl,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // T5R2 tap tests:
     // (1f and 2f tap w/o resting thumb and 1f w/ resting thumb are the same as
     // above)
     // 2f tap w/ resting thumb
-    {T,{ 0.00,0,1,1,&fs[16],0,0,0,0 },-1,MkSet(70),0,0,kFTB,false },
-    {C,{1.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kIdl,false},
-    {C,{1.01,0,1,3,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.02,0,2,3,&fs[16],0,0,0,0},-1,MkSet(70,91),0,0,kFTB,false},
-    {C,{1.03,0,0,2,NULL,0,0,0,0},-1,MkSet(),0,0,kFTB,false},
-    {C,{1.04,0,1,1,&fs[18],0,0,0,0},-1,MkSet(71),kBR,kBR,kIdl,false},
+    {T,{0.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kIdl,false},
+    {C,{1.01,0,1,3,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.02,0,2,3,&fs[16],0,0,0,0,0.0},-1,MkSet(70,91),0,0,kFTB,false},
+    {C,{1.03,0,0,2,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kFTB,false},
+    {C,{1.04,0,1,1,&fs[18],0,0,0,0,0.0},-1,MkSet(71),kBR,kBR,kIdl,false},
     // 3f tap w/o resting thumb
-    {S,{0.00,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.01,0,0,1,NULL,0,0,0,0},-1,MkSet(),0,0,kFTB,false},
-    {C,{0.02,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBM,kBM,kIdl,false},
+    {S,{0.00,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.01,0,0,1,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kFTB,false},
+    {C,{0.02,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBM,kBM,kIdl,false},
     // 3f tap w/o resting thumb (slightly different)
-    {S,{0.00,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.01,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.02,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBM,kBM,kIdl,false},
+    {S,{0.00,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.01,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.02,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBM,kBM,kIdl,false},
     // 3f tap w/ resting thumb
-    {S,{0.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kIdl,false},
-    {C,{1.01,0,1,4,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.02,0,2,4,&fs[16],0,0,0,0},-1,MkSet(70,91),0,0,kFTB,false},
-    {C,{1.03,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),kBM,kBM,kIdl,false},
+    {S,{0.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kIdl,false},
+    {C,{1.01,0,1,4,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.02,0,2,4,&fs[16],0,0,0,0,0.0},-1,MkSet(70,91),0,0,kFTB,false},
+    {C,{1.03,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),kBM,kBM,kIdl,false},
     // 4f tap w/o resting thumb
-    {S,{0.00,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.01,0,1,4,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.02,0,2,4,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{0.03,0,0,0,NULL,0,0,0,0},-1,MkSet(),kBR,kBR,kIdl,false},
+    {S,{0.00,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.01,0,1,4,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.02,0,2,4,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{0.03,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),kBR,kBR,kIdl,false},
     // 4f tap w/ resting thumb
-    {S,{0.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kIdl,false},
-    {C,{1.01,0,1,5,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.02,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),kBR,kBR,kIdl,false},
+    {S,{0.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kIdl,false},
+    {C,{1.01,0,1,5,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.02,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),kBR,kBR,kIdl,false},
     // 4f tap w/ resting thumb (slightly different)
-    {S,{0.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.00,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kIdl,false},
-    {C,{1.01,0,1,5,&fs[16],0,0,0,0},-1,MkSet(70),0,0,kFTB,false},
-    {C,{1.02,0,2,5,&fs[16],0,0,0,0},-1,MkSet(70,91),0,0,kFTB,false},
-    {C,{1.03,0,1,1,&fs[16],0,0,0,0},-1,MkSet(70),kBR,kBR,kIdl,false},
+    {S,{0.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.00,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kIdl,false},
+    {C,{1.01,0,1,5,&fs[16],0,0,0,0,0.0},-1,MkSet(70),0,0,kFTB,false},
+    {C,{1.02,0,2,5,&fs[16],0,0,0,0,0.0},-1,MkSet(70,91),0,0,kFTB,false},
+    {C,{1.03,0,1,1,&fs[16],0,0,0,0,0.0},-1,MkSet(70),kBR,kBR,kIdl,false},
     // 3f letting go, shouldn't tap at all
-    {S,{0.00,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kFTB,false},
-    {C,{1.01,0,2,3,&fs[0],0,0,0,0},-1,MkSet(91,92),0,0,kIdl,false},
-    {C,{1.02,0,0,2,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
-    {C,{1.03,0,2,2,&fs[10],0,0,0,0},-1,MkSet(97,98),0,0,kIdl,false},
-    {C,{1.04,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kFTB,false},
+    {C,{1.01,0,2,3,&fs[0],0,0,0,0,0.0},-1,MkSet(91,92),0,0,kIdl,false},
+    {C,{1.02,0,0,2,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
+    {C,{1.03,0,2,2,&fs[10],0,0,0,0,0.0},-1,MkSet(97,98),0,0,kIdl,false},
+    {C,{1.04,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
     // tap then move. no drag expected
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[4],0,0,0,0},-1,MkSet(95),0,0,kSTB,false},
-    {C,{0.03,0,1,1,&fs[5],0,0,0,0},-1,MkSet(95),kBL,kBL,kIdl,false},
-    {C,{0.05,0,1,1,&fs[6],0,0,0,0},-1,MkSet(95),0,0,kIdl,false},
-    {C,{0.06,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kIdl,false},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),0,0,kIdl,false},
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(95),0,0,kSTB,false},
+    {C,{0.03,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(95),kBL,kBL,kIdl,false},
+    {C,{0.05,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(95),0,0,kIdl,false},
+    {C,{0.06,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kIdl,false},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),0,0,kIdl,false},
   };
   const size_t kT5R2TestFirstIndex = NonT5R2States(hwsgs, arraysize(hwsgs));
 
@@ -2177,7 +2193,9 @@ TEST(ImmediateInterpreterTest, TapToClickLowPressureBeginOrEndTest) {
     };
     unsigned short finger_cnt = fs[0].tracking_id == -1 ? 0 :
         (fs[1].tracking_id == -1 ? 1 : 2);
-    HardwareState hs = { input.now, 0, finger_cnt, finger_cnt, fs, 0, 0, 0, 0 };
+    HardwareState hs = {
+      input.now, 0, finger_cnt, finger_cnt, fs, 0, 0, 0, 0, 0.0
+    };
     stime_t timeout = -1;
     Gesture* gs = wrapper.SyncInterpret(&hs, &timeout);
     if (finger_cnt > 0) {
@@ -2224,9 +2242,9 @@ TEST(ImmediateInterpreterTest, TapToClickKeyboardTest) {
   };
   HardwareState hwstates[] = {
     // Simple 1-finger tap
-    { 0.01, 0, 1, 1, &fs, 0, 0, 0, 0 },
-    { 0.02, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 0.30, 0, 0, 0, NULL, 0, 0, 0, 0 }
+    { 0.01, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
+    { 0.02, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 0.30, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
   };
 
   enum {
@@ -2305,17 +2323,17 @@ TEST(ImmediateInterpreterTest, TapToClickEnableTest) {
 
   HWStateGs hwsgs_list[] = {
     // 1-finger tap, move, release, move again (drag lock)
-    {S,{0.00,0,1,1,&fs[0],0,0,0,0},-1,MkSet(91),0,0,kFTB,false},
-    {C,{0.01,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kTpC,true},
-    {C,{0.02,0,1,1,&fs[1],0,0,0,0},-1,MkSet(92),0,0,kSTB,false},
-    {C,{0.08,0,1,1,&fs[2],0,0,0,0},-1,MkSet(92),kBL,0,kDrg,false},
-    {C,{0.09,0,1,1,&fs[3],0,0,0,0},-1,MkSet(92),0,0,kDrg,false},
-    {C,{0.10,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.11,0,1,1,&fs[4],0,0,0,0},-1,MkSet(93),0,0,kDRt,false},
-    {C,{0.12,0,1,1,&fs[5],0,0,0,0},-1,MkSet(93),0,0,kDrg,false},
-    {C,{0.13,0,1,1,&fs[6],0,0,0,0},-1,MkSet(93),0,0,kDrg,false},
-    {C,{0.14,0,0,0,NULL,0,0,0,0},-1,MkSet(),0,0,kDRl,true},
-    {C,{0.99,0,0,0,NULL,0,0,0,0},.99,MkSet(),0,kBL,kIdl,false}
+    {S,{0.00,0,1,1,&fs[0],0,0,0,0,0.0},-1,MkSet(91),0,0,kFTB,false},
+    {C,{0.01,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kTpC,true},
+    {C,{0.02,0,1,1,&fs[1],0,0,0,0,0.0},-1,MkSet(92),0,0,kSTB,false},
+    {C,{0.08,0,1,1,&fs[2],0,0,0,0,0.0},-1,MkSet(92),kBL,0,kDrg,false},
+    {C,{0.09,0,1,1,&fs[3],0,0,0,0,0.0},-1,MkSet(92),0,0,kDrg,false},
+    {C,{0.10,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.11,0,1,1,&fs[4],0,0,0,0,0.0},-1,MkSet(93),0,0,kDRt,false},
+    {C,{0.12,0,1,1,&fs[5],0,0,0,0,0.0},-1,MkSet(93),0,0,kDrg,false},
+    {C,{0.13,0,1,1,&fs[6],0,0,0,0,0.0},-1,MkSet(93),0,0,kDrg,false},
+    {C,{0.14,0,0,0,NULL,0,0,0,0,0.0},-1,MkSet(),0,0,kDRl,true},
+    {C,{0.99,0,0,0,NULL,0,0,0,0,0.0},.99,MkSet(),0,kBL,kIdl,false}
   };
 
   for (int iter = 0; iter < 5; ++iter) {
@@ -2462,35 +2480,35 @@ TEST(ImmediateInterpreterTest, ClickTest) {
   };
   ClickTestHardwareStateAndExpectations records[] = {
     // reset
-    {{0,0,0,0,NULL,0,0,0,0},-1,0,0},
+    {{0,0,0,0,NULL,0,0,0,0,0.0},-1,0,0},
 
     // button down, 2 fingers touch, button up, 2 fingers lift
-    {{1,1,0,0,NULL,0,0,0,0},-1,0,0},
-    {{1.01,1,2,2,&finger_states[0],0,0,0,0},-1,0,0},
-    {{2,0,2,2,&finger_states[0],0,0,0,0},
+    {{1,1,0,0,NULL,0,0,0,0,0.0},-1,0,0},
+    {{1.01,1,2,2,&finger_states[0],0,0,0,0,0.0},-1,0,0},
+    {{2,0,2,2,&finger_states[0],0,0,0,0,0.0},
      -1,GESTURES_BUTTON_RIGHT,GESTURES_BUTTON_RIGHT},
-    {{3,0,0,0,NULL,0,0,0,0},-1,0,0},
+    {{3,0,0,0,NULL,0,0,0,0,0.0},-1,0,0},
 
     // button down, 2 close fingers touch, fingers lift
-    {{7,1,0,0,NULL,0,0,0,0},-1,0,0},
-    {{7.01,1,2,2,&finger_states[2],0,0,0,0},-1,0,0},
-    {{7.02,0,2,2,&finger_states[2],0,0,0,0},
+    {{7,1,0,0,NULL,0,0,0,0,0.0},-1,0,0},
+    {{7.01,1,2,2,&finger_states[2],0,0,0,0,0.0},-1,0,0},
+    {{7.02,0,2,2,&finger_states[2],0,0,0,0,0.0},
      -1,GESTURES_BUTTON_LEFT,GESTURES_BUTTON_LEFT},
-    {{8,0,0,0,NULL,0,0,0,0},-1,0,0},
+    {{8,0,0,0,NULL,0,0,0,0,0.0},-1,0,0},
 
     // button down with 2 fingers, button up, fingers lift
-    {{9.01,1,2,2,&finger_states[4],0,0,0,0},-1,0,0},
-    {{9.02,1,2,2,&finger_states[4],0,0,0,0},-1,0,0},
-    {{9.5,0,2,2,&finger_states[4],0,0,0,0},
+    {{9.01,1,2,2,&finger_states[4],0,0,0,0,0.0},-1,0,0},
+    {{9.02,1,2,2,&finger_states[4],0,0,0,0,0.0},-1,0,0},
+    {{9.5,0,2,2,&finger_states[4],0,0,0,0,0.0},
      -1,GESTURES_BUTTON_RIGHT,GESTURES_BUTTON_RIGHT},
-    {{10,0,0,0,NULL,0,0,0,0},-1,0,0},
+    {{10,0,0,0,NULL,0,0,0,0,0.0},-1,0,0},
 
     // button down with 2 fingers, timeout, button up, fingers lift
-    {{11,1,2,2,&finger_states[4],0,0,0,0},-1,0,0},
-    {{0,0,0,0,NULL,0,0,0,0},11.5,GESTURES_BUTTON_RIGHT,0},
-    {{12,0,2,2,&finger_states[4],0,0,0,0},
+    {{11,1,2,2,&finger_states[4],0,0,0,0,0.0},-1,0,0},
+    {{0,0,0,0,NULL,0,0,0,0,0.0},11.5,GESTURES_BUTTON_RIGHT,0},
+    {{12,0,2,2,&finger_states[4],0,0,0,0,0.0},
       -1,0,GESTURES_BUTTON_RIGHT},
-    {{10,0,0,0,NULL,0,0,0,0},-1,0,0}
+    {{10,0,0,0,NULL,0,0,0,0,0.0},-1,0,0}
   };
 
   for (size_t i = 0; i < arraysize(records); ++i) {
@@ -2539,112 +2557,112 @@ TEST(ImmediateInterpreterTest, BigHandsRightClickTest) {
     0   // has_wheel
   };
   BigHandsRightClickInputAndExpectations records[] = {
-    { { 1329527921.327647, 0, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.327647, 0, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 50.013428, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 41.862095, 0, 57.458694, 43.700001, 131, 0 } } },
-    { { 1329527921.344421, 0, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.344421, 0, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 50.301102, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.007469, 0, 57.479977, 43.700001, 131, 0 } } },
-    { { 1329527921.361196,1,2,2,NULL,0,0,0,0 }, 0, 0,
+    { { 1329527921.361196, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 50.608433, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.065464, 0, 57.494164, 43.700001, 131, 0 } } },
-    { { 1329527921.372364, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.372364, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 50.840954, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.071739, 0, 57.507217, 43.700001, 131, 0 } } },
-    { { 1329527921.383517, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.383517, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 51.047310, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.054974, 0, 57.527523, 43.700001, 131, 0 } } },
-    { { 1329527921.394680, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.394680, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 51.355824, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.066948, 0, 57.550964, 43.700001, 131, 0 } } },
-    { { 1329527921.405842, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.405842, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 51.791901, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.188736, 0, 57.569374, 43.700001, 131, 0 } } },
-    { { 1329527921.416791, 1, 2, 2, NULL, 0, 0, 0, 0 },GESTURES_BUTTON_RIGHT,0,
+    { { 1329527921.416791,1,2,2,NULL,0,0,0,0,0.0 },GESTURES_BUTTON_RIGHT,0,
       { { 0, 0, 0, 0, 52.264156, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.424179, 0, 57.586361, 43.700001, 131, 0 } } },
-    { { 1329527921.427937, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.427937, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 52.725105, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.676739, 0, 57.609421, 43.700001, 131, 0 } } },
-    { { 1329527921.439094, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.439094, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 53.191925, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 42.868217, 0, 57.640007, 43.700001, 131, 0 } } },
-    { { 1329527921.461392, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.461392, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 53.602665, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.016544, 0, 57.676689, 43.700001, 131, 0 } } },
-    { { 1329527921.483690, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.483690, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 53.879429, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.208221, 0, 57.711613, 43.700001, 131, 0 } } },
-    { { 1329527921.511815, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.511815, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 54.059937, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.467258, 0, 57.736385, 43.700001, 131, 0 } } },
-    { { 1329527921.539940, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.539940, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 54.253189, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.717934, 0, 57.750286, 43.700001, 131, 0 } } },
-    { { 1329527921.556732, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.556732, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 54.500740, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.863792, 0, 57.758759, 43.700001, 131, 0 } } },
-    { { 1329527921.573523, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.573523, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 54.737640, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.825844, 0, 57.771137, 43.700001, 131, 0 } } },
-    { { 1329527921.584697, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.584697, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 54.906223, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.654804, 0, 57.790218, 43.700001, 131, 0 } } },
-    { { 1329527921.595872, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.595872, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.001118, 0, 20.250002, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.542431, 0, 57.809731, 43.700001, 131, 0 } } },
-    { { 1329527921.618320, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.618320, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.039989, 0, 20.252811, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.585777, 0, 57.824154, 43.700001, 131, 0 } } },
-    { { 1329527921.640768, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.640768, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.045246, 0, 20.264456, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.715435, 0, 57.832584, 43.700001, 131, 0 } } },
-    { { 1329527921.691161, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.691161, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.068935, 0, 20.285036, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.845741, 0, 57.836266, 43.700001, 131, 0 } } },
-    { { 1329527921.741554, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.741554, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.195026, 0, 20.306564, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.941154, 0, 57.836994, 43.700001, 131, 0 } } },
-    { { 1329527921.758389, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.758389, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.430550, 0, 20.322674, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.962692, 0, 57.836308, 43.700001, 131, 0 } } },
-    { { 1329527921.775225, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.775225, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.681423, 0, 20.332201, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.846741, 0, 57.835224, 43.700001, 131, 0 } } },
-    { { 1329527921.786418, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.786418, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.803486, 0, 20.336439, 59.400002, 130, 0 },
         { 0, 0, 0, 0, 43.604134, 0, 57.834267, 43.700001, 131, 0 } } },
-    { { 1329527921.803205, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.803205, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.738258, 0, 20.337351, 59.396629, 130, 0 },
         { 0, 0, 0, 0, 43.340977, 0, 57.833622, 43.700001, 131, 0 } } },
-    { { 1329527921.819993, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.819993, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.647045, 0, 20.336643, 59.382656, 130, 0 },
         { 0, 0, 0, 0, 43.140343, 0, 57.833279, 43.700001, 131, 0 } } },
-    { { 1329527921.831121, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.831121, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.670898, 0, 20.335459, 59.357960, 130, 0 },
         { 0, 0, 0, 0, 43.019653, 0, 57.827530, 43.700001, 131, 0 } } },
-    { { 1329527921.842232, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.842232, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.769543, 0, 20.334396, 59.332127, 130, 0 },
         { 0, 0, 0, 0, 42.964531, 0, 57.807049, 43.700001, 131, 0 } } },
-    { { 1329527921.853342, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.853342, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.872444, 0, 20.333672, 59.312794, 130, 0 },
         { 0, 0, 0, 0, 42.951347, 0, 57.771957, 43.700001, 131, 0 } } },
-    { { 1329527921.864522, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.864522, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.949341, 0, 20.333281, 59.301361, 130, 0 },
         { 0, 0, 0, 0, 42.959034, 0, 57.729061, 43.700001, 131, 0 } } },
-    { { 1329527921.875702, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.875702, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.994751, 0, 20.333134, 59.296276, 130, 0 },
         { 0, 0, 0, 0, 42.973259, 0, 57.683277, 43.700001, 131, 0 } } },
-    { { 1329527921.886840, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.886840, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 56.014912, 0, 20.333128, 59.295181, 130, 0 },
         { 0, 0, 0, 0, 42.918892, 0, 57.640221, 43.700001, 131, 0 } } },
-    { { 1329527921.898031, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.898031, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.951756, 0, 20.333181, 59.296028, 130, 0 },
         { 0, 0, 0, 0, 42.715969, 0, 57.601479, 43.700001, 131, 0 } } },
-    { { 1329527921.909149, 1, 2, 2, NULL, 0, 0, 0, 0 }, 0, 0,
+    { { 1329527921.909149, 1, 2, 2, NULL, 0, 0, 0, 0, 0.0 }, 0, 0,
       { { 0, 0, 0, 0, 55.736336, 0, 20.333244, 59.297451, 130, 0 },
         { 0, 0, 0, 0, 42.304108, 0, 57.563725, 43.700001, 131, 0 } } },
-    { { 1329527921.920301,0,2,2,NULL,0,0,0,0 },0,GESTURES_BUTTON_RIGHT,
+    { { 1329527921.920301,0,2,2,NULL,0,0,0,0,0.0 },0,GESTURES_BUTTON_RIGHT,
       { { 0, 0, 0, 0, 55.448730, 0, 20.333294, 59.298725, 130, 0 },
         { 0, 0, 0, 0, 41.444939, 0, 57.525326, 43.700001, 131, 0 } } }
   };
@@ -2700,16 +2718,16 @@ TEST(ImmediateInterpreterTest, ChangeTimeoutTest) {
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, finger states pointer
     // One finger moves
-    { 0.10, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },
-    { 0.12, 0, 1, 1, &finger_states[2], 0, 0, 0, 0 },
-    { 0.16, 0, 1, 1, &finger_states[3], 0, 0, 0, 0 },
-    { 0.5,  0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 0.10, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 0.12, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.16, 0, 1, 1, &finger_states[3], 0, 0, 0, 0, 0.0 },
+    { 0.5, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
     // One finger moves after another finger leaves
-    { 1.09, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 1.10, 0, 1, 1, &finger_states[1], 0, 0, 0, 0 },
-    { 1.12, 0, 1, 1, &finger_states[2], 0, 0, 0, 0 },
-    { 1.16, 0, 1, 1, &finger_states[3], 0, 0, 0, 0 },
-    { 1.5,  0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 1.09, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 1.10, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 1.12, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 1.16, 0, 1, 1, &finger_states[3], 0, 0, 0, 0, 0.0 },
+    { 1.5, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -2839,52 +2857,52 @@ TEST(ImmediateInterpreterTest, DISABLED_PinchTests) {
 
   PinchTestInput input_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    {{ 0.00, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 0.00, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
 
     // fast pinch outwards
-    {{ 0.11, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 }, kAny},
-    {{ 0.12, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 }, kAny},
-    {{ 0.13, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 }, kAny},
-    {{ 0.14, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 }, kPinch},
-    {{ 0.15, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 0.11, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 0.12, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 0.13, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 0.14, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 }, kPinch},
+    {{ 0.15, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
 
     // slow pinch
-    {{ 1.01, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 }, kAny},
-    {{ 1.02, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 }, kAny},
-    {{ 1.03, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 }, kAny},
-    {{ 1.04, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 }, kAny},
-    {{ 1.05, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 }, kAny},
-    {{ 1.06, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 }, kAny},
-    {{ 1.07, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 }, kAny},
-    {{ 1.08, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 }, kAny},
-    {{ 1.09, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 }, kAny},
-    {{ 1.10, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 }, kAny},
-    {{ 1.11, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 }, kAny},
-    {{ 1.12, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 }, kPinch},
-    {{ 1.13, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 1.01, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.02, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.03, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.04, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.05, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.06, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.07, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.08, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.09, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.10, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.11, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 1.12, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 }, kPinch},
+    {{ 1.13, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
 
     // single finger pinch
-    {{ 2.01, 0, 2, 2, &finger_states[22], 0, 0, 0, 0 }, kAny},
-    {{ 2.02, 0, 2, 2, &finger_states[26], 0, 0, 0, 0 }, kAny},
-    {{ 2.03, 0, 2, 2, &finger_states[30], 0, 0, 0, 0 }, kAny},
-    {{ 2.04, 0, 2, 2, &finger_states[32], 0, 0, 0, 0 }, kNoPinch},
-    {{ 2.05, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 2.01, 0, 2, 2, &finger_states[22], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 2.02, 0, 2, 2, &finger_states[26], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 2.03, 0, 2, 2, &finger_states[30], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 2.04, 0, 2, 2, &finger_states[32], 0, 0, 0, 0, 0.0 }, kNoPinch},
+    {{ 2.05, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
 
 
     // first single finger pinch, then second moves too.
-    {{ 3.01, 0, 2, 2, &finger_states[22], 0, 0, 0, 0 }, kAny},
-    {{ 3.02, 0, 2, 2, &finger_states[24], 0, 0, 0, 0 }, kAny},
-    {{ 3.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 }, kAny},
-    {{ 3.04, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 }, kAny},
-    {{ 3.05, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 }, kPinch},
-    {{ 3.06, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 3.01, 0, 2, 2, &finger_states[22], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 3.02, 0, 2, 2, &finger_states[24], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 3.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 3.04, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 3.05, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 }, kPinch},
+    {{ 3.06, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
 
     // fast pinch inwards
-    {{ 4.01, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 }, kAny},
-    {{ 4.02, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 }, kAny},
-    {{ 4.03, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 }, kAny},
-    {{ 4.04, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 }, kPinch},
-    {{ 4.05, 0, 0, 0, NULL, 0, 0, 0, 0 }, kAny},
+    {{ 4.01, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 4.02, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 4.03, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 }, kAny},
+    {{ 4.04, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 }, kPinch},
+    {{ 4.05, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }, kAny},
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -3057,7 +3075,7 @@ TEST(ImmediateInterpreterTest, AvoidAccidentalPinchTest) {
       { 0, 0, 0, 0, input.p0, 0, input.x0, input.y0, 1, 0 },
       { 0, 0, 0, 0, input.p1, 0, input.x1, input.y1, 2, 0 },
     };
-    HardwareState hs = { input.now, 0, 2, 2, fs, 0, 0, 0, 0 };
+    HardwareState hs = { input.now, 0, 2, 2, fs, 0, 0, 0, 0, 0.0 };
     stime_t timeout = -1;
     Gesture* gs = wrapper.SyncInterpret(&hs, &timeout);
     if (input.expected_gesture != kAny) {
@@ -3103,10 +3121,10 @@ TEST(ImmediateInterpreterTest, SemiMtActiveAreaTest) {
 
   HardwareState old_hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 0.05, 0, 1, 1, &old_finger_states[0], 0, 0, 0, 0 },
-    { 0.10, 0, 1, 1, &old_finger_states[1], 0, 0, 0, 0 },
-    { 0.15, 0, 1, 1, &old_finger_states[2], 0, 0, 0, 0 },
-    { 0.20, 0, 1, 1, &old_finger_states[3], 0, 0, 0, 0 },
+    { 0.05, 0, 1, 1, &old_finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.10, 0, 1, 1, &old_finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 0.15, 0, 1, 1, &old_finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.20, 0, 1, 1, &old_finger_states[3], 0, 0, 0, 0, 0.0 },
   };
 
   TestInterpreterWrapper wrapper(&ii, &old_hwprops);
@@ -3147,10 +3165,10 @@ TEST(ImmediateInterpreterTest, SemiMtActiveAreaTest) {
 
   HardwareState new_hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 0.05, 0, 1, 1, &new_finger_states[0], 0, 0, 0, 0 },
-    { 0.10, 0, 1, 1, &new_finger_states[1], 0, 0, 0, 0 },
-    { 0.15, 0, 1, 1, &new_finger_states[2], 0, 0, 0, 0 },
-    { 0.20, 0, 1, 1, &new_finger_states[3], 0, 0, 0, 0 },
+    { 0.05, 0, 1, 1, &new_finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 0.10, 0, 1, 1, &new_finger_states[1], 0, 0, 0, 0, 0.0 },
+    { 0.15, 0, 1, 1, &new_finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 0.20, 0, 1, 1, &new_finger_states[3], 0, 0, 0, 0, 0.0 },
   };
 
   wrapper.Reset(&ii, &new_hwprops);
@@ -3206,12 +3224,12 @@ TEST(ImmediateInterpreterTest, SemiMtNoPinchTest) {
 
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 2106.273252, 0, 1, 1, &finger_state[0], 0, 0, 0, 0 },
-    { 2106.285466, 0, 1, 1, &finger_state[1], 0, 0, 0, 0 },
-    { 2106.298021, 0, 1, 1, &finger_state[2], 0, 0, 0, 0 },
-    { 2106.325599, 0, 2, 2, &finger_state[3], 0, 0, 0, 0 },
-    { 2106.648152, 0, 2, 2, &finger_state[5], 0, 0, 0, 0 },
-    { 2106.660447, 0, 2, 2, &finger_state[7], 0, 0, 0, 0 },
+    { 2106.273252, 0, 1, 1, &finger_state[0], 0, 0, 0, 0, 0.0 },
+    { 2106.285466, 0, 1, 1, &finger_state[1], 0, 0, 0, 0, 0.0 },
+    { 2106.298021, 0, 1, 1, &finger_state[2], 0, 0, 0, 0, 0.0 },
+    { 2106.325599, 0, 2, 2, &finger_state[3], 0, 0, 0, 0, 0.0 },
+    { 2106.648152, 0, 2, 2, &finger_state[5], 0, 0, 0, 0, 0.0 },
+    { 2106.660447, 0, 2, 2, &finger_state[7], 0, 0, 0, 0, 0.0 },
     // pinch if not semi_mt device
   };
 
@@ -3283,10 +3301,10 @@ TEST(ImmediateInterpreterTest, WarpedFingersTappingTest) {
 
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 3897.124791, 0, 2, 2, &finger_state[0], 0, 0, 0, 0 },
-    { 3897.136733, 0, 2, 2, &finger_state[2], 0, 0, 0, 0 },
-    { 3897.148675, 0, 1, 1, &finger_state[4], 0, 0, 0, 0 },
-    { 3897.160675, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 3897.124791, 0, 2, 2, &finger_state[0], 0, 0, 0, 0, 0.0 },
+    { 3897.136733, 0, 2, 2, &finger_state[2], 0, 0, 0, 0, 0.0 },
+    { 3897.148675, 0, 1, 1, &finger_state[4], 0, 0, 0, 0, 0.0 },
+    { 3897.160675, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   ii.tap_enable_.val_ = 1;
@@ -3352,14 +3370,14 @@ TEST(ImmediateInterpreterTest, FlingDepthTest) {
   };
   HardwareState hardware_states[] = {
     // time, buttons, finger count, touch count, finger states pointer
-    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0 },
-    { 1.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0 },
-    { 1.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0 },
-    { 1.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0 },
-    { 1.04, 0, 2, 2, &finger_states[8], 0, 0, 0, 0 },
-    { 1.05, 0, 2, 2, &finger_states[10], 0, 0, 0, 0 },
-    { 1.06, 0, 2, 2, &finger_states[12], 0, 0, 0, 0 },
-    { 1.07, 0, 2, 2, &finger_states[14], 0, 0, 0, 0 },
+    { 1.00, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
+    { 1.01, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    { 1.02, 0, 2, 2, &finger_states[4], 0, 0, 0, 0, 0.0 },
+    { 1.03, 0, 2, 2, &finger_states[6], 0, 0, 0, 0, 0.0 },
+    { 1.04, 0, 2, 2, &finger_states[8], 0, 0, 0, 0, 0.0 },
+    { 1.05, 0, 2, 2, &finger_states[10], 0, 0, 0, 0, 0.0 },
+    { 1.06, 0, 2, 2, &finger_states[12], 0, 0, 0, 0, 0.0 },
+    { 1.07, 0, 2, 2, &finger_states[14], 0, 0, 0, 0, 0.0 },
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -3441,11 +3459,11 @@ TEST(ImmediateInterpreterTest, ScrollResetTapTest) {
 
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 1296.498245, 0, 2, 2, &finger_state[0], 0, 0, 0, 0 },
-    { 1296.510735, 0, 2, 2, &finger_state[2], 0, 0, 0, 0 },
-    { 1296.523224, 0, 2, 2, &finger_state[4], 0, 0, 0, 0 },
-    { 1296.535753, 0, 2, 2, &finger_state[6], 0, 0, 0, 0 },
-    { 1296.548282, 0, 1, 1, &finger_state[8], 0, 0, 0, 0 },
+    { 1296.498245, 0, 2, 2, &finger_state[0], 0, 0, 0, 0, 0.0 },
+    { 1296.510735, 0, 2, 2, &finger_state[2], 0, 0, 0, 0, 0.0 },
+    { 1296.523224, 0, 2, 2, &finger_state[4], 0, 0, 0, 0, 0.0 },
+    { 1296.535753, 0, 2, 2, &finger_state[6], 0, 0, 0, 0, 0.0 },
+    { 1296.548282, 0, 1, 1, &finger_state[8], 0, 0, 0, 0, 0.0 },
   };
 
   // SemiMt-specific properties
@@ -3491,17 +3509,17 @@ TEST(ImmediateInterpreterTest, BasicButtonTest) {
 
   HardwareState hardware_states[] = {
     // time, buttons down, finger count, touch count, finger states pointer
-    { 0.1, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 0.3, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0 },   // delay left
+    { 0.1, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 0.3, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0, 0.0 },   // delay left
     // button down
-    { 0.5, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0 },
-    { 0.9, 0, 0, 0, NULL, 0, 0, 0, 0 },                      // left button up
-    { 1.1, GESTURES_BUTTON_RIGHT, 0, 0, NULL, 0, 0, 0, 0 },  // delay right
+    { 0.5, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 0.9, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },                      // left up
+    { 1.1, GESTURES_BUTTON_RIGHT, 0, 0, NULL, 0, 0, 0, 0, 0.0 },  // delay right
     // button down
-    { 1.3, GESTURES_BUTTON_RIGHT, 0, 0, NULL, 0, 0, 0, 0 },
-    { 1.5, 0, 0, 0, NULL, 0, 0, 0, 0 },                      // right button up
-    { 1.6, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0 },   // left button down
-    { 1.7, 0, 0, 0, NULL, 0, 0, 0, 0 },  // short left button up (<.3s)
+    { 1.3, GESTURES_BUTTON_RIGHT, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 1.5, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },                      // right up
+    { 1.6, GESTURES_BUTTON_LEFT, 0, 0, NULL, 0, 0, 0, 0, 0.0 },   // left down
+    { 1.7, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },  // short left button up (<.3s)
   };
 
   TestInterpreterWrapper wrapper(&ii, &hwprops);

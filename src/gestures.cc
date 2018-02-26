@@ -207,6 +207,7 @@ void HardwareState::DeepCopy(const HardwareState& that,
   rel_y = that.rel_y;
   rel_wheel = that.rel_wheel;
   rel_hwheel = that.rel_hwheel;
+  msc_timestamp = that.msc_timestamp;
 }
 
 string Gesture::String() const {

@@ -446,6 +446,7 @@ void LookaheadFilterInterpreter::HandleTimerImpl(stime_t now,
         node->state_.rel_y,
         node->state_.rel_wheel,
         node->state_.rel_hwheel,
+        node->state_.msc_timestamp,
       };
       next_->SyncInterpret(&hs_copy, &next_timeout);
 
@@ -574,6 +575,7 @@ void LookaheadFilterInterpreter::QState::set_state(
   state_.rel_y = new_state.rel_y;
   state_.rel_wheel = new_state.rel_wheel;
   state_.rel_hwheel = new_state.rel_hwheel;
+  state_.msc_timestamp = new_state.msc_timestamp;
 }
 
 }  // namespace gestures

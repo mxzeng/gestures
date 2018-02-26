@@ -94,7 +94,7 @@ void DoTest(InputEventWithExpectations* events, size_t events_len, bool t5r2) {
       finger_cnt += 1;
     // Set up hardware state
     HardwareState hs = {
-        0.0, 0, finger_cnt, finger_cnt, event->fs, 0, 0, 0, 0
+        0.0, 0, finger_cnt, finger_cnt, event->fs, 0, 0, 0, 0, 0.0
     };
     // Set up expectations
     base_interpreter->expected_ids_.clear();
@@ -198,7 +198,7 @@ TEST(SplitCorrectingFilterInterpreterTest, FalseMergeTest) {
       fs[fidx].tracking_id = input.in[fidx].id_;
     }
     HardwareState hs = {
-        input.timestamp, 0, finger_cnt, finger_cnt, &fs[0], 0, 0, 0, 0
+        input.timestamp, 0, finger_cnt, finger_cnt, &fs[0], 0, 0, 0, 0, 0.0
     };
     // Set up expectations
     base_interpreter->expect_finger_ids_ = false;
@@ -370,7 +370,7 @@ TEST(SplitCorrectingFilterInterpreterTest, LumpyThumbSplitTest) {
     };
     unsigned short finger_cnt = input.id1 ? 2 : 1;
     HardwareState hs = {
-      input.now, input.buttons_down, finger_cnt, finger_cnt, fs, 0, 0, 0, 0
+      input.now, input.buttons_down, finger_cnt, finger_cnt, fs, 0, 0, 0, 0, 0.0
     };
     stime_t timeout = -1;
     wrapper.SyncInterpret(&hs, &timeout);

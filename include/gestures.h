@@ -176,6 +176,7 @@ struct HardwareState {
   float rel_y;
   float rel_wheel;
   float rel_hwheel;
+  stime_t msc_timestamp;  // MSC_TIMESTAMP as reported by firmware, if available
 };
 
 #define GESTURES_FLING_START 0  // Scroll end/fling begin

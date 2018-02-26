@@ -68,7 +68,7 @@ TEST(IntegralGestureFilterInterpreterTestInterpreter, OverflowTest) {
                                    1].details.scroll.stop_fling = 1;
 
   FingerState fs = { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 };
-  HardwareState hs = { 10000, 0, 1, 1, &fs, 0, 0, 0, 0 };
+  HardwareState hs = { 10000, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 };
 
   GestureType expected_types[] = {
     kGestureTypeScroll,
@@ -124,9 +124,9 @@ TEST(IntegralGestureFilterInterpreterTest, ResetTest) {
 
   FingerState fs = { 0, 0, 0, 0, 1, 0, 0, 0, 1, 0 };
   HardwareState hs[] = {
-    { 10000.00, 0, 1, 1, &fs, 0, 0, 0, 0 },
-    { 10000.01, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 10000.02, 0, 1, 1, &fs, 0, 0, 0, 0 },
+    { 10000.00, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
+    { 10000.01, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 10000.02, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
   };
 
   size_t iter = 0;
@@ -154,8 +154,8 @@ TEST(IntegralGestureFilterInterpreterTest, ZeroGestureTest) {
       Gesture(kGestureScroll, 0, 0, 0.0, 0.0));
 
   HardwareState hs[] = {
-    { 10000.00, 0, 0, 0, NULL, 0, 0, 0, 0 },
-    { 10000.01, 0, 0, 0, NULL, 0, 0, 0, 0 },
+    { 10000.00, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    { 10000.01, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
   size_t iter = 0;
