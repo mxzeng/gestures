@@ -400,6 +400,10 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // updates changed_time_ to |now|.
   void ResetSameFingersState(const HardwareState& hwstate);
 
+  // Reset the member variables which track old timestamps.  Called when the
+  // clock changes backward.
+  void ResetTime();
+
   // Sets pointing_.
   void UpdatePointingFingers(const HardwareState& hwstate);
 

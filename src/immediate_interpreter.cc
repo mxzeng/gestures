@@ -988,13 +988,13 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
       button_down_timeout_(0.0),
       started_moving_time_(-1.0),
       gs_changed_time_(-1.0),
-      finger_leave_time_(0.0),
+      finger_leave_time_(-1.0),
       moving_finger_id_(-1),
       tap_to_click_state_(kTtcIdle),
-      tap_to_click_state_entered_(0.0),
+      tap_to_click_state_entered_(-1.0),
       tap_record_(this),
-      last_movement_timestamp_(0.0),
-      last_swipe_timestamp_(0.0),
+      last_movement_timestamp_(-1.0),
+      last_swipe_timestamp_(-1.0),
       swipe_is_vertical_(false),
       current_gesture_type_(kGestureTypeNull),
       state_buffer_(8),
@@ -1180,6 +1180,10 @@ void ImmediateInterpreter::SyncInterpretImpl(HardwareState* hwstate,
   if (hwstate->finger_cnt < state_buffer_.Get(1)->finger_cnt)
     finger_leave_time_ = hwstate->timestamp;
 
+  // Check if clock changed backwards
+  if (hwstate->timestamp < state_buffer_.Get(1)->timestamp)
+    ResetTime();
+
   UpdatePointingFingers(*hwstate);
   UpdateThumbState(*hwstate);
   FingerMap newly_moving_fingers = UpdateMovingFingers(*hwstate);
@@ -1261,6 +1265,17 @@ void ImmediateInterpreter::ResetSameFingersState(const HardwareState& hwstate) {
   scroll_manager_.ResetSameFingerState();
   RemoveMissingIdsFromSet(&moving_, hwstate);
   changed_time_ = hwstate.timestamp;
+}
+
+void ImmediateInterpreter::ResetTime() {
+  started_moving_time_ = -1.0;
+  gs_changed_time_ = -1.0;
+  finger_leave_time_ = -1.0;
+  tap_to_click_state_entered_ = -1.0;
+  last_movement_timestamp_ = -1.0;
+  last_swipe_timestamp_ = -1.0;
+  pinch_guess_start_ = -1.0;
+  pinch_prev_time_ = -1.0;
 }
 
 void ImmediateInterpreter::UpdatePointingFingers(const HardwareState& hwstate) {

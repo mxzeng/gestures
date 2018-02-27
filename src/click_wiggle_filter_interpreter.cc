@@ -15,7 +15,7 @@ namespace gestures {
 ClickWiggleFilterInterpreter::ClickWiggleFilterInterpreter(
     PropRegistry* prop_reg, Interpreter* next, Tracer* tracer)
     : FilterInterpreter(NULL, next, tracer, false),
-      button_edge_occurred_(0.0),
+      button_edge_occurred_(-1.0),
       prev_buttons_(0),
       wiggle_max_dist_(prop_reg, "Wiggle Max Distance", 5.5),
       wiggle_suppress_timeout_(prop_reg, "Wiggle Timeout", 0.075),
@@ -48,6 +48,10 @@ void ClickWiggleFilterInterpreter::UpdateClickWiggle(
     const HardwareState& hwstate) {
   // Removed outdated fingers from wiggle_recs_
   RemoveMissingIdsFromMap(&wiggle_recs_, hwstate);
+
+  // Check if clock changed backwards
+  if (hwstate.timestamp < button_edge_occurred_)
+    button_edge_occurred_ = -1.0;
 
   const bool button_down = hwstate.buttons_down & GESTURES_BUTTON_LEFT;
   const bool prev_button_down = prev_buttons_ & GESTURES_BUTTON_LEFT;
@@ -107,7 +111,7 @@ void ClickWiggleFilterInterpreter::UpdateClickWiggle(
 }
 
 void ClickWiggleFilterInterpreter::SetWarpFlags(HardwareState* hwstate) const {
-  if (button_edge_occurred_ != 0.0 &&
+  if (button_edge_occurred_ != -1.0 &&
       button_edge_occurred_ < hwstate->timestamp &&
       button_edge_occurred_ + one_finger_click_wiggle_timeout_.val_ >
       hwstate->timestamp && button_edge_with_one_finger_) {

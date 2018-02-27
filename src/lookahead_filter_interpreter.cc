@@ -24,7 +24,7 @@ LookaheadFilterInterpreter::LookaheadFilterInterpreter(
     PropRegistry* prop_reg, Interpreter* next, Tracer* tracer)
     : FilterInterpreter(NULL, next, tracer, false),
       last_id_(0), max_fingers_per_hwstate_(0), interpreter_due_(-1.0),
-      last_interpreted_time_(0.0),
+      last_interpreted_time_(-1.0),
       min_nonsuppress_speed_(prop_reg, "Input Queue Min Nonsuppression Speed",
                              200.0),
       min_delay_(prop_reg, "Input Queue Delay", 0.0),
@@ -67,12 +67,17 @@ void LookaheadFilterInterpreter::SyncInterpretImpl(HardwareState* hwstate,
   // ExtraVariableDelay() applied, but node->due_ does not, yet.
   if (!queue_.Empty() &&
       (queue_.Tail()->due_ - node->due_ > ExtraVariableDelay())) {
-    Err("Clock changed backwards. Clearing queue.");
+    Err("Clock changed backwards. Flushing queue.");
+    stime_t next_timeout = -1.0;
+    QState* q_node = queue_.Head();
     do {
+      if (!q_node->completed_)
+        next_->SyncInterpret(&q_node->state_, &next_timeout);
+      q_node = q_node->next_;
       free_list_.PushBack(queue_.PopFront());
     } while (!queue_.Empty());
     interpreter_due_ = -1.0;
-    last_interpreted_time_ = 0.0;
+    last_interpreted_time_ = -1.0;
   }
   queue_.PushBack(node);
   AssignTrackingIds();

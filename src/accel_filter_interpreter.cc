@@ -50,7 +50,7 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
       max_reasonable_dt_(prop_reg, "Accel Max dt", 0.050),
       last_reasonable_dt_(0.05),
       smooth_accel_(prop_reg, "Smooth Accel", 0),
-      last_end_time_(0.0),
+      last_end_time_(-1.0),
       last_mags_size_(0) {
   InitName();
   // Set up default curves.
@@ -147,6 +147,10 @@ void AccelFilterInterpreter::ConsumeGesture(const Gesture& gs) {
   CurveSegment* segs = NULL;
   float* dx = NULL;
   float* dy = NULL;
+
+  // Check if clock changed backwards
+  if (last_end_time_ > gs.start_time)
+    last_end_time_ = -1.0;
 
   // Calculate dt and see if it's reasonable
   float dt = copy.end_time - copy.start_time;
