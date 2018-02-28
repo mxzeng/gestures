@@ -37,6 +37,7 @@ SO_OBJECTS=\
 	$(OBJDIR)/string_util.o \
 	$(OBJDIR)/stuck_button_inhibitor_filter_interpreter.o \
 	$(OBJDIR)/t5r2_correcting_filter_interpreter.o \
+	$(OBJDIR)/timestamp_filter_interpreter.o \
 	$(OBJDIR)/trace_marker.o \
 	$(OBJDIR)/tracer.o \
 	$(OBJDIR)/trend_classifying_filter_interpreter.o \
@@ -72,6 +73,7 @@ TEST_OBJECTS=\
 	$(OBJDIR)/split_correcting_filter_interpreter_unittest.o \
 	$(OBJDIR)/stuck_button_inhibitor_filter_interpreter_unittest.o \
 	$(OBJDIR)/t5r2_correcting_filter_interpreter_unittest.o \
+	$(OBJDIR)/timestamp_filter_interpreter_unittest.o \
 	$(OBJDIR)/trace_marker_unittest.o \
 	$(OBJDIR)/tracer_unittest.o \
 	$(OBJDIR)/unittest_util.o \
