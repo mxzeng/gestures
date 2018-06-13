@@ -27,7 +27,6 @@
 #include "gestures/include/prop_registry.h"
 #include "gestures/include/scaling_filter_interpreter.h"
 #include "gestures/include/stationary_wiggle_filter_interpreter.h"
-#include "gestures/include/cr48_profile_sensor_filter_interpreter.h"
 #include "gestures/include/sensor_jump_filter_interpreter.h"
 #include "gestures/include/split_correcting_filter_interpreter.h"
 #include "gestures/include/string_util.h"
@@ -549,8 +548,6 @@ void GestureInterpreter::InitializeTouchpad(void) {
   temp = new StuckButtonInhibitorFilterInterpreter(temp, tracer_.get());
   temp = new T5R2CorrectingFilterInterpreter(prop_reg_.get(), temp,
                                              tracer_.get());
-  temp = new Cr48ProfileSensorFilterInterpreter(prop_reg_.get(), temp,
-                                                tracer_.get());
   temp = new NonLinearityFilterInterpreter(prop_reg_.get(), temp,
                                            tracer_.get());
   temp = new TimestampFilterInterpreter(temp, tracer_.get());
