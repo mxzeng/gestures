@@ -1074,7 +1074,7 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
                                        7.0),
       three_finger_close_distance_thresh_(prop_reg,
                                           "Three Finger Close Distance Thresh",
-                                          55.0),
+                                          50.0),
       four_finger_close_distance_thresh_(prop_reg,
                                          "Four Finger Close Distance Thresh",
                                          60.0),
@@ -1204,7 +1204,6 @@ void ImmediateInterpreter::SyncInterpretImpl(HardwareState* hwstate,
   FingerMap active_gs_fingers;
   UpdateCurrentGestureType(*hwstate, gs_fingers, &active_gs_fingers);
   GenerateFingerLiftGesture();
-  non_gs_fingers_ = SetSubtract(gs_fingers, active_gs_fingers);
   if (result_.type == kGestureTypeNull)
     FillResultGesture(*hwstate, active_gs_fingers);
 
@@ -1218,8 +1217,10 @@ void ImmediateInterpreter::SyncInterpretImpl(HardwareState* hwstate,
   prev_gs_fingers_ = gs_fingers;
   prev_result_ = result_;
   prev_gesture_type_ = current_gesture_type_;
-  if (result_.type != kGestureTypeNull)
+  if (result_.type != kGestureTypeNull) {
+    non_gs_fingers_ = SetSubtract(gs_fingers, active_gs_fingers);
     ProduceGesture(result_);
+  }
 }
 
 void ImmediateInterpreter::HandleTimerImpl(stime_t now, stime_t* timeout) {
@@ -1262,6 +1263,8 @@ void ImmediateInterpreter::ResetSameFingersState(const HardwareState& hwstate) {
   pointing_.clear();
   fingers_.clear();
   start_positions_.clear();
+  three_finger_swipe_start_positions_.clear();
+  four_finger_swipe_start_positions_.clear();
   scroll_manager_.ResetSameFingerState();
   RemoveMissingIdsFromSet(&moving_, hwstate);
   changed_time_ = hwstate.timestamp;
@@ -1560,7 +1563,7 @@ void ImmediateInterpreter::UpdateThumbState(const HardwareState& hwstate) {
   bool min_warp_move = (min_fs->flags & GESTURES_FINGER_WARP_TELEPORTATION) &&
                        ((min_fs->flags & GESTURES_FINGER_WARP_X_MOVE) ||
                         (min_fs->flags & GESTURES_FINGER_WARP_Y_MOVE));
-  float min_dist_sq = DistanceTravelledSq(*min_fs, true, true);
+  float min_dist_sq = DistanceTravelledSq(*min_fs, false, true);
   float min_dt = hwstate.timestamp -
       origin_timestamps_[min_fs->tracking_id];
   float thumb_dist_sq_thresh = min_dist_sq *
@@ -1593,7 +1596,7 @@ void ImmediateInterpreter::UpdateThumbState(const HardwareState& hwstate) {
       thumb_speed_sq_thresh *= thumb_pinch_threshold_ratio_.val_;
       thumb_dist_sq_thresh *= thumb_pinch_threshold_ratio_.val_;
     }
-    float dist_sq = DistanceTravelledSq(fs, true, true);
+    float dist_sq = DistanceTravelledSq(fs, false, true);
     float dt = hwstate.timestamp - origin_timestamps_[fs.tracking_id];
     bool closer_to_origin = dist_sq <= thumb_dist_sq_thresh;
     bool slower_moved = (dist_sq * min_dt &&
@@ -2358,7 +2361,7 @@ GestureType ImmediateInterpreter::GetTwoFingerGestureType(
   bool trend_scrolling_y = (common_trend_flags & kTrendY) &&
        large_dy_moving && small_dy_moving;
 
-  if (trend_scrolling_x || trend_scrolling_y) {
+  if (pointing_.size() == 2 && (trend_scrolling_x || trend_scrolling_y)) {
     if (pinch_enable_.val_ && !ScrollAngle(finger1, finger2))
          return kGestureTypeNull;
     return kGestureTypeScroll;
@@ -2425,16 +2428,19 @@ GestureType ImmediateInterpreter::GetMultiFingerGestureType(
   float close_distance_thresh;
   float swipe_distance_thresh;
   float swipe_distance_ratio;
+  map<short, Point, kMaxFingers> *swipe_start_positions;
   GestureType gesture_type;
   if (num_fingers == 4) {
     close_distance_thresh = four_finger_close_distance_thresh_.val_;
     swipe_distance_thresh = four_finger_swipe_distance_thresh_.val_;
     swipe_distance_ratio = four_finger_swipe_distance_ratio_.val_;
+    swipe_start_positions = &four_finger_swipe_start_positions_;
     gesture_type = kGestureTypeFourFingerSwipe;
   } else if (num_fingers == 3) {
     close_distance_thresh = three_finger_close_distance_thresh_.val_;
     swipe_distance_thresh = three_finger_swipe_distance_thresh_.val_;
     swipe_distance_ratio = three_finger_swipe_distance_ratio_.val_;
+    swipe_start_positions = &three_finger_swipe_start_positions_;
     gesture_type = kGestureTypeSwipe;
   } else {
     return kGestureTypeNull;
@@ -2466,19 +2472,29 @@ GestureType ImmediateInterpreter::GetMultiFingerGestureType(
 
   float dx[num_fingers];
   float dy[num_fingers];
+  float dy_sum = 0;
+  float dx_sum = 0;
   for (int i = 0; i < num_fingers; i++) {
     dx[i] = sorted_fingers[i]->position_x -
-            start_positions_[sorted_fingers[i]->tracking_id].x_;
+            (*swipe_start_positions)[sorted_fingers[i]->tracking_id].x_;
     dy[i] = sorted_fingers[i]->position_y -
-            start_positions_[sorted_fingers[i]->tracking_id].y_;
+            (*swipe_start_positions)[sorted_fingers[i]->tracking_id].y_;
+    dx_sum += dx[i];
+    dy_sum += dy[i];
   }
   // pick horizontal or vertical
-  float *deltas = fabsf(dx[0]) > fabsf(dy[0]) ? dx : dy;
+  float *deltas = fabsf(dx_sum) > fabsf(dy_sum) ? dx : dy;
   swipe_is_vertical_ = deltas == dy;
 
   // All fingers must move in the same direction.
   for (int i = 1; i < num_fingers; i++) {
     if (deltas[i] * deltas[0] <= 0.0) {
+      for (int i = 0; i < num_fingers; i++) {
+        Point point(sorted_fingers[i]->position_x,
+                    sorted_fingers[i]->position_y);
+        (*swipe_start_positions)[sorted_fingers[i]->tracking_id] =
+            point;
+      }
       return kGestureTypeNull;
     }
   }
@@ -2922,6 +2938,8 @@ void ImmediateInterpreter::FillStartPositions(const HardwareState& hwstate) {
     Point point(hwstate.fingers[i].position_x,
                 hwstate.fingers[i].position_y);
     start_positions_[hwstate.fingers[i].tracking_id] = point;
+    three_finger_swipe_start_positions_[hwstate.fingers[i].tracking_id] = point;
+    four_finger_swipe_start_positions_[hwstate.fingers[i].tracking_id] = point;
     if (!MapContainsKey(origin_positions_, hwstate.fingers[i].tracking_id))
       origin_positions_[hwstate.fingers[i].tracking_id] = point;
   }

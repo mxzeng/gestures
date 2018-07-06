@@ -656,6 +656,16 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // Map: Finger ID -> (x, y) coordinate
   map<short, Point, kMaxFingers> start_positions_;
 
+  // Keep track of finger position from when three fingers began moving in the
+  // same direction.
+  // Map: Finger ID -> (x, y) coordinate
+  map<short, Point, kMaxFingers> three_finger_swipe_start_positions_;
+
+  // Keep track of finger position from when four fingers began moving in the
+  // same direction.
+  // Map: Finger ID -> (x, y) coordinate
+  map<short, Point, kMaxFingers> four_finger_swipe_start_positions_;
+
   // We keep track of where each finger started when they touched.
   // Map: Finger ID -> (x, y) coordinate.
   map<short, Point, kMaxFingers> origin_positions_;
