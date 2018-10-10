@@ -550,7 +550,7 @@ void GestureInterpreter::InitializeTouchpad(void) {
                                              tracer_.get());
   temp = new NonLinearityFilterInterpreter(prop_reg_.get(), temp,
                                            tracer_.get());
-  temp = new TimestampFilterInterpreter(temp, tracer_.get());
+  temp = new TimestampFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = loggingFilter_ = new LoggingFilterInterpreter(prop_reg_.get(), temp,
                                                        tracer_.get());
   interpreter_.reset(temp);
@@ -576,7 +576,7 @@ void GestureInterpreter::InitializeTouchpad2(void) {
                                       GESTURES_DEVCLASS_TOUCHPAD);
   temp = new FingerMergeFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = new StuckButtonInhibitorFilterInterpreter(temp, tracer_.get());
-  temp = new TimestampFilterInterpreter(temp, tracer_.get());
+  temp = new TimestampFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = loggingFilter_ = new LoggingFilterInterpreter(prop_reg_.get(), temp,
                                                        tracer_.get());
   interpreter_.reset(temp);
