@@ -55,7 +55,8 @@ struct SimpleTestInputs {
 TEST(FlingStopFilterInterpreterTest, SimpleTest) {
   FlingStopFilterInterpreterTestInterpreter* base_interpreter =
       new FlingStopFilterInterpreterTestInterpreter;
-  FlingStopFilterInterpreter interpreter(NULL, base_interpreter, NULL);
+  FlingStopFilterInterpreter interpreter(NULL, base_interpreter, NULL,
+                                         GESTURES_DEVCLASS_TOUCHPAD);
   TestInterpreterWrapper wrapper(&interpreter);
 
   const stime_t kTO = interpreter.fling_stop_timeout_.val_ = 0.03;

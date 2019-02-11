@@ -24,8 +24,10 @@ class FlingStopFilterInterpreter : public FilterInterpreter {
   FRIEND_TEST(FlingStopFilterInterpreterTest, SimpleTest);
  public:
   // Takes ownership of |next|:
-  FlingStopFilterInterpreter(PropRegistry* prop_reg, Interpreter* next,
-                             Tracer* tracer);
+  FlingStopFilterInterpreter(PropRegistry* prop_reg,
+                             Interpreter* next,
+                             Tracer* tracer,
+                             GestureInterpreterDeviceClass devclass);
   virtual ~FlingStopFilterInterpreter() {}
 
  protected:
@@ -38,6 +40,7 @@ class FlingStopFilterInterpreter : public FilterInterpreter {
  private:
   // May override an outgoing gesture with a fling stop gesture.
   bool NeedsExtraTime(const HardwareState& hwstate) const;
+  bool FlingStopNeeded(const Gesture& gesture) const;
   void UpdateFlingStopDeadline(const HardwareState& hwstate);
   stime_t SetNextDeadlineAndReturnTimeoutVal(stime_t now, stime_t next_timeout);
 
@@ -54,13 +57,19 @@ class FlingStopFilterInterpreter : public FilterInterpreter {
   short prev_touch_cnt_;
   // timestamp from previous input HardwareState.
   stime_t prev_timestamp_;
-  // Result to pass out.
-  Gesture result_;
+
+  // Most recent gesture type consumed and produced.
+  GestureType prev_gesture_type_;
+  // Whether a fling stop has been sent since the last gesture.
+  bool fling_stop_already_sent_;
 
   // When we should send fling-stop, or 0.0 if not set.
   stime_t fling_stop_deadline_;
   // When we need to call HandlerTimer on next_, or 0.0 if no outstanding timer.
   stime_t next_timer_deadline_;
+
+  // Device class (e.g. touchpad, mouse).
+  GestureInterpreterDeviceClass devclass_;
 
   // How long to wait when new fingers arrive (and possibly scroll), before
   // halting fling

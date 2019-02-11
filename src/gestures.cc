@@ -525,7 +525,8 @@ void GestureInterpreter::InitializeTouchpad(void) {
   }
 
   Interpreter* temp = new ImmediateInterpreter(prop_reg_.get(), tracer_.get());
-  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
+  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get(),
+                                        GESTURES_DEVCLASS_TOUCHPAD);
   temp = new ClickWiggleFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = new PalmClassifyingFilterInterpreter(prop_reg_.get(), temp,
                                               tracer_.get());
@@ -559,7 +560,8 @@ void GestureInterpreter::InitializeTouchpad(void) {
 
 void GestureInterpreter::InitializeTouchpad2(void) {
   Interpreter* temp = new ImmediateInterpreter(prop_reg_.get(), tracer_.get());
-  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
+  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get(),
+                                        GESTURES_DEVCLASS_TOUCHPAD);
   temp = new ClickWiggleFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = new PalmClassifyingFilterInterpreter(prop_reg_.get(), temp,
                                               tracer_.get());
@@ -601,7 +603,8 @@ void GestureInterpreter::InitializeMouse(void) {
 void GestureInterpreter::InitializeMultitouchMouse(void) {
   Interpreter* temp = new MultitouchMouseInterpreter(prop_reg_.get(),
                                                      tracer_.get());
-  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
+  temp = new FlingStopFilterInterpreter(prop_reg_.get(), temp, tracer_.get(),
+                                        GESTURES_DEVCLASS_MULTITOUCH_MOUSE);
   temp = new ClickWiggleFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = new LookaheadFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
   temp = new BoxFilterInterpreter(prop_reg_.get(), temp, tracer_.get());
