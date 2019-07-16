@@ -274,6 +274,17 @@ void ScalingFilterInterpreter::ConsumeGesture(const Gesture& gs) {
         copy.details.swipe.ordinal_dy *= -1;
       }
       break;
+    case kGestureTypeFourFingerSwipe:
+      // Scale swipes, as we want them to follow the pointer speed.
+      copy.details.four_finger_swipe.dx *= screen_x_scale_;
+      copy.details.four_finger_swipe.dy *= screen_y_scale_;
+      copy.details.four_finger_swipe.ordinal_dx *= screen_x_scale_;
+      copy.details.four_finger_swipe.ordinal_dy *= screen_y_scale_;
+      if (!australian_scrolling_.val_) {
+        copy.details.four_finger_swipe.dy *= -1;
+        copy.details.four_finger_swipe.ordinal_dy *= -1;
+      }
+      break;
     default:
       break;
   }
