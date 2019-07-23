@@ -1072,12 +1072,6 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
       two_finger_move_distance_thresh_(prop_reg,
                                        "Two Finger Move Distance Thresh",
                                        7.0),
-      three_finger_close_distance_thresh_(prop_reg,
-                                          "Three Finger Close Distance Thresh",
-                                          50.0),
-      four_finger_close_distance_thresh_(prop_reg,
-                                         "Four Finger Close Distance Thresh",
-                                         60.0),
       three_finger_swipe_distance_thresh_(prop_reg,
                                           "Three Finger Swipe Distance Thresh",
                                           1.5),
@@ -2427,19 +2421,16 @@ GestureType ImmediateInterpreter::GetFingerLiftGesture(
 
 GestureType ImmediateInterpreter::GetMultiFingerGestureType(
     const FingerState* const fingers[], const int num_fingers) {
-  float close_distance_thresh;
   float swipe_distance_thresh;
   float swipe_distance_ratio;
   map<short, Point, kMaxFingers> *swipe_start_positions;
   GestureType gesture_type;
   if (num_fingers == 4) {
-    close_distance_thresh = four_finger_close_distance_thresh_.val_;
     swipe_distance_thresh = four_finger_swipe_distance_thresh_.val_;
     swipe_distance_ratio = four_finger_swipe_distance_ratio_.val_;
     swipe_start_positions = &four_finger_swipe_start_positions_;
     gesture_type = kGestureTypeFourFingerSwipe;
   } else if (num_fingers == 3) {
-    close_distance_thresh = three_finger_close_distance_thresh_.val_;
     swipe_distance_thresh = three_finger_swipe_distance_thresh_.val_;
     swipe_distance_ratio = three_finger_swipe_distance_ratio_.val_;
     swipe_start_positions = &three_finger_swipe_start_positions_;
@@ -2466,10 +2457,6 @@ GestureType ImmediateInterpreter::GetMultiFingerGestureType(
   const FingerState* sorted_fingers[num_fingers];
   for (int i = 0; i < num_fingers; i++) {
     sorted_fingers[i] = horizontal ? x_fingers[i] : y_fingers[i];
-  }
-  if (DistSq(*sorted_fingers[0], *sorted_fingers[num_fingers - 1]) >
-      close_distance_thresh * close_distance_thresh) {
-    return kGestureTypeNull;
   }
 
   float dx[num_fingers];

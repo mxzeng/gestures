@@ -859,12 +859,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // Consider move if there is no scroll and one finger moves at least this
   // distance [mm]
   DoubleProperty two_finger_move_distance_thresh_;
-  // Maximum distance [mm] between the outermost fingers while performing a
-  // three-finger gesture.
-  DoubleProperty three_finger_close_distance_thresh_;
-  // Maximum distance [mm] between the outermost fingers while performing a
-  // four-finger gesture.
-  DoubleProperty four_finger_close_distance_thresh_;
   // Minimum distance [mm] one of the three fingers must move to perform a
   // swipe gesture.
   DoubleProperty three_finger_swipe_distance_thresh_;
