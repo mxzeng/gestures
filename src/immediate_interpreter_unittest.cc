@@ -2726,7 +2726,7 @@ TEST(ImmediateInterpreterTest, ChangeTimeoutTest) {
     { 1.09, 0, 2, 2, &finger_states[0], 0, 0, 0, 0, 0.0 },
     { 1.10, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
     { 1.12, 0, 1, 1, &finger_states[2], 0, 0, 0, 0, 0.0 },
-    { 1.16, 0, 1, 1, &finger_states[3], 0, 0, 0, 0, 0.0 },
+    { 1.36, 0, 1, 1, &finger_states[3], 0, 0, 0, 0, 0.0 },
     { 1.5, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
   };
 
@@ -2771,7 +2771,7 @@ TEST(ImmediateInterpreterTest, ChangeTimeoutTest) {
   EXPECT_EQ(10, gs->details.move.dx);
   EXPECT_EQ(0, gs->details.move.dy);
   EXPECT_EQ(1.12, gs->start_time);
-  EXPECT_EQ(1.16, gs->end_time);
+  EXPECT_EQ(1.36, gs->end_time);
 
   EXPECT_EQ(NULL, wrapper.SyncInterpret(&hardware_states[8], NULL));
 }

@@ -1027,7 +1027,7 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
       change_move_distance_(prop_reg, "Change Min Move Distance", 3.0),
       move_lock_speed_(prop_reg, "Move Lock Speed", 10.0),
       move_report_distance_(prop_reg, "Move Report Distance", 0.35),
-      change_timeout_(prop_reg, "Change Timeout", 0.04),
+      change_timeout_(prop_reg, "Change Timeout", 0.2),
       evaluation_timeout_(prop_reg, "Evaluation Timeout", 0.15),
       pinch_evaluation_timeout_(prop_reg, "Pinch Evaluation Timeout", 0.1),
       thumb_pinch_evaluation_timeout_(prop_reg,
@@ -1177,8 +1177,10 @@ void ImmediateInterpreter::SyncInterpretImpl(HardwareState* hwstate,
     moving_finger_id_ = -1;
   }
 
-  if (hwstate->finger_cnt < state_buffer_.Get(1)->finger_cnt)
+  if (hwstate->finger_cnt < state_buffer_.Get(1)->finger_cnt &&
+      AnyGesturingFingerLeft(*hwstate, prev_active_gs_fingers_)) {
     finger_leave_time_ = hwstate->timestamp;
+  }
 
   // Check if clock changed backwards
   if (hwstate->timestamp < state_buffer_.Get(1)->timestamp)
