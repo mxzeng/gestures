@@ -18,7 +18,8 @@ TimestampFilterInterpreter::TimestampFilterInterpreter(
       msc_timestamp_offset_(-1.0),
       fake_timestamp_(-1.0),
       fake_timestamp_delta_(prop_reg, "Fake Timestamp Delta", 0.0),
-      fake_timestamp_max_divergence_(0.1) {
+      fake_timestamp_max_divergence_(0.1),
+      skew_(0.0) {
   InitName();
 }
 
@@ -40,7 +41,11 @@ void TimestampFilterInterpreter::ChangeTimestampDefault(
     msc_timestamp_offset_ = hwstate->timestamp - hwstate->msc_timestamp;
   }
   prev_msc_timestamp_ = hwstate->msc_timestamp;
-  hwstate->timestamp = hwstate->msc_timestamp + msc_timestamp_offset_;
+
+  stime_t new_timestamp = hwstate->msc_timestamp + msc_timestamp_offset_;
+  skew_ = new_timestamp - hwstate->timestamp;
+  hwstate->timestamp = new_timestamp;
+
   hwstate->msc_timestamp = 0.0;
 }
 
@@ -50,7 +55,17 @@ void TimestampFilterInterpreter::ChangeTimestampUsingFake(
   if (fabs(fake_timestamp_ - hwstate->timestamp) >
       fake_timestamp_max_divergence_)
     fake_timestamp_ = hwstate->timestamp;
+
+  skew_ = fake_timestamp_ - hwstate->timestamp;
   hwstate->timestamp = fake_timestamp_;
+}
+
+void TimestampFilterInterpreter::ConsumeGesture(const Gesture& gs) {
+  // Adjust gesture timestamp by latest skew to match browser clock
+  Gesture copy = gs;
+  copy.start_time -= skew_;
+  copy.end_time -= skew_;
+  ProduceGesture(copy);
 }
 
 }  // namespace gestures

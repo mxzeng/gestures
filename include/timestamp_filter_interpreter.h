@@ -63,6 +63,8 @@ class TimestampFilterInterpreter : public FilterInterpreter {
   // hwstate->timestamp.
   void ChangeTimestampUsingFake(HardwareState* hwstate);
 
+  void ConsumeGesture(const Gesture& gs);
+
   stime_t prev_msc_timestamp_;
 
   // Difference between msc_timestamp and timestamp as of last timestamp reset.
@@ -74,6 +76,11 @@ class TimestampFilterInterpreter : public FilterInterpreter {
   DoubleProperty fake_timestamp_delta_;
   // Maximum we let fake_timestamp_ diverge from hwstate->timestamp
   stime_t fake_timestamp_max_divergence_;
+
+  // The difference between the original timestamp and the timestamp after
+  // adjustment by this interpreter. When contact begins this will be zero, but
+  // the two clocks may get out of sync by a small amount as time goes on
+  stime_t skew_;
 };
 
 }  // namespace gestures
