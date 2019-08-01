@@ -374,4 +374,74 @@ TEST(AccelFilterInterpreterTest, CustomAccelTest) {
   }
 }
 
+TEST(AccelFilterInterpreterTest, UnacceleratedMouseTest) {
+  AccelFilterInterpreterTestInterpreter* base_interpreter =
+      new AccelFilterInterpreterTestInterpreter;
+  AccelFilterInterpreter accel_interpreter(NULL, base_interpreter, NULL);
+  TestInterpreterWrapper interpreter(&accel_interpreter);
+
+  accel_interpreter.use_mouse_point_curves_.val_ = true;
+  accel_interpreter.pointer_acceleration_.val_ = false;
+
+  const float dx = 3;
+  const float dy = 5;
+  const float unaccel_slopes[] = { 2.0, 4.0, 8.0, 16.0, 24.0 };
+
+  for (int i = 1; i <= 5; ++i) {
+    accel_interpreter.pointer_sensitivity_.val_ = i;
+
+    base_interpreter->return_values_.push_back(Gesture());  // Null type
+    base_interpreter->return_values_.push_back(Gesture(kGestureMove,
+                                                       1,  // start time
+                                                       1.001,  // end time
+                                                       dx,  // dx
+                                                       dy));  // dy
+
+    Gesture* out = interpreter.SyncInterpret(nullptr, nullptr);
+    ASSERT_EQ(nullptr, out);
+    out = interpreter.SyncInterpret(nullptr, nullptr);
+    ASSERT_NE(nullptr, out);
+    EXPECT_EQ(kGestureTypeMove, out->type);
+
+    // Output should be scaled by a constant value.
+    EXPECT_FLOAT_EQ(dx * unaccel_slopes[i - 1], out->details.move.dx);
+    EXPECT_FLOAT_EQ(dy * unaccel_slopes[i - 1], out->details.move.dy);
+  }
+}
+
+TEST(AccelFilterInterpreterTest, UnacceleratedTouchpadTest) {
+  AccelFilterInterpreterTestInterpreter* base_interpreter =
+      new AccelFilterInterpreterTestInterpreter;
+  AccelFilterInterpreter accel_interpreter(NULL, base_interpreter, NULL);
+  TestInterpreterWrapper interpreter(&accel_interpreter);
+
+  accel_interpreter.use_mouse_point_curves_.val_ = false;
+  accel_interpreter.pointer_acceleration_.val_ = false;
+
+  const float dx = 3;
+  const float dy = 5;
+  const float unaccel_slopes[] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+
+  for (int i = 1; i <= 5; ++i) {
+    accel_interpreter.pointer_sensitivity_.val_ = i;
+
+    base_interpreter->return_values_.push_back(Gesture());  // Null type
+    base_interpreter->return_values_.push_back(Gesture(kGestureMove,
+                                                       1,  // start time
+                                                       1.001,  // end time
+                                                       dx,  // dx
+                                                       dy));  // dy
+
+    Gesture* out = interpreter.SyncInterpret(nullptr, nullptr);
+    ASSERT_EQ(nullptr, out);
+    out = interpreter.SyncInterpret(nullptr, nullptr);
+    ASSERT_NE(nullptr, out);
+    EXPECT_EQ(kGestureTypeMove, out->type);
+
+    // Output should be scaled by a constant value.
+    EXPECT_FLOAT_EQ(dx * unaccel_slopes[i - 1], out->details.move.dx);
+    EXPECT_FLOAT_EQ(dy * unaccel_slopes[i - 1], out->details.move.dy);
+  }
+}
+
 }  // namespace gestures

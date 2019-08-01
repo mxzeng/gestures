@@ -25,6 +25,8 @@ class AccelFilterInterpreter : public FilterInterpreter {
   FRIEND_TEST(AccelFilterInterpreterTest, SimpleTest);
   FRIEND_TEST(AccelFilterInterpreterTest, TimingTest);
   FRIEND_TEST(AccelFilterInterpreterTest, TinyMoveTest);
+  FRIEND_TEST(AccelFilterInterpreterTest, UnacceleratedMouseTest);
+  FRIEND_TEST(AccelFilterInterpreterTest, UnacceleratedTouchpadTest);
  public:
   // Takes ownership of |next|:
   AccelFilterInterpreter(PropRegistry* prop_reg, Interpreter* next,
@@ -58,6 +60,11 @@ class AccelFilterInterpreter : public FilterInterpreter {
   CurveSegment mouse_point_curves_[kMaxAccelCurves][kMaxCurveSegs];
   CurveSegment scroll_curves_[kMaxAccelCurves][kMaxCurveSegs];
 
+  // curves when acceleration is disabled.
+  CurveSegment unaccel_point_curves_[kMaxAccelCurves];
+  CurveSegment unaccel_mouse_curves_[kMaxAccelCurves];
+  // TODO(zentaro): Add unaccelerated scroll curves.
+
   // Custom curves
   CurveSegment tp_custom_point_[kMaxCustomCurveSegs];
   CurveSegment tp_custom_scroll_[kMaxCustomCurveSegs];
@@ -89,6 +96,8 @@ class AccelFilterInterpreter : public FilterInterpreter {
   // If use_mouse_point_curves_ is true, this is consulted to see which
   // curves to use:
   BoolProperty use_old_mouse_point_curves_;
+  // Flag for disabling mouse/touchpad acceleration.
+  BoolProperty pointer_acceleration_;
 
   // Sometimes on wireless hardware (e.g. Bluetooth), patckets need to be
   // resent. This can lead to a time between packets that very large followed

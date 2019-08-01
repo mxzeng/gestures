@@ -46,6 +46,7 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
       use_mouse_point_curves_(prop_reg, "Mouse Accel Curves", 0),
       use_mouse_scroll_curves_(prop_reg, "Mouse Scroll Curves", 0),
       use_old_mouse_point_curves_(prop_reg, "Old Mouse Accel Curves", 0),
+      pointer_acceleration_(prop_reg, "Pointer Acceleration", 1),
       min_reasonable_dt_(prop_reg, "Accel Min dt", 0.003),
       max_reasonable_dt_(prop_reg, "Accel Max dt", 0.050),
       last_reasonable_dt_(0.05),
@@ -79,6 +80,14 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
     const float y_at_border = x_border * x_border / divisor;
     const float icept = y_at_border - slope * x_border;
     point_curves_[i][2] = CurveSegment(INFINITY, 0, slope, icept);
+  }
+
+  // Setup unaccelerated touchpad curves. Each one is just a single linear
+  // segment with the slope from |unaccel_tp_slopes|.
+  const float unaccel_tp_slopes[] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
+  for (size_t i = 0; i < kMaxAccelCurves; ++i) {
+    unaccel_point_curves_[i] = CurveSegment(
+        INFINITY, 0, unaccel_tp_slopes[i], 0);
   }
 
   const float old_mouse_speed_straight_cutoff[] = { 5.0, 5.0, 5.0, 8.0, 8.0 };
@@ -115,6 +124,14 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
         kMultipliers[i];
     mouse_point_curves_[i][0] = CurveSegment(cutoff, mouse_a, mouse_b, 0.0);
     mouse_point_curves_[i][1] = CurveSegment(INFINITY, 0.0, second_slope, -1182);
+  }
+
+  // Setup unaccelerated mouse curves. Each one is just a single linear
+  // segment with the slope from |unaccel_mouse_slopes|.
+  const float unaccel_mouse_slopes[] = { 2.0, 4.0, 8.0, 16.0, 24.0 };
+  for (size_t i = 0; i < kMaxAccelCurves; ++i) {
+    unaccel_mouse_curves_[i] = CurveSegment(
+        INFINITY, 0, unaccel_mouse_slopes[i], 0);
   }
 
   const float scroll_divisors[] = { 0.0, // unused
@@ -206,12 +223,21 @@ void AccelFilterInterpreter::ConsumeGesture(const Gesture& gs) {
         max_segs = kMaxCustomCurveSegs;
       } else {
         if (use_mouse_point_curves_.val_) {
-          if (use_old_mouse_point_curves_.val_)
+          if (!pointer_acceleration_.val_) {
+            segs = &unaccel_mouse_curves_[pointer_sensitivity_.val_ - 1];
+            max_segs = 1;
+          } else if (use_old_mouse_point_curves_.val_) {
             segs = old_mouse_point_curves_[pointer_sensitivity_.val_ - 1];
-          else
+          } else {
             segs = mouse_point_curves_[pointer_sensitivity_.val_ - 1];
+          }
         } else {
-          segs = point_curves_[pointer_sensitivity_.val_ - 1];
+          if (!pointer_acceleration_.val_) {
+            segs = &unaccel_point_curves_[pointer_sensitivity_.val_ - 1];
+            max_segs = 1;
+          } else {
+            segs = point_curves_[pointer_sensitivity_.val_ - 1];
+          }
         }
       }
       x_scale = point_x_out_scale_.val_;
@@ -305,7 +331,6 @@ void AccelFilterInterpreter::ConsumeGesture(const Gesture& gs) {
     ProduceGesture(copy);
     return;
   }
-  Err("Overflowed acceleration curve!");
 }
 
 }  // namespace gestures
