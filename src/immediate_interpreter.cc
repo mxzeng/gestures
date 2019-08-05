@@ -16,12 +16,11 @@
 #include "gestures/include/logging.h"
 #include "gestures/include/util.h"
 
-using std::bind1st;
+using std::bind;
 using std::for_each;
 using std::make_pair;
 using std::make_tuple;
 using std::max;
-using std::mem_fun;
 using std::min;
 using std::tuple;
 
@@ -124,12 +123,12 @@ void TapRecord::Update(const HardwareState& hwstate,
            e = dead.end(); it != e; ++it)
     Log("TapRecord::Update: Dead: %d", *it);
   for_each(dead.begin(), dead.end(),
-           bind1st(mem_fun(&TapRecord::Remove), this));
+           bind(&TapRecord::Remove, this, std::placeholders::_1));
   for (set<short, kMaxTapFingers>::const_iterator it = added.begin(),
            e = added.end(); it != e; ++it)
     NoteTouch(*it, *hwstate.GetFingerState(*it));
   for_each(removed.begin(), removed.end(),
-           bind1st(mem_fun(&TapRecord::NoteRelease), this));
+           bind(&TapRecord::NoteRelease, this, std::placeholders::_1));
   // Check if min tap/cotap pressure met yet
   const float cotap_min_pressure = CotapMinPressure();
   for (map<short, FingerState, kMaxTapFingers>::iterator it =
