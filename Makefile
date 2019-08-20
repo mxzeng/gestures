@@ -153,7 +153,6 @@ LINK_FLAGS+=\
 
 TEST_LINK_FLAGS=\
 	-lgcov \
-	-lglib-2.0 \
 	-lgtest
 
 all: $(SONAME)
