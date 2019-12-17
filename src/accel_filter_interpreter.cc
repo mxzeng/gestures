@@ -20,6 +20,8 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
                                                Interpreter* next,
                                                Tracer* tracer)
     : FilterInterpreter(NULL, next, tracer, false),
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsizeof-array-div"
       // Hack: cast tp_custom_point_/mouse_custom_point_/tp_custom_scroll_
       // to float arrays.
       tp_custom_point_prop_(prop_reg, "Pointer Accel Curve",
@@ -31,6 +33,7 @@ AccelFilterInterpreter::AccelFilterInterpreter(PropRegistry* prop_reg,
       mouse_custom_point_prop_(prop_reg, "Mouse Pointer Accel Curve",
                                reinterpret_cast<double*>(&mouse_custom_point_),
                                sizeof(mouse_custom_point_) / sizeof(double)),
+#pragma GCC diagnostic pop
       use_custom_tp_point_curve_(
           prop_reg, "Use Custom Touchpad Pointer Accel Curve", 0),
       use_custom_tp_scroll_curve_(
