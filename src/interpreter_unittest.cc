@@ -29,7 +29,6 @@ class InterpreterTestInterpreter : public Interpreter {
         bool_prop_(prop_reg, "BoolProp", 0),
         double_prop_(prop_reg, "DoubleProp", 0),
         int_prop_(prop_reg, "IntProp", 0),
-        short_prop_(prop_reg, "ShortProp", 0),
         string_prop_(prop_reg, "StringProp", "") {
     InitName();
     log_.reset(new ActivityLog(prop_reg));
@@ -42,7 +41,6 @@ class InterpreterTestInterpreter : public Interpreter {
   BoolProperty bool_prop_;
   DoubleProperty double_prop_;
   IntProperty int_prop_;
-  ShortProperty short_prop_;
   StringProperty string_prop_;
   char* expected_interpreter_name_;
 
@@ -53,7 +51,6 @@ class InterpreterTestInterpreter : public Interpreter {
     EXPECT_NE(0, bool_prop_.val_);
     EXPECT_NE(0, double_prop_.val_);
     EXPECT_NE(0, int_prop_.val_);
-    EXPECT_NE(0, short_prop_.val_);
     EXPECT_NE("", string_prop_.val_);
     EXPECT_TRUE(expected_hwstate_);
     EXPECT_DOUBLE_EQ(expected_hwstate_->timestamp, hwstate->timestamp);
@@ -96,7 +93,6 @@ TEST(InterpreterTest, SimpleTest) {
   base_interpreter->bool_prop_.val_ = 1;
   base_interpreter->double_prop_.val_ = 1;
   base_interpreter->int_prop_.val_ = 1;
-  base_interpreter->short_prop_.val_ = 1;
   base_interpreter->string_prop_.val_ = "x";
 
   //if (prop_reg)

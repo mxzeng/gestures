@@ -218,50 +218,6 @@ class IntArrayProperty : public Property {
   size_t count_;
 };
 
-class ShortProperty : public Property {
- public:
-  ShortProperty(PropRegistry* reg, const char* name, short val)
-      : Property(reg, name), val_(val) {
-    if (parent_)
-      parent_->Register(this);
-  }
-  ShortProperty(PropRegistry* reg, const char* name, short val,
-                PropertyDelegate* delegate)
-      : Property(reg, name, delegate), val_(val) {
-    if (parent_)
-      parent_->Register(this);
-  }
-  virtual void CreatePropImpl();
-  virtual Json::Value NewValue() const;
-  virtual bool SetValue(const Json::Value& value);
-  virtual void HandleGesturesPropWritten();
-
-  short val_;
-};
-
-class ShortArrayProperty : public Property {
- public:
-  ShortArrayProperty(PropRegistry* reg, const char* name, short* vals,
-                     size_t count)
-      : Property(reg, name), vals_(vals), count_(count) {
-    if (parent_)
-      parent_->Register(this);
-  }
-  ShortArrayProperty(PropRegistry* reg, const char* name, short* vals,
-                     size_t count, PropertyDelegate* delegate)
-      : Property(reg, name, delegate), vals_(vals), count_(count) {
-    if (parent_)
-      parent_->Register(this);
-  }
-  virtual void CreatePropImpl();
-  virtual Json::Value NewValue() const;
-  virtual bool SetValue(const Json::Value& list);
-  virtual void HandleGesturesPropWritten();
-
-  short* vals_;
-  size_t count_;
-};
-
 class StringProperty : public Property {
  public:
   StringProperty(PropRegistry* reg, const char* name, const char* val)
@@ -292,8 +248,6 @@ class PropertyDelegate {
   virtual void DoubleArrayWasWritten(DoubleArrayProperty* prop) {};
   virtual void IntWasWritten(IntProperty* prop) {};
   virtual void IntArrayWasWritten(IntArrayProperty* prop) {};
-  virtual void ShortWasWritten(ShortProperty* prop) {};
-  virtual void ShortArrayWasWritten(ShortArrayProperty* prop) {};
   virtual void StringWasWritten(StringProperty* prop) {};
 };
 

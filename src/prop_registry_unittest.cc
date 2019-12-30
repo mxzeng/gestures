@@ -24,7 +24,6 @@ class PropRegistryTestDelegate : public PropertyDelegate {
   virtual void BoolWasWritten(BoolProperty* prop) { call_cnt_++; };
   virtual void DoubleWasWritten(DoubleProperty* prop) { call_cnt_++; };
   virtual void IntWasWritten(IntProperty* prop) { call_cnt_++; }
-  virtual void ShortWasWritten(ShortProperty* prop) { call_cnt_++; }
   virtual void StringWasWritten(StringProperty* prop) { call_cnt_++; }
 
   int call_cnt_;
@@ -72,16 +71,6 @@ TEST(PropRegistryTest, SimpleTest) {
   IntProperty ip2(&reg, "hi", 568);
   EXPECT_TRUE(strstr(ValueForProperty(ip2).c_str(), "568"));
   ip2.HandleGesturesPropWritten();
-  EXPECT_EQ(expected_call_cnt, delegate.call_cnt_);
-
-  ShortProperty sp1(&reg, "hi", 234, &delegate);
-  EXPECT_TRUE(strstr(ValueForProperty(sp1).c_str(), "234"));
-  sp1.HandleGesturesPropWritten();
-  EXPECT_EQ(++expected_call_cnt, delegate.call_cnt_);
-
-  ShortProperty sp2(&reg, "hi", 235);
-  EXPECT_TRUE(strstr(ValueForProperty(sp2).c_str(), "235"));
-  sp2.HandleGesturesPropWritten();
   EXPECT_EQ(expected_call_cnt, delegate.call_cnt_);
 
   StringProperty stp1(&reg, "hi", "foo", &delegate);
@@ -176,12 +165,11 @@ TEST(PropRegistryTest, SetAtCreateShouldNotifyTest) {
   BoolProperty my_bool(&reg, "MyBool", 0, &delegate);
   DoubleProperty my_double(&reg, "MyDouble", 0.0, &delegate);
   IntProperty my_int(&reg, "MyInt", 0, &delegate);
-  ShortProperty my_short(&reg, "MyShort", 0, &delegate);
-  ShortProperty my_short_no_change(&reg, "MyShortNoChange", 1, &delegate);
+  IntProperty my_int_no_change(&reg, "MyIntNoChange", 1, &delegate);
   EXPECT_EQ(0, delegate.call_cnt_);
 
   reg.SetPropProvider(&mock_gestures_props_provider, NULL);
-  EXPECT_EQ(4, delegate.call_cnt_);
+  EXPECT_EQ(3, delegate.call_cnt_);
 }
 
 TEST(PropRegistryTest, DoublePromoteIntTest) {
