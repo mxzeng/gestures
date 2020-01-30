@@ -52,10 +52,7 @@ TEST(LoggingFilterInterpreterTest, LogResetHandlerTest) {
     // TM, Tm, WM, Wm, Press, Orientation, X, Y, TrID
     0, 0, 0, 0, 10, 0, 50, 50, 1, 0
   };
-  HardwareState hardware_state = {
-    // time, buttons, finger count, touch count, finger states pointer
-    200000, 0, 1, 1, &finger_state, 0, 0, 0, 0, 0.0
-  };
+  HardwareState hardware_state = make_hwstate(200000, 0, 1, 1, &finger_state);
   stime_t timeout = -1.0;
   wrapper.SyncInterpret(&hardware_state, &timeout);
   EXPECT_EQ(interpreter.log_->size(), 1);

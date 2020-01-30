@@ -93,9 +93,7 @@ void DoTest(InputEventWithExpectations* events, size_t events_len, bool t5r2) {
          fidx++)
       finger_cnt += 1;
     // Set up hardware state
-    HardwareState hs = {
-        0.0, 0, finger_cnt, finger_cnt, event->fs, 0, 0, 0, 0, 0.0
-    };
+    HardwareState hs = make_hwstate(0.0, 0, finger_cnt, finger_cnt, event->fs);
     // Set up expectations
     base_interpreter->expected_ids_.clear();
     for (size_t outidx = 0;
@@ -197,9 +195,8 @@ TEST(SplitCorrectingFilterInterpreterTest, FalseMergeTest) {
       fs[fidx].pressure    = input.in[fidx].pressure_;
       fs[fidx].tracking_id = input.in[fidx].id_;
     }
-    HardwareState hs = {
-        input.timestamp, 0, finger_cnt, finger_cnt, &fs[0], 0, 0, 0, 0, 0.0
-    };
+    HardwareState hs =
+        make_hwstate(input.timestamp, 0, finger_cnt, finger_cnt, &fs[0]);
     // Set up expectations
     base_interpreter->expect_finger_ids_ = false;
     if (i == 1) {
@@ -369,9 +366,8 @@ TEST(SplitCorrectingFilterInterpreterTest, LumpyThumbSplitTest) {
       { 0, 0, 0, 0, input.pressure1, 0, input.x1, input.y1, input.id1, 0 },
     };
     unsigned short finger_cnt = input.id1 ? 2 : 1;
-    HardwareState hs = {
-      input.now, input.buttons_down, finger_cnt, finger_cnt, fs, 0, 0, 0, 0, 0.0
-    };
+    HardwareState hs =
+        make_hwstate(input.now, input.buttons_down, finger_cnt, finger_cnt, fs);
     stime_t timeout = -1;
     wrapper.SyncInterpret(&hs, &timeout);
   }

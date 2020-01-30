@@ -115,9 +115,7 @@ TEST(FlingStopFilterInterpreterTest, SimpleTest) {
       FingerState fs[5];
       memset(fs, 0, sizeof(fs));
       unsigned short touch_cnt = static_cast<unsigned short>(input.touch_cnt);
-      HardwareState hs = {
-        input.now, 0, touch_cnt, touch_cnt, fs, 0, 0, 0, 0, 0.0
-      };
+      HardwareState hs = make_hwstate(input.now, 0, touch_cnt, touch_cnt, fs);
 
       ret = wrapper.SyncInterpret(&hs, &timeout);
 

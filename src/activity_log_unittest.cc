@@ -9,6 +9,7 @@
 #include "gestures/include/activity_log.h"
 #include "gestures/include/macros.h"
 #include "gestures/include/prop_registry.h"
+#include "gestures/include/unittest_util.h"
 
 using std::string;
 
@@ -64,7 +65,7 @@ TEST(ActivityLogTest, SimpleTest) {
   EXPECT_GT(log.MaxSize(), 10);
 
   FingerState fs = { 0.0, 0.0, 0.0, 0.0, 9.0, 0.0, 3.0, 4.0, 22, 0 };
-  HardwareState hs = { 1.0, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 };
+  HardwareState hs = make_hwstate(1.0, 0, 1, 1, &fs);
   log.LogHardwareState(hs);
   EXPECT_EQ(1, log.size());
   EXPECT_TRUE(strstr(log.Encode().c_str(), "22"));

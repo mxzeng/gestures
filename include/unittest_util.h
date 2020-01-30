@@ -37,6 +37,12 @@ class TestInterpreterWrapper : public GestureConsumer {
 };
 
 
+// A utility method for making a HardwareState struct with just the fields
+// necessary for touchpads. The remaining fields are set to sensible defaults.
+HardwareState make_hwstate(stime_t timestamp, int buttons_down,
+                           unsigned short finger_cnt, unsigned short touch_cnt,
+                           struct FingerState* fingers);
+
 }  // namespace gestures
 
 #endif  // GESTURES_UNITTEST_UTIL_H_

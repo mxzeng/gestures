@@ -8,6 +8,7 @@
 
 #include "gestures/include/macros.h"
 #include "gestures/include/gestures.h"
+#include "gestures/include/unittest_util.h"
 
 namespace gestures {
 
@@ -27,10 +28,10 @@ TEST(GesturesTest, SameFingersAsTest) {
   };
   HardwareState hardware_state[] = {
     // time, buttons, finger count, finger states pointer
-    { 200000, 0, 1, 1, &finger_states[0], 0, 0, 0, 0, 0.0 },
-    { 200001, 0, 1, 1, &finger_states[1], 0, 0, 0, 0, 0.0 },
-    { 200001, 0, 2, 2, &finger_states[1], 0, 0, 0, 0, 0.0 },
-    { 200001, 0, 2, 2, &finger_states[2], 0, 0, 0, 0, 0.0 },
+    make_hwstate(200000, 0, 1, 1, &finger_states[0]),
+    make_hwstate(200001, 0, 1, 1, &finger_states[1]),
+    make_hwstate(200001, 0, 2, 2, &finger_states[1]),
+    make_hwstate(200001, 0, 2, 2, &finger_states[2]),
   };
 
   EXPECT_TRUE(hardware_state[0].SameFingersAs(hardware_state[1]));
@@ -230,7 +231,7 @@ TEST(GesturesTest, HardwareStateGetFingerStateTest) {
     { 0, 0, 0, 0, 1, 0, 550, 2000, 2, 0 },
     { 0, 0, 0, 0, 1, 0, 250, 3000, 7, 0 }
   };
-  HardwareState hs = { 10000, 0, 3, 3, &fs[0], 0, 0, 0, 0, 0.0 };
+  HardwareState hs = make_hwstate(10000, 0, 3, 3, &fs[0]);
   EXPECT_EQ(&fs[0], hs.GetFingerState(4));
   EXPECT_EQ(&fs[1], hs.GetFingerState(2));
   EXPECT_EQ(&fs[2], hs.GetFingerState(7));
@@ -290,8 +291,8 @@ TEST(GesturesTest, HardwareStateToStringTest) {
   };
 
   HardwareState hs[] = {
-    { 1.123, 1, 2, 2, fs, 0, 0, 0, 0, 0.0 },
-    { 2.123, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
+    make_hwstate(1.123, 1, 2, 2, fs),
+    make_hwstate(2.123, 0, 0, 0, NULL)
   };
 
   const char* expected[] = {

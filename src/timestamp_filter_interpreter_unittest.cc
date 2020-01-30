@@ -19,6 +19,11 @@ class TimestampFilterInterpreterTestInterpreter : public Interpreter {
       : Interpreter(NULL, NULL, false) {}
 };
 
+static HardwareState make_hwstate_times(stime_t timestamp,
+                                        stime_t msc_timestamp) {
+  return { timestamp, 0, 1, 1, NULL, 0, 0, 0, 0, msc_timestamp };
+}
+
 TEST(TimestampFilterInterpreterTest, SimpleTest) {
   TimestampFilterInterpreterTestInterpreter* base_interpreter =
       new TimestampFilterInterpreterTestInterpreter;
@@ -26,10 +31,10 @@ TEST(TimestampFilterInterpreterTest, SimpleTest) {
   TestInterpreterWrapper wrapper(&interpreter);
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },
-    { 1.010, 0, 1, 1, NULL, 0, 0, 0, 0, 0.012 },
-    { 1.020, 0, 1, 1, NULL, 0, 0, 0, 0, 0.018 },
-    { 1.030, 0, 1, 1, NULL, 0, 0, 0, 0, 0.031 }
+    make_hwstate_times(1.000, 0.000),
+    make_hwstate_times(1.010, 0.012),
+    make_hwstate_times(1.020, 0.018),
+    make_hwstate_times(1.030, 0.031),
   };
 
   stime_t expected_timestamps[] = { 1.000, 1.012, 1.018, 1.031 };
@@ -47,10 +52,10 @@ TEST(TimestampFilterInterpreterTest, NoMscTimestampTest) {
   TestInterpreterWrapper wrapper(&interpreter);
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },
-    { 1.010, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },
-    { 1.020, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },
-    { 1.030, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 }
+    make_hwstate_times(1.000, 0.000),
+    make_hwstate_times(1.010, 0.000),
+    make_hwstate_times(1.020, 0.000),
+    make_hwstate_times(1.030, 0.000),
   };
 
   for (size_t i = 0; i < arraysize(hs); i++) {
@@ -67,14 +72,14 @@ TEST(TimestampFilterInterpreterTest, MscTimestampResetTest) {
   TestInterpreterWrapper wrapper(&interpreter);
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },
-    { 1.010, 0, 1, 1, NULL, 0, 0, 0, 0, 0.012 },
-    { 1.020, 0, 1, 1, NULL, 0, 0, 0, 0, 0.018 },
-    { 1.030, 0, 1, 1, NULL, 0, 0, 0, 0, 0.031 },
-    { 3.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.000 },  //msc_timestamp reset to 0
-    { 3.010, 0, 1, 1, NULL, 0, 0, 0, 0, 0.008 },
-    { 3.020, 0, 1, 1, NULL, 0, 0, 0, 0, 0.020 },
-    { 3.030, 0, 1, 1, NULL, 0, 0, 0, 0, 0.035 }
+    make_hwstate_times(1.000, 0.000),
+    make_hwstate_times(1.010, 0.012),
+    make_hwstate_times(1.020, 0.018),
+    make_hwstate_times(1.030, 0.031),
+    make_hwstate_times(3.000, 0.000),  // msc_timestamp reset to 0
+    make_hwstate_times(3.010, 0.008),
+    make_hwstate_times(3.020, 0.020),
+    make_hwstate_times(3.030, 0.035),
   };
 
   stime_t expected_timestamps[] = {
@@ -97,10 +102,10 @@ TEST(TimestampFilterInterpreterTest, FakeTimestampTest) {
   interpreter.fake_timestamp_delta_.val_ = 0.010;
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.002 },
-    { 1.002, 0, 1, 1, NULL, 0, 0, 0, 0, 6.553 },
-    { 1.008, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 },
-    { 1.031, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 }
+    make_hwstate_times(1.000, 0.002),
+    make_hwstate_times(1.002, 6.553),
+    make_hwstate_times(1.008, 0.001),
+    make_hwstate_times(1.031, 0.001),
   };
 
   stime_t expected_timestamps[] = { 1.000, 1.010, 1.020, 1.030 };
@@ -120,14 +125,14 @@ TEST(TimestampFilterInterpreterTest, FakeTimestampJumpForwardTest) {
   interpreter.fake_timestamp_delta_.val_ = 0.010;
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.002 },
-    { 1.002, 0, 1, 1, NULL, 0, 0, 0, 0, 6.553 },
-    { 1.008, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 },
-    { 1.031, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 },
-    { 2.000, 0, 1, 1, NULL, 0, 0, 0, 0, 6.552 },
-    { 2.002, 0, 1, 1, NULL, 0, 0, 0, 0, 6.553 },
-    { 2.008, 0, 1, 1, NULL, 0, 0, 0, 0, 0.002 },
-    { 2.031, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 }
+    make_hwstate_times(1.000, 0.002),
+    make_hwstate_times(1.002, 6.553),
+    make_hwstate_times(1.008, 0.001),
+    make_hwstate_times(1.031, 0.001),
+    make_hwstate_times(2.000, 6.552),
+    make_hwstate_times(2.002, 6.553),
+    make_hwstate_times(2.008, 0.002),
+    make_hwstate_times(2.031, 0.001),
   };
 
   stime_t expected_timestamps[] = {
@@ -151,14 +156,14 @@ TEST(TimestampFilterInterpreterTest, FakeTimestampFallBackwardTest) {
   interpreter.fake_timestamp_max_divergence_ = 0.030;
 
   HardwareState hs[] = {
-    { 1.000, 0, 1, 1, NULL, 0, 0, 0, 0, 0.002 },
-    { 1.001, 0, 1, 1, NULL, 0, 0, 0, 0, 6.553 },
-    { 1.002, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 },
-    { 1.003, 0, 1, 1, NULL, 0, 0, 0, 0, 0.001 },
-    { 1.004, 0, 1, 1, NULL, 0, 0, 0, 0, 6.552 },
-    { 1.005, 0, 1, 1, NULL, 0, 0, 0, 0, 6.553 },
-    { 1.006, 0, 1, 1, NULL, 0, 0, 0, 0, 0.002 },
-    { 1.007, 0, 1, 1, NULL, 0, 0, 0, 0, 6.552 }
+    make_hwstate_times(1.000, 0.002),
+    make_hwstate_times(1.001, 6.553),
+    make_hwstate_times(1.002, 0.001),
+    make_hwstate_times(1.003, 0.001),
+    make_hwstate_times(1.004, 6.552),
+    make_hwstate_times(1.005, 6.553),
+    make_hwstate_times(1.006, 0.002),
+    make_hwstate_times(1.007, 6.552),
   };
 
   stime_t expected_timestamps[] = {

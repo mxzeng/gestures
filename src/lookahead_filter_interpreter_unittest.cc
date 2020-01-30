@@ -118,19 +118,19 @@ TEST(LookaheadFilterInterpreterTest, SimpleTest) {
   };
   HardwareState hs[] = {
     // Expect movement to take
-    { 1.01, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 1.02, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
-    { 1.03, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.01, 0, 1, 1, &fs[0]),
+    make_hwstate(1.02, 0, 1, 1, &fs[1]),
+    make_hwstate(1.03, 0, 1, 1, &fs[2]),
 
     // Expect no movement
-    { 2.010, 0, 1, 1, &fs[3], 0, 0, 0, 0, 0.0 },
-    { 2.030, 0, 1, 1, &fs[4], 0, 0, 0, 0, 0.0 },
-    { 2.031, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
+    make_hwstate(2.010, 0, 1, 1, &fs[3]),
+    make_hwstate(2.030, 0, 1, 1, &fs[4]),
+    make_hwstate(2.031, 0, 0, 0, NULL),
 
     // Expect movement b/c it's moving really fast
-    { 3.010, 0, 1, 1, &fs[5], 0, 0, 0, 0, 0.0 },
-    { 3.011, 0, 1, 1, &fs[6], 0, 0, 0, 0, 0.0 },
-    { 3.030, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 }
+    make_hwstate(3.010, 0, 1, 1, &fs[5]),
+    make_hwstate(3.011, 0, 1, 1, &fs[6]),
+    make_hwstate(3.030, 0, 0, 0, NULL),
   };
 
   stime_t expected_timeout = 0.0;
@@ -250,9 +250,9 @@ TEST(LookaheadFilterInterpreterTest, VariableDelayTest) {
   };
   HardwareState hs[] = {
     // Expect movement to take
-    { 1.01, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 1.02, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
-    { 1.03, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.01, 0, 1, 1, &fs[0]),
+    make_hwstate(1.02, 0, 1, 1, &fs[1]),
+    make_hwstate(1.03, 0, 1, 1, &fs[2]),
   };
 
   interpreter.min_delay_.val_ = 0.0;
@@ -325,11 +325,11 @@ TEST(LookaheadFilterInterpreterTest, NoTapSetTest) {
   };
   HardwareState hs[] = {
     // Expect movement to take
-    { 0.01, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 0.01, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
-    { 0.03, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 },
-    { 1.01, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 },
-    { 1.02, 0, 1, 1, &fs[3], 0, 0, 0, 0, 0.0 },
+    make_hwstate(0.01, 0, 1, 1, &fs[0]),
+    make_hwstate(0.01, 0, 1, 1, &fs[1]),
+    make_hwstate(0.03, 0, 0, 0, NULL),
+    make_hwstate(1.01, 0, 1, 1, &fs[2]),
+    make_hwstate(1.02, 0, 1, 1, &fs[3]),
   };
 
   TestInterpreterWrapper wrapper(&interpreter, &initial_hwprops);
@@ -370,7 +370,7 @@ TEST(LookaheadFilterInterpreterTest, SpuriousCallbackTest) {
   };
   TestInterpreterWrapper wrapper(interpreter.get(), &initial_hwprops);
 
-  HardwareState hs = {1, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0};
+  HardwareState hs = make_hwstate(1, 0, 0, 0, NULL);
 
   base_interpreter = new LookaheadFilterInterpreterTestInterpreter;
   base_interpreter->timer_return_ = 1.0;
@@ -428,28 +428,28 @@ TEST(LookaheadFilterInterpreterTest, TimeGoesBackwardsTest) {
   };
   HardwareState hs[] = {
     // Initial state
-    { 9.00, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
+    make_hwstate(9.00, 0, 1, 1, &fs),
     // Time jumps backwards, then goes forwards
-    { 0.01, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.02, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.03, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.04, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.05, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.06, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.07, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.08, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.09, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.10, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.11, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.12, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.13, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.14, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.15, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.16, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.17, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.18, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.19, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 0.20, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 }
+    make_hwstate(0.01, 0, 1, 1, &fs),
+    make_hwstate(0.02, 0, 1, 1, &fs),
+    make_hwstate(0.03, 0, 1, 1, &fs),
+    make_hwstate(0.04, 0, 1, 1, &fs),
+    make_hwstate(0.05, 0, 1, 1, &fs),
+    make_hwstate(0.06, 0, 1, 1, &fs),
+    make_hwstate(0.07, 0, 1, 1, &fs),
+    make_hwstate(0.08, 0, 1, 1, &fs),
+    make_hwstate(0.09, 0, 1, 1, &fs),
+    make_hwstate(0.10, 0, 1, 1, &fs),
+    make_hwstate(0.11, 0, 1, 1, &fs),
+    make_hwstate(0.12, 0, 1, 1, &fs),
+    make_hwstate(0.13, 0, 1, 1, &fs),
+    make_hwstate(0.14, 0, 1, 1, &fs),
+    make_hwstate(0.15, 0, 1, 1, &fs),
+    make_hwstate(0.16, 0, 1, 1, &fs),
+    make_hwstate(0.17, 0, 1, 1, &fs),
+    make_hwstate(0.18, 0, 1, 1, &fs),
+    make_hwstate(0.19, 0, 1, 1, &fs),
+    make_hwstate(0.20, 0, 1, 1, &fs),
   };
   for (size_t i = 0; i < arraysize(hs); ++i) {
     stime_t timeout_requested = -1.0;
@@ -483,10 +483,10 @@ TEST(LookaheadFilterInterpreterTest, InterpolateHwStateTest) {
   };
   HardwareState hs[] = {
     // Expect movement to take
-    { 1.011,  2, 3, 3, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 1.022,  2, 3, 3, &fs[3], 0, 0, 0, 0, 0.0 },
-    { 1.0165, 2, 3, 3, &fs[6], 0, 0, 0, 0, 0.0 },
-    { 0, 0, 0, 0, &fs[9], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.011,  2, 3, 3, &fs[0]),
+    make_hwstate(1.022,  2, 3, 3, &fs[3]),
+    make_hwstate(1.0165, 2, 3, 3, &fs[6]),
+    make_hwstate(0, 0, 0, 0, &fs[9]),
   };
 
   LookaheadFilterInterpreter::Interpolate(hs[0], hs[1], &hs[3]);
@@ -520,9 +520,9 @@ TEST(LookaheadFilterInterpreterTest, InterpolateTest) {
   };
   HardwareState hs[] = {
     // Expect movement to take
-    { 1.01, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 1.02, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 1.04, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.01, 0, 1, 1, &fs),
+    make_hwstate(1.02, 0, 1, 1, &fs),
+    make_hwstate(1.04, 0, 1, 1, &fs),
   };
 
   // Tests that we can properly decide when to interpolate two events.
@@ -601,8 +601,8 @@ TEST(LookaheadFilterInterpreterTest, InterpolationOverdueTest) {
   // and so this tests that an overdue interpolated event is handled correctly.
   HardwareState hs[] = {
     // Expect movement to take
-    { 1.456, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
-    { 1.495, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.456, 0, 1, 1, &fs),
+    make_hwstate(1.495, 0, 1, 1, &fs),
   };
 
   base_interpreter = new LookaheadFilterInterpreterTestInterpreter;
@@ -685,20 +685,20 @@ TEST(LookaheadFilterInterpreterTest, DrumrollTest) {
   // and so this tests that an overdue interpolated event is handled correctly.
   HardwareStateLastId hsid[] = {
     // Expect movement to take
-    { { 1.000, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 }, 1 },
-    { { 1.001, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 }, 1 },
-    { { 1.002, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 }, 2 },
-    { { 1.003, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 }, 2 },
-    { { 1.004, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 }, 3 },
-    { { 1.005, 0, 1, 1, &fs[3], 0, 0, 0, 0, 0.0 }, 4 },
-    { { 1.006, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 }, 5 },
+    { make_hwstate(1.000, 0, 1, 1, &fs[0]), 1 },
+    { make_hwstate(1.001, 0, 1, 1, &fs[0]), 1 },
+    { make_hwstate(1.002, 0, 1, 1, &fs[1]), 2 },
+    { make_hwstate(1.003, 0, 1, 1, &fs[1]), 2 },
+    { make_hwstate(1.004, 0, 1, 1, &fs[2]), 3 },
+    { make_hwstate(1.005, 0, 1, 1, &fs[3]), 4 },
+    { make_hwstate(1.006, 0, 1, 1, &fs[2]), 5 },
     // Warp cases:
-    { { 1.007, 0, 1, 1, &fs[4], 0, 0, 0, 0, 0.0 }, 6 },
-    { { 1.008, 0, 1, 1, &fs[5], 0, 0, 0, 0, 0.0 }, 6 },
-    { { 1.009, 0, 1, 1, &fs[6], 0, 0, 0, 0, 0.0 }, 7 },
-    { { 1.010, 0, 1, 1, &fs[7], 0, 0, 0, 0, 0.0 }, 7 },
-    { { 1.011, 0, 1, 1, &fs[8], 0, 0, 0, 0, 0.0 }, 8 },
-    { { 1.012, 0, 1, 1, &fs[9], 0, 0, 0, 0, 0.0 }, 8 },
+    { make_hwstate(1.007, 0, 1, 1, &fs[4]), 6 },
+    { make_hwstate(1.008, 0, 1, 1, &fs[5]), 6 },
+    { make_hwstate(1.009, 0, 1, 1, &fs[6]), 7 },
+    { make_hwstate(1.010, 0, 1, 1, &fs[7]), 7 },
+    { make_hwstate(1.011, 0, 1, 1, &fs[8]), 8 },
+    { make_hwstate(1.012, 0, 1, 1, &fs[9]), 8 },
   };
 
   base_interpreter = new LookaheadFilterInterpreterTestInterpreter;
@@ -753,15 +753,15 @@ TEST(LookaheadFilterInterpreterTest, QuickMoveTest) {
 
   HardwareState hs[] = {
     // Drumroll
-    { 1.000, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 1.001, 0, 1, 1, &fs[1], 0, 0, 0, 0, 0.0 },
-    { 1.002, 0, 1, 1, &fs[2], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.000, 0, 1, 1, &fs[0]),
+    make_hwstate(1.001, 0, 1, 1, &fs[1]),
+    make_hwstate(1.002, 0, 1, 1, &fs[2]),
     // No touch
-    { 1.003, 0, 0, 0, &fs[0], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.003, 0, 0, 0, &fs[0]),
     // Quick movement
-    { 1.034, 0, 1, 1, &fs[3], 0, 0, 0, 0, 0.0 },
-    { 1.035, 0, 1, 1, &fs[4], 0, 0, 0, 0, 0.0 },
-    { 1.036, 0, 1, 1, &fs[5], 0, 0, 0, 0, 0.0 },
+    make_hwstate(1.034, 0, 1, 1, &fs[3]),
+    make_hwstate(1.035, 0, 1, 1, &fs[4]),
+    make_hwstate(1.036, 0, 1, 1, &fs[5]),
   };
 
   base_interpreter = new LookaheadFilterInterpreterTestInterpreter;
@@ -866,7 +866,7 @@ TEST(LookaheadFilterInterpreterTest, QuickSwipeTest) {
 
   // Prime it w/ a dummy hardware state
   stime_t timeout = -1.0;
-  HardwareState temp_hs = { 0.000001, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 };
+  HardwareState temp_hs = make_hwstate(0.000001, 0, 0, 0, NULL);
   wrapper.SyncInterpret(&temp_hs, &timeout);
   wrapper.HandleTimer(temp_hs.timestamp + timeout, NULL);
 
@@ -880,9 +880,7 @@ TEST(LookaheadFilterInterpreterTest, QuickSwipeTest) {
       { 0, 0, 0, 0, in.pressure1, 0, in.x1, in.y1, in.id1, 0 },
     };
     unsigned short finger_cnt = in.id0 < 0 ? 0 : (in.id1 < 0 ? 1 : 2);
-    HardwareState hs = {
-      in.now, 0, finger_cnt, finger_cnt, fs, 0, 0, 0, 0, 0.0
-    };
+    HardwareState hs = make_hwstate(in.now, 0, finger_cnt, finger_cnt, fs);
 
     for (size_t idx = 0; idx < finger_cnt; idx++)
       input_ids.insert(fs[idx].tracking_id);
@@ -1077,7 +1075,7 @@ TEST(LookaheadFilterInterpreterTest, CyapaDrumrollTest) {
       // TM, Tm, WM, Wm, pr, orient, x, y, id, flags
       0, 0, 0, 0, input.pressure_, 0, input.x_, input.y_, 1, input.flags_
     };
-    HardwareState hs = { input.now_, 0, 1, 1, &fs, 0, 0, 0, 0, 0.0 };
+    HardwareState hs = make_hwstate(input.now_, 0, 1, 1, &fs);
     if (input.reset_) {
       if (base_interpreter) {
         EXPECT_TRUE(base_interpreter->expected_flags_at_occurred_);
@@ -1154,7 +1152,7 @@ TEST(LookaheadFilterInterpreterTest, CyapaQuickTwoFingerMoveTest) {
   };
   // Prime it w/ a dummy hardware state
   stime_t timeout = -1.0;
-  HardwareState temp_hs = { 0.000001, 0, 0, 0, NULL, 0, 0, 0, 0, 0.0 };
+  HardwareState temp_hs = make_hwstate(0.000001, 0, 0, 0, NULL);
   interpreter.SyncInterpret(&temp_hs, &timeout);
 
   base_interpreter->expected_ids_.insert(1);
@@ -1167,9 +1165,8 @@ TEST(LookaheadFilterInterpreterTest, CyapaQuickTwoFingerMoveTest) {
       { 0, 0, 0, 0, input.pressure1, 0, input.x1, input.y1, 2, 0 },
       { 0, 0, 0, 0, input.pressure2, 0, input.x2, input.y2, 3, 0 }
     };
-    HardwareState hs = {
-      input.now, 0, arraysize(fs), arraysize(fs), fs, 0, 0, 0, 0, 0.0
-    };
+    HardwareState hs =
+        make_hwstate(input.now, 0, arraysize(fs), arraysize(fs), fs);
     timeout = -1.0;
     interpreter.SyncInterpret(&hs, &timeout);
     if (timeout >= 0) {
@@ -1226,12 +1223,12 @@ TEST(LookaheadFilterInterpreterTest, SemiMtNoTrackingIdAssignmentTest) {
   };
 
   HardwareState hs[] = {
-    { 328.989039, 0, 1, 1, &fs[0], 0, 0, 0, 0, 0.0 },
-    { 329.013853, 0, 2, 2, &fs[1], 0, 0, 0, 0, 0.0 },
-    { 329.036266, 0, 2, 2, &fs[3], 0, 0, 0, 0, 0.0 },
-    { 329.061772, 0, 2, 2, &fs[5], 0, 0, 0, 0, 0.0 },
-    { 329.086734, 0, 2, 2, &fs[7], 0, 0, 0, 0, 0.0 },
-    { 329.110350, 0, 2, 2, &fs[9], 0, 0, 0, 0, 0.0 },
+    make_hwstate(328.989039, 0, 1, 1, &fs[0]),
+    make_hwstate(329.013853, 0, 2, 2, &fs[1]),
+    make_hwstate(329.036266, 0, 2, 2, &fs[3]),
+    make_hwstate(329.061772, 0, 2, 2, &fs[5]),
+    make_hwstate(329.086734, 0, 2, 2, &fs[7]),
+    make_hwstate(329.110350, 0, 2, 2, &fs[9]),
   };
 
   base_interpreter = new LookaheadFilterInterpreterTestInterpreter;
