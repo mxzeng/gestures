@@ -48,7 +48,8 @@ TEST(ActivityLogTest, SimpleTest) {
     1,  // t5r2
     0,  // semi-mt
     1,  // is button pad,
-    0   // has wheel
+    0,  // has wheel
+    0,  // vertical wheel is high resolution
   };
 
   log.SetHardwareProperties(hwprops);

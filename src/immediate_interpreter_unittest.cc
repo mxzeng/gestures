@@ -38,7 +38,8 @@ TEST(ImmediateInterpreterTest, MoveDownTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -100,7 +101,8 @@ TEST(ImmediateInterpreterTest, MoveUpWithRestingThumbTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -164,7 +166,8 @@ TEST(ImmediateInterpreterTest, SemiMtScrollUpWithRestingThumbTest) {
     0,  // tripletap
     1,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -223,7 +226,8 @@ void ScrollUpTest(float pressure_a, float pressure_b) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -295,7 +299,8 @@ TEST(ImmediateInterpreterTest, ScrollThenFalseTapTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -364,7 +369,8 @@ TEST(ImmediateInterpreterTest, FlingTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -476,7 +482,8 @@ TEST(ImmediateInterpreterTest, DelayedStartScrollTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -535,7 +542,8 @@ TEST(ImmediateInterpreterTest, ScrollReevaluateTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -608,7 +616,8 @@ TEST(ImmediateInterpreterTest, OneFingerThenTwoDelayedStartScrollTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -688,7 +697,8 @@ TEST(ImmediateInterpreterTest, OneFatFingerScrollTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
   // 4 runs that were failing, but now pass:
@@ -856,7 +866,8 @@ TEST(ImmediateInterpreterTest, NoLiftoffScrollTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -992,7 +1003,8 @@ TEST(ImmediateInterpreterTest, DiagonalSnapTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -1104,7 +1116,8 @@ TEST(ImmediateInterpreterTest, RestingFingerTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -1172,7 +1185,8 @@ TEST(ImmediateInterpreterTest, ThumbRetainTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -1224,7 +1238,8 @@ TEST(ImmediateInterpreterTest, ThumbRetainReevaluateTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -1273,7 +1288,8 @@ TEST(ImmediateInterpreterTest, SetHardwarePropertiesTwiceTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   hwprops.max_finger_cnt = 3;
   TestInterpreterWrapper wrapper(&ii, &hwprops);
@@ -1288,7 +1304,7 @@ TEST(ImmediateInterpreterTest, SetHardwarePropertiesTwiceTest) {
   };
   HardwareState hardware_state = {
     // time, buttons, finger count, touch count, finger states pointer
-    200000, 0, 5, 5, &finger_states[0], 0, 0, 0, 0, 0.0
+    200000, 0, 5, 5, &finger_states[0], 0, 0, 0, 0, 0, 0.0
   };
   // This used to cause a crash:
   Gesture* gs = wrapper.SyncInterpret(&hardware_state, NULL);
@@ -1313,7 +1329,8 @@ TEST(ImmediateInterpreterTest, AmbiguousPalmCoScrollTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -1396,7 +1413,8 @@ TEST(ImmediateInterpreterTest, PressureChangeMoveTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -1457,7 +1475,8 @@ TEST(ImmediateInterpreterTest, GetGesturingFingersTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
 
@@ -1689,7 +1708,8 @@ TEST(ImmediateInterpreterTest, TapToClickStateMachineTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -2139,7 +2159,8 @@ TEST(ImmediateInterpreterTest, TapToClickLowPressureBeginOrEndTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -2227,7 +2248,8 @@ TEST(ImmediateInterpreterTest, TapToClickKeyboardTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -2301,7 +2323,8 @@ TEST(ImmediateInterpreterTest, TapToClickEnableTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -2457,7 +2480,8 @@ TEST(ImmediateInterpreterTest, ClickTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&ii, &hwprops);
   EXPECT_FLOAT_EQ(10.0, ii.tapping_finger_min_separation_.val_);
@@ -2548,7 +2572,8 @@ TEST(ImmediateInterpreterTest, BigHandsRightClickTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   BigHandsRightClickInputAndExpectations records[] = {
     { make_hwstate(1329527921.327647, 0, 2, 2, NULL), 0, 0,
@@ -2699,7 +2724,8 @@ TEST(ImmediateInterpreterTest, ChangeTimeoutTest) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -2803,7 +2829,8 @@ TEST(ImmediateInterpreterTest, DISABLED_PinchTests) {
     0,  // tripletap
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -2944,7 +2971,8 @@ TEST(ImmediateInterpreterTest, AvoidAccidentalPinchTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(ii.get(), &hwprops);
 
@@ -3098,7 +3126,8 @@ TEST(ImmediateInterpreterTest, SemiMtActiveAreaTest) {
     0,  // t5r2
     1,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   const unsigned kNonPalmFlags = GESTURES_FINGER_WARP_X |
@@ -3146,7 +3175,8 @@ TEST(ImmediateInterpreterTest, SemiMtActiveAreaTest) {
     0,  // t5r2
     1,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState new_finger_states[] = {
@@ -3196,7 +3226,8 @@ TEST(ImmediateInterpreterTest, SemiMtNoPinchTest) {
     0,  // t5r2
     0,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_state[] = {
@@ -3272,7 +3303,8 @@ TEST(ImmediateInterpreterTest, WarpedFingersTappingTest) {
     0,  // t5r2
     1,  // semi-mt
     true,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   unsigned flags = GESTURES_FINGER_WARP_X_NON_MOVE |
@@ -3332,7 +3364,8 @@ TEST(ImmediateInterpreterTest, FlingDepthTest) {
     0,  // tripletap
     1,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_states[] = {
@@ -3429,7 +3462,8 @@ TEST(ImmediateInterpreterTest, ScrollResetTapTest) {
     0,  // t5r2
     1,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   FingerState finger_state[] = {
@@ -3498,7 +3532,8 @@ TEST(ImmediateInterpreterTest, BasicButtonTest) {
     0,  // t5r2
     1,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   HardwareState hardware_states[] = {

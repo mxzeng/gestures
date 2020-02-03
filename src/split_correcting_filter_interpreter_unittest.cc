@@ -80,7 +80,8 @@ void DoTest(InputEventWithExpectations* events, size_t events_len, bool t5r2) {
     t5r2 ? 1u : 0u,  // supports_t5r2
     0,   // support_semi_mt
     1,  // is_button_pad
-    0  // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 
@@ -174,7 +175,8 @@ TEST(SplitCorrectingFilterInterpreterTest, FalseMergeTest) {
     0,  // supports_t5r2
     0,   // support_semi_mt
     1,  // is_button_pad
-    0  // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 
@@ -330,7 +332,8 @@ TEST(SplitCorrectingFilterInterpreterTest, LumpyThumbSplitTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad,
-    0  // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 

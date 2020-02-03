@@ -339,7 +339,8 @@ void ScalingFilterInterpreter::Initialize(const HardwareProperties* hwprops,
     hwprops->supports_t5r2,
     hwprops->support_semi_mt,
     hwprops->is_button_pad,
-    hwprops->has_wheel
+    hwprops->has_wheel,
+    hwprops->wheel_is_hi_res,
   };
   // current metrics is no longer valid, pass metrics=NULL
   FilterInterpreter::Initialize(&friendly_props_, NULL, mprops, consumer);

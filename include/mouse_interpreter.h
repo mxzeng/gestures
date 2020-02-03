@@ -16,6 +16,7 @@ namespace gestures {
 
 class MouseInterpreter : public Interpreter, public PropertyDelegate {
   FRIEND_TEST(MouseInterpreterTest, SimpleTest);
+  FRIEND_TEST(MouseInterpreterTest, HighResolutionVerticalScrollTest);
  public:
   MouseInterpreter(PropRegistry* prop_reg, Tracer* tracer);
   virtual ~MouseInterpreter() {};
@@ -47,7 +48,7 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
 
   // Accelerate mouse scroll offsets so that it is larger when the user scroll
   // the mouse wheel faster.
-  double ComputeScroll(double input_speed);
+  double ComputeScroll(double input_speed, bool use_high_resolution);
 
   HardwareState prev_state_;
 
@@ -64,6 +65,9 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
   // Reverse wheel scrolling.
   BoolProperty reverse_scrolling_;
 
+  // Enable high-resolution scrolling.
+  BoolProperty hi_res_scrolling_;
+
   // We use normal CDF to simulate scroll wheel acceleration curve. Use the
   // following method to generate the coefficients of a degree-4 polynomial
   // regression for a specific normal cdf in matlab.
@@ -76,13 +80,27 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
   // matlab/octave code to generate polynomial coefficients below:
   // x = [-50:200];
   // y = 580 * normcdf(x,100,40) + 20;
-  // coeff = polyfit(x,y,4);
+  // coeff = fliplr(polyfit(x,y,4));
+  //
+  // Python (3) code:
+  // import numpy as np
+  // from scipy.stats import norm
+  // x = np.arange(-50, 201)
+  // y = 580 * norm.cdf(x, 100, 40) + 20
+  // coeff = np.flip(np.polyfit(x, y, 4), 0)
 
   // y_approximated = a0 + a1*x + a2*x^2 + a3*x^3 + a4*x^4
   double scroll_accel_curve_[5];
 
+  double hi_res_scroll_accel_curve_[5];
+
+  DoubleArrayProperty hi_res_scroll_accel_curve_prop_;
+
   // when x is 177, the polynomial curve gives 450, the max pixels to scroll.
   DoubleProperty scroll_max_allowed_input_speed_;
+
+  // when x is 177, the polynomial curve gives 450, the max pixels to scroll.
+  DoubleProperty hi_res_scroll_max_allowed_input_speed_;
 
   // Force scroll wheel emulation for any devices
   BoolProperty force_scroll_wheel_emulation_;

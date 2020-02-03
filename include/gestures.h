@@ -41,6 +41,7 @@ stime_t StimeFromTimeval(const struct timeval*);
 stime_t StimeFromTimespec(const struct timespec*);
 
 struct HardwareProperties {
+  // Touch properties
   float left, top, right, bottom;
   float res_x;  // pixels/mm
   float res_y;  // pixels/mm
@@ -53,7 +54,10 @@ struct HardwareProperties {
   unsigned supports_t5r2:1;
   unsigned support_semi_mt:1;
   unsigned is_button_pad:1;
+
+  // Mouse properties
   unsigned has_wheel:1;
+  unsigned wheel_is_hi_res:1;
 #ifdef __cplusplus
   std::string String() const;
 #endif  // __cplusplus
@@ -175,6 +179,7 @@ struct HardwareState {
   float rel_x;
   float rel_y;
   float rel_wheel;
+  float rel_wheel_hi_res;
   float rel_hwheel;
   stime_t msc_timestamp;  // MSC_TIMESTAMP as reported by firmware, if available
 };

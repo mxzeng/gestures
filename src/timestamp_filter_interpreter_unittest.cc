@@ -21,7 +21,7 @@ class TimestampFilterInterpreterTestInterpreter : public Interpreter {
 
 static HardwareState make_hwstate_times(stime_t timestamp,
                                         stime_t msc_timestamp) {
-  return { timestamp, 0, 1, 1, NULL, 0, 0, 0, 0, msc_timestamp };
+  return { timestamp, 0, 1, 1, NULL, 0, 0, 0, 0, 0, msc_timestamp };
 }
 
 TEST(TimestampFilterInterpreterTest, SimpleTest) {

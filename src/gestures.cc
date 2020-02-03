@@ -206,6 +206,7 @@ void HardwareState::DeepCopy(const HardwareState& that,
   rel_x = that.rel_x;
   rel_y = that.rel_y;
   rel_wheel = that.rel_wheel;
+  rel_wheel_hi_res = that.rel_wheel_hi_res;
   rel_hwheel = that.rel_hwheel;
   msc_timestamp = that.msc_timestamp;
 }

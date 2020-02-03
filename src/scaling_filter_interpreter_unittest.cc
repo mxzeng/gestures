@@ -139,14 +139,16 @@ TEST(ScalingFilterInterpreterTest, SimpleTest) {
     -1,  // orientation minimum
     2,   // orientation maximum
     2, 5,  // max fingers, max_touch
-    0, 0, 0, 0  //t5r2, semi, button pad
+    0, 0, 0,  // t5r2, semi, button pad
+    0, 0,  // has wheel, vertical wheel is high resolution
   };
   HardwareProperties expected_hwprops = {
     0, 0, 100, 60,  // left, top, right, bottom
     1.0, 1.0, 25.4, 25.4, // x res, y res, x DPI, y DPI
     -M_PI_4,  // orientation minimum (1 tick above X-axis)
     M_PI_2,   // orientation maximum
-    2, 5, 0, 0, 0, 0  // max_fingers, max_touch, t5r2, semi_mt,
+    2, 5, 0, 0, 0,  // max_fingers, max_touch, t5r2, semi_mt, is button pad
+    0, 0,  // has wheel, vertical wheel is high resolution
   };
   base_interpreter->expected_hwprops_ = expected_hwprops;
 
@@ -391,14 +393,16 @@ TEST(ScalingFilterInterpreterTest, TouchMajorAndMinorTest) {
     -31,  // orientation minimum
     32,   // orientation maximum
     2, 5,  // max fingers, max_touch
-    0, 0, 0, 1  //t5r2, semi, button pad
+    0, 0, 0,  // t5r2, semi, button pad
+    1, 0,  // has wheel, vertical wheel is high resolution
   };
   HardwareProperties expected_hwprops = {
     0, 0, 100, 100,  // left, top, right, bottom
     1.0, 1.0, 25.4, 25.4, // x res, y res, x DPI, y DPI
     -M_PI * 31 / 64,  // orientation minimum (1 tick above X-axis)
     M_PI_2,   // orientation maximum
-    2, 5, 0, 0, 0, 1  // max_fingers, max_touch, t5r2, semi_mt,
+    2, 5, 0, 0, 0,  // max_fingers, max_touch, t5r2, semi_mt, button pad
+    1, 0,  // has wheel, vertical wheel is high resolution
   };
 
   // Test 1: Touch major and touch minor scaling with orientation

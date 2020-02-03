@@ -116,6 +116,7 @@ void LookaheadFilterInterpreter::Interpolate(const HardwareState& first,
   out->rel_x = 0;
   out->rel_y = 0;
   out->rel_wheel = 0;
+  out->rel_wheel_hi_res = 0;
   out->rel_hwheel = 0;
 }
 
@@ -450,6 +451,7 @@ void LookaheadFilterInterpreter::HandleTimerImpl(stime_t now,
         node->state_.rel_x,
         node->state_.rel_y,
         node->state_.rel_wheel,
+        node->state_.rel_wheel_hi_res,
         node->state_.rel_hwheel,
         node->state_.msc_timestamp,
       };

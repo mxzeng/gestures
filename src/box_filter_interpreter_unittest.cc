@@ -63,7 +63,8 @@ TEST(BoxFilterInterpreterTest, SimpleTest) {
     -1,  // orientation minimum
     2,   // orientation maximum
     5, 5,  // max fingers, max_touch,
-    0, 0, 1, 0  // t5r2, semi, button pad, has_wheel
+    0, 0, 1,  // t5r2, semi, button pad
+    0, 0,  // has wheel, vertical wheel is high resolution
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 

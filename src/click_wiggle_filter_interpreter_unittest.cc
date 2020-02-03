@@ -61,7 +61,8 @@ TEST(ClickWiggleFilterInterpreterTest, WiggleSuppressTest) {
     0,  // t5r2
     0,  // semi-mt
     0,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 
@@ -135,7 +136,8 @@ TEST(ClickWiggleFilterInterpreterTest, OneFingerClickSuppressTest) {
     0,  // t5r2
     0,  // semi-mt
     0,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
 
@@ -204,7 +206,8 @@ TEST(ClickWiggleFilterInterpreter, ThumbClickTest) {
     0,  // t5r2
     0,  // semi-mt
     0,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
@@ -258,7 +261,8 @@ TEST(ClickWiggleFilterInterpreter, TimeBackwardsTest) {
     0,  // t5r2
     0,  // semi-mt
     0,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);
@@ -324,7 +328,8 @@ TEST(ClickWiggleFilterInterpreter, ThumbClickWiggleWithPalmTest) {
     0,  // t5r2
     0,  // semi-mt
     1,  // is button pad
-    0   // has_wheel
+    0,  // has_wheel
+    0,  // wheel_is_hi_res
   };
 
   TestInterpreterWrapper wrapper(&interpreter, &hwprops);

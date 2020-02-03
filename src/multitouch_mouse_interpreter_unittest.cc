@@ -25,7 +25,8 @@ TEST(MultitouchMouseInterpreterTest, SimpleTest) {
     -1,  // orientation minimum
     2,   // orientation maximum
     2, 5,  // max fingers, max_touch
-    0, 0, 0, 0  //t5r2, semi, button pad
+    0, 0, 0,  // t5r2, semi, button pad
+    0, 0,  // has wheel, vertical wheel is high resolution
   };
   TestInterpreterWrapper wrapper(&mi, &hwprops);
 
@@ -38,11 +39,11 @@ TEST(MultitouchMouseInterpreterTest, SimpleTest) {
     { 1, 1, 0, 0, 0, 0, 6, 8, 2, 0 },
   };
   HardwareState hwstates[] = {
-    { 200000, 0, 2, 2, fs_0, 0, 0, 0, 0, 0.0 },
-    { 210000, 0, 2, 2, fs_0, 9, -7, 0, 0, 0.0 },
-    { 220000, 1, 2, 2, fs_0, 0, 0, 0, 0, 0.0 },
-    { 230000, 0, 2, 2, fs_0, 0, 0, 0, 0, 0.0 },
-    { 240000, 0, 2, 2, fs_1, 0, 0, 0, 0, 0.0 },
+    { 200000, 0, 2, 2, fs_0, 0, 0, 0, 0, 0, 0.0 },
+    { 210000, 0, 2, 2, fs_0, 9, -7, 0, 0, 0, 0.0 },
+    { 220000, 1, 2, 2, fs_0, 0, 0, 0, 0, 0, 0.0 },
+    { 230000, 0, 2, 2, fs_0, 0, 0, 0, 0, 0, 0.0 },
+    { 240000, 0, 2, 2, fs_1, 0, 0, 0, 0, 0, 0.0 },
   };
 
   // Make snap impossible

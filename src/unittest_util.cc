@@ -88,6 +88,7 @@ HardwareState make_hwstate(stime_t timestamp, int buttons_down,
     0,    // rel_x
     0,    // rel_y
     0,    // rel_wheel
+    0,    // rel_wheel_hi_res
     0,    // rel_hwheel
     0.0,  // msc_timestamp
   };
