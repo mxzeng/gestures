@@ -82,6 +82,8 @@ TEST(MouseInterpreterTest, HighResolutionVerticalScrollTest) {
     { 200000, 0, 0, 0, NULL, 0, 0,  0,   0, 0, 0.0 },
     { 210000, 0, 0, 0, NULL, 0, 0,  0, -15, 0, 0.0 },
     { 220000, 0, 0, 0, NULL, 0, 0, -1, -15, 0, 0.0 },
+    { 230000, 0, 0, 0, NULL, 0, 0,  0,-120, 0, 0.0 },
+    { 240000, 0, 0, 0, NULL, 0, 0, -1,   0, 0, 0.0 },
   };
 
   mi.hi_res_scrolling_.val_ = 1;
@@ -103,6 +105,22 @@ TEST(MouseInterpreterTest, HighResolutionVerticalScrollTest) {
   // Having a low-res scroll event as well as the high-resolution one shouldn't
   // change the output value.
   EXPECT_NEAR(offset_of_8th_notch_scroll, gs->details.scroll.dy, 0.1);
+
+  gs = wrapper.SyncInterpret(&hwstates[3], NULL);
+  ASSERT_NE(reinterpret_cast<Gesture*>(NULL), gs);
+  EXPECT_EQ(kGestureTypeScroll, gs->type);
+  EXPECT_EQ(0, gs->details.scroll.dx);
+  float offset_of_high_res_scroll = gs->details.scroll.dy;
+
+  mi.hi_res_scrolling_.val_ = 0;
+
+  gs = wrapper.SyncInterpret(&hwstates[4], NULL);
+  ASSERT_NE(reinterpret_cast<Gesture*>(NULL), gs);
+  EXPECT_EQ(kGestureTypeScroll, gs->type);
+  EXPECT_EQ(0, gs->details.scroll.dx);
+  // A high-res scroll should yield the same offset as a low-res one with
+  // proper unit conversion.
+  EXPECT_NEAR(offset_of_high_res_scroll, gs->details.scroll.dy, 0.1);
 }
 
 }  // namespace gestures

@@ -48,7 +48,7 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
 
   // Accelerate mouse scroll offsets so that it is larger when the user scroll
   // the mouse wheel faster.
-  double ComputeScroll(double input_speed, bool use_high_resolution);
+  double ComputeScrollAccelFactor(double input_speed);
 
   HardwareState prev_state_;
 
@@ -70,37 +70,34 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
 
   // We use normal CDF to simulate scroll wheel acceleration curve. Use the
   // following method to generate the coefficients of a degree-4 polynomial
-  // regression for a specific normal cdf in matlab.
+  // regression for a specific normal cdf in Python.
   //
-  // Note: x for click_speed, y for scroll pixels.
-  // In reality, x ranges from 1 to 120+ for an Apple Mighty Mouse, use range
+  // Note: x for wheel value, v for velocity, y for scroll pixels (offset),
+  // and v = x / dt.
+  //
+  // The offset is computed as x * f(v) where f() outputs the acceleration
+  // factor for the given input speed. The formula allows us to produce similar
+  // offsets regardless of the mouse scrolling resolution. Since we want y to
+  // follow the normal CDF, we need to attenuate the case where x >= 1. This can
+  // happen when the user scrolls really fast, e.g., more than 1 unit within 8ms
+  // for a common, low-resolution mouse.
+  //
+  // In reality, v ranges from 1 to 120+ for an Apple Mighty Mouse, use range
   // greater than that to minimize approximation error at the end points.
   // In our case, the range is [-50, 200].
-  //
-  // matlab/octave code to generate polynomial coefficients below:
-  // x = [-50:200];
-  // y = 580 * normcdf(x,100,40) + 20;
-  // coeff = fliplr(polyfit(x,y,4));
   //
   // Python (3) code:
   // import numpy as np
   // from scipy.stats import norm
-  // x = np.arange(-50, 201)
-  // y = 580 * norm.cdf(x, 100, 40) + 20
-  // coeff = np.flip(np.polyfit(x, y, 4), 0)
+  // v = np.arange(-50, 201)
+  // f = (580 * norm.cdf(v, 100, 40) + 20) / np.maximum(v / 125.0, 1)
+  // coeff = np.flip(np.polyfit(v, f, 4), 0)
 
-  // y_approximated = a0 + a1*x + a2*x^2 + a3*x^3 + a4*x^4
+  // f_approximated = a0 + a1*v + a2*v^2 + a3*v^3 + a4*v^4
   double scroll_accel_curve_[5];
-
-  double hi_res_scroll_accel_curve_[5];
-
-  DoubleArrayProperty hi_res_scroll_accel_curve_prop_;
 
   // when x is 177, the polynomial curve gives 450, the max pixels to scroll.
   DoubleProperty scroll_max_allowed_input_speed_;
-
-  // when x is 177, the polynomial curve gives 450, the max pixels to scroll.
-  DoubleProperty hi_res_scroll_max_allowed_input_speed_;
 
   // Force scroll wheel emulation for any devices
   BoolProperty force_scroll_wheel_emulation_;

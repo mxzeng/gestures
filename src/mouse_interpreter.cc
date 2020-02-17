@@ -25,17 +25,10 @@ MouseInterpreter::MouseInterpreter(PropRegistry* prop_reg, Tracer* tracer)
       wheel_emulation_active_(false),
       reverse_scrolling_(prop_reg, "Mouse Reverse Scrolling", false),
       hi_res_scrolling_(prop_reg, "Mouse High Resolution Scrolling", false),
-      hi_res_scroll_accel_curve_prop_(
-          prop_reg, "Mouse High Resolution Scroll Accel Curve",
-          hi_res_scroll_accel_curve_,
-          sizeof(hi_res_scroll_accel_curve_) / sizeof(double)),
       scroll_max_allowed_input_speed_(prop_reg,
                                       "Mouse Scroll Max Input Speed",
                                       177.0,
                                       this),
-      hi_res_scroll_max_allowed_input_speed_(
-          prop_reg, "Mouse High Resolution Scroll Max Input Speed", 177.0,
-          this),
       force_scroll_wheel_emulation_(prop_reg,
                                      "Force Scroll Wheel Emulation",
                                      false),
@@ -51,17 +44,11 @@ MouseInterpreter::MouseInterpreter(PropRegistry* prop_reg, Tracer* tracer)
   memset(&last_hwheel_, 0, sizeof(last_hwheel_));
   // Scroll acceleration curve coefficients. See the definition for more
   // details on how to generate them.
-  scroll_accel_curve_[0] = 1.5937e+01;
-  scroll_accel_curve_[1] = 2.5547e-01;
-  scroll_accel_curve_[2] = 1.9727e-02;
-  scroll_accel_curve_[3] = 1.6313e-04;
-  scroll_accel_curve_[4] = -1.0012e-06;
-
-  hi_res_scroll_accel_curve_[0] = 2;
-  hi_res_scroll_accel_curve_[1] = 2.5547e-01;
-  hi_res_scroll_accel_curve_[2] = 1.9727e-02;
-  hi_res_scroll_accel_curve_[3] = 1.6313e-04;
-  hi_res_scroll_accel_curve_[4] = -1.0012e-06;
+  scroll_accel_curve_[0] = 1.0374e+01;
+  scroll_accel_curve_[1] = 4.1773e-01;
+  scroll_accel_curve_[2] = 2.5737e-02;
+  scroll_accel_curve_[3] = 8.0428e-05;
+  scroll_accel_curve_[4] = -9.1149e-07;
 }
 
 void MouseInterpreter::SyncInterpretImpl(HardwareState* hwstate,
@@ -83,31 +70,18 @@ void MouseInterpreter::SyncInterpretImpl(HardwareState* hwstate,
   prev_state_.DeepCopy(*hwstate, 0);
 }
 
-double MouseInterpreter::ComputeScroll(double input_speed,
-                                       bool use_high_resolution) {
+double MouseInterpreter::ComputeScrollAccelFactor(double input_speed) {
   double result = 0.0;
   double term = 1.0;
-  double max_allowed_speed = scroll_max_allowed_input_speed_.val_;
-  double *curve = scroll_accel_curve_;
-  size_t curve_size = arraysize(scroll_accel_curve_);
   double allowed_speed = fabs(input_speed);
-  if (use_high_resolution) {
-    allowed_speed /= REL_WHEEL_HI_RES_UNITS_PER_NOTCH;
-    max_allowed_speed = hi_res_scroll_max_allowed_input_speed_.val_;
-    curve = hi_res_scroll_accel_curve_;
-    curve_size = arraysize(hi_res_scroll_accel_curve_);
-  }
+  if (allowed_speed > scroll_max_allowed_input_speed_.val_)
+    allowed_speed = scroll_max_allowed_input_speed_.val_;
 
-  if (allowed_speed > max_allowed_speed)
-    allowed_speed = max_allowed_speed;
-
-  // Compute the accelerated scroll value.
-  for (size_t i = 0; i < curve_size; i++) {
-    result += term * curve[i];
+  // Compute the scroll acceleration factor.
+  for (size_t i = 0; i < arraysize(scroll_accel_curve_); i++) {
+    result += term * scroll_accel_curve_[i];
     term *= allowed_speed;
   }
-  if (input_speed < 0)
-    result = -result;
   return result;
 }
 
@@ -173,8 +147,13 @@ void MouseInterpreter::InterpretScrollWheelEvent(const HardwareState& hwstate,
   float current_wheel_value = hwstate.rel_hwheel;
   WheelRecord* last_wheel_record = &last_hwheel_;
   if (is_vertical) {
-    current_wheel_value =
-      use_high_resolution ? hwstate.rel_wheel_hi_res : hwstate.rel_wheel;
+    // Only vertical high-res scrolling is supported for now.
+    if (use_high_resolution) {
+      current_wheel_value = hwstate.rel_wheel_hi_res
+          / REL_WHEEL_HI_RES_UNITS_PER_NOTCH;
+    } else {
+      current_wheel_value = hwstate.rel_wheel;
+    }
     last_wheel_record = &last_wheel_;
   }
 
@@ -189,9 +168,10 @@ void MouseInterpreter::InterpretScrollWheelEvent(const HardwareState& hwstate,
       start_time = end_time;
     }
 
-    // If start_time == end_time, compute click_speed using dt = 1 second.
+    // If start_time == end_time, compute velocity using dt = 1 second.
     stime_t dt = (end_time - start_time) ?: 1.0;
-    float offset = ComputeScroll(current_wheel_value / dt, use_high_resolution);
+    float velocity = current_wheel_value / dt;
+    float offset = current_wheel_value * ComputeScrollAccelFactor(velocity);
     last_wheel_record->timestamp = hwstate.timestamp;
     last_wheel_record->value = current_wheel_value;
 
