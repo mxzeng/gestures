@@ -96,6 +96,9 @@ class MouseInterpreter : public Interpreter, public PropertyDelegate {
   // f_approximated = a0 + a1*v + a2*v^2 + a3*v^3 + a4*v^4
   double scroll_accel_curve_[5];
 
+  // Adjust the scroll acceleration curve
+  DoubleArrayProperty scroll_accel_curve_prop_;
+
   // when x is 177, the polynomial curve gives 450, the max pixels to scroll.
   DoubleProperty scroll_max_allowed_input_speed_;
 
