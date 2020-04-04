@@ -993,7 +993,6 @@ ImmediateInterpreter::ImmediateInterpreter(PropRegistry* prop_reg,
       tap_to_click_state_entered_(-1.0),
       tap_record_(this),
       last_movement_timestamp_(-1.0),
-      last_swipe_timestamp_(-1.0),
       swipe_is_vertical_(false),
       current_gesture_type_(kGestureTypeNull),
       state_buffer_(8),
@@ -1267,7 +1266,6 @@ void ImmediateInterpreter::ResetTime() {
   finger_leave_time_ = -1.0;
   tap_to_click_state_entered_ = -1.0;
   last_movement_timestamp_ = -1.0;
-  last_swipe_timestamp_ = -1.0;
   pinch_guess_start_ = -1.0;
   pinch_prev_time_ = -1.0;
 }
@@ -1835,8 +1833,6 @@ void ImmediateInterpreter::UpdateCurrentGestureType(
                 return;
               }
               current_gesture_type_ = GetMultiFingerGestureType(fingers, 3);
-              if (current_gesture_type_ == kGestureTypeSwipe)
-                last_swipe_timestamp_ = hwstate.timestamp;
             } else if (sorted_ids.size() == 4) {
               const FingerState* fingers[] = {
                 hwstate.GetFingerState(*sorted_ids.begin()),

@@ -701,8 +701,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // Time when the last motion (scroll, movement) occurred
   stime_t last_movement_timestamp_;
 
-  // Time when the last swipe gesture was generated
-  stime_t last_swipe_timestamp_;
   bool swipe_is_vertical_;
 
   // If we are currently pointing, scrolling, etc.
