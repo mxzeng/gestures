@@ -805,10 +805,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // Minimum movement that a thumb should have to be a gesturing finger.
   DoubleProperty thumb_pinch_min_movement_;
   // If the ratio of gesturing fingers movement to thumb movement is greater
-  // than this threshold, then we might detect a slow pinch.
-  // The movements are compared by Distance_sq * Time * Time
-  DoubleProperty slow_pinch_guess_ratio_threshold_;
-  // If the ratio of gesturing fingers movement to thumb movement is greater
   // than this number, then we can't have pinch with thumb.
   DoubleProperty thumb_pinch_movement_ratio_;
   // Ratio of Distance_sq * Time * Time for two fingers. This measure is used
@@ -908,10 +904,6 @@ class ImmediateInterpreter : public Interpreter, public PropertyDelegate {
   // A finger must be at least this far from other fingers when it taps [mm].
   DoubleProperty tapping_finger_min_separation_;
 
-  // Ratio between finger movement that indicates not-a-pinch gesture
-  DoubleProperty no_pinch_guess_ratio_;
-  // Ratio between finger movement that certainly indicates not-a-pinch gesture
-  DoubleProperty no_pinch_certain_ratio_;
   // Sum of squares of movement [mm] that is considered as noise during pinch
   // detection
   DoubleProperty pinch_noise_level_sq_;
